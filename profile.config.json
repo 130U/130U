@@ -1,0 +1,43 @@
+{
+  "username": "130U",
+  "identity": {
+    "eyebrow": "SYSTEMS RESEARCH",
+    "headline": "Researching intelligent systems.",
+    "subheadline": "Building evidence that holds.",
+    "descriptor": "AGENTIC AI  /  EVALUATION  /  RESEARCH SYSTEMS"
+  },
+  "account_created_at": "2026-07-20T15:13:55Z",
+  "fallback_metrics": {
+    "public_commits": 52,
+    "pull_requests": 27,
+    "public_repositories": 6
+  },
+  "language_source_repositories": [
+    "bazi-context-agent",
+    "info-collector-2026",
+    "reserach-portfolio-since2026",
+    "agents-last-exam"
+  ],
+  "fallback_languages": {
+    "TypeScript": 28.35,
+    "HTML": 22.26,
+    "JavaScript": 19.86,
+    "Python": 16.76,
+    "CSS": 7.40,
+    "PowerShell": 4.52,
+    "Shell": 0.85
+  },
+  "focus_sectors": [
+    {"label": "Agent Systems & Evaluation", "evidence": "1 benchmark system", "nodes": 1},
+    {"label": "Embodied Intelligence", "evidence": "3 research studies", "nodes": 3},
+    {"label": "Context & Knowledge Systems", "evidence": "2 working systems", "nodes": 2}
+  ],
+  "hero_signals": [
+    "Agentic AI",
+    "Evaluation",
+    "Research Ops",
+    "Embodied AI",
+    "Product Systems",
+    "Evidence Design"
+  ]
+}

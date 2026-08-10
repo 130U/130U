@@ -1,0 +1,56 @@
+name: Update profile telemetry
+
+on:
+  schedule:
+    - cron: "17 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-telemetry
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out profile repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate live profile assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/generate_profile.py --live
+
+      - name: Validate profile
+        run: python scripts/validate_profile.py
+
+      - name: Check out isolated asset branch
+        uses: actions/checkout@v4
+        with:
+          ref: profile-assets
+          path: _profile-assets
+
+      - name: Commit changed telemetry
+        shell: bash
+        run: |
+          mkdir -p _profile-assets/assets/generated
+          cp assets/generated/*.svg _profile-assets/assets/generated/
+          cd _profile-assets
+          if git diff --quiet -- .; then
+            echo "Profile telemetry is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: refresh public profile telemetry [skip ci]"
+          git push
