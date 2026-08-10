@@ -37,7 +37,7 @@
   <line x1="642" y1="38" x2="642" y2="372" stroke="#D7E0EC"/>
   <text x="54" y="121" fill="#13213A" font-size="14" font-weight="600">TypeScript</text>
   <rect x="188" y="107" width="365" height="16" rx="8" fill="#D7E0EC" opacity=".55"/>
-  <rect x="188" y="107" width="105.1" height="16" rx="8" fill="#2563EB" opacity=".88"/>
+  <rect x="188" y="107" width="105.2" height="16" rx="8" fill="#2563EB" opacity=".88"/>
   <text class="mono" x="590" y="121" text-anchor="end" fill="#475569" font-size="11">28.8%</text>
   <text x="54" y="166" fill="#13213A" font-size="14" font-weight="600">HTML</text>
   <rect x="188" y="152" width="365" height="16" rx="8" fill="#D7E0EC" opacity=".55"/>
@@ -49,7 +49,7 @@
   <text class="mono" x="590" y="211" text-anchor="end" fill="#475569" font-size="11">20.0%</text>
   <text x="54" y="256" fill="#13213A" font-size="14" font-weight="600">Python</text>
   <rect x="188" y="242" width="365" height="16" rx="8" fill="#D7E0EC" opacity=".55"/>
-  <rect x="188" y="242" width="60.5" height="16" rx="8" fill="#D97706" opacity=".88"/>
+  <rect x="188" y="242" width="60.4" height="16" rx="8" fill="#D97706" opacity=".88"/>
   <text class="mono" x="590" y="256" text-anchor="end" fill="#475569" font-size="11">16.6%</text>
   <text x="54" y="301" fill="#13213A" font-size="14" font-weight="600">CSS</text>
   <rect x="188" y="287" width="365" height="16" rx="8" fill="#D7E0EC" opacity=".55"/>
