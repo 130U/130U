@@ -87,21 +87,29 @@ def collect_live_data(config: dict) -> dict:
 
     username = config["username"]
     user = api_get(f"/users/{urllib.parse.quote(username)}", token)
-    commit_query = urllib.parse.urlencode({"q": f"author:{username}", "per_page": 1})
-    pr_query = urllib.parse.urlencode({"q": f"type:pr author:{username}", "per_page": 1})
-    commits = api_get(f"/search/commits?{commit_query}", token)
-    pull_requests = api_get(f"/search/issues?{pr_query}", token)
 
     language_bytes: dict[str, int] = {}
+    project_commits = 0
+    project_pull_requests = 0
     for repository in config["language_source_repositories"]:
+        repository_query = f"repo:{username}/{repository}"
+        commit_query = urllib.parse.urlencode(
+            {"q": f"author:{username} {repository_query}", "per_page": 1}
+        )
+        pr_query = urllib.parse.urlencode(
+            {"q": f"type:pr author:{username} {repository_query}", "per_page": 1}
+        )
+        project_commits += int(api_get(f"/search/commits?{commit_query}", token)["total_count"])
+        project_pull_requests += int(api_get(f"/search/issues?{pr_query}", token)["total_count"])
+
         path = f"/repos/{urllib.parse.quote(username)}/{urllib.parse.quote(repository)}/languages"
         for language, size in api_get(path, token).items():
             language_bytes[language] = language_bytes.get(language, 0) + int(size)
 
     return {
         "created_at": user["created_at"],
-        "public_commits": int(commits["total_count"]),
-        "pull_requests": int(pull_requests["total_count"]),
+        "public_commits": project_commits,
+        "pull_requests": project_pull_requests,
         "public_repositories": int(user["public_repos"]),
         "languages": language_bytes,
         "source": "GitHub public API",
@@ -231,12 +239,12 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) 
     days = max(0, int((generated_at - created).total_seconds() // 86400))
     created_beijing = created.astimezone(ZoneInfo("Asia/Shanghai"))
     metrics = [
-        (f'{data["public_commits"]}', "PUBLIC COMMITS", p["cyan"]),
+        (f'{data["public_commits"]}', "PROJECT COMMITS", p["cyan"]),
         (f'{data["pull_requests"]}', "PULL REQUESTS", p["violet"]),
         (f'{data["public_repositories"]}', "PUBLIC REPOSITORIES", p["amber"]),
     ]
     parts = [
-        svg_start(1200, 250, "130U build log", "Exact GitHub tenure, public commits found by author search, pull requests, and public repositories."),
+        svg_start(1200, 250, "130U build log", "Exact GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count."),
         base_style(),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
@@ -265,7 +273,7 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) 
                 f'  <text class="mono" x="{center:.0f}" y="194" text-anchor="middle" fill="{p["muted"]}" font-size="9.7" letter-spacing="1.25">{label}</text>',
             ]
         )
-    parts.append(f'  <text x="1146" y="235" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PUBLIC COMMITS: GITHUB AUTHOR SEARCH · BOT COMMITS EXCLUDED</text>')
+    parts.append(f'  <text x="1146" y="235" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PROJECT COMMITS + PRS: GITHUB AUTHOR SEARCH · FOUR SELECTED REPOSITORIES</text>')
     parts.append("</svg>\n")
     return "\n".join(parts)
 
@@ -408,12 +416,12 @@ def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: dat
     days = max(0, int((generated_at - created).total_seconds() // 86400))
     created_beijing = created.astimezone(ZoneInfo("Asia/Shanghai"))
     metrics = [
-        (str(data["public_commits"]), "PUBLIC COMMITS", p["cyan"]),
+        (str(data["public_commits"]), "PROJECT COMMITS", p["cyan"]),
         (str(data["pull_requests"]), "PULL REQUESTS", p["violet"]),
         (str(data["public_repositories"]), "PUBLIC REPOS", p["amber"]),
     ]
     parts = [
-        svg_start(720, 500, "130U mobile build log", "Mobile build log with GitHub tenure, public commits, pull requests, and public repositories."),
+        svg_start(720, 500, "130U mobile build log", "Mobile build log with GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count."),
         base_style(),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
@@ -443,7 +451,7 @@ def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: dat
         )
     parts.extend(
         [
-            f'  <text x="680" y="469" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PUBLIC COMMITS: GITHUB AUTHOR SEARCH · BOT COMMITS EXCLUDED</text>',
+            f'  <text x="680" y="469" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PROJECT COMMITS + PRS · FOUR SELECTED REPOSITORIES</text>',
             "</svg>\n",
         ]
     )

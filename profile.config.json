@@ -8,8 +8,8 @@
   },
   "account_created_at": "2026-07-20T15:13:55Z",
   "fallback_metrics": {
-    "public_commits": 52,
-    "pull_requests": 27,
+    "public_commits": 41,
+    "pull_requests": 20,
     "public_repositories": 6
   },
   "language_source_repositories": [

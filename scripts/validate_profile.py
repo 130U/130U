@@ -32,6 +32,12 @@ EXPECTED_ASSETS = {
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
+EXPECTED_PROJECT_REPOSITORIES = (
+    "bazi-context-agent",
+    "info-collector-2026",
+    "reserach-portfolio-since2026",
+    "agents-last-exam",
+)
 
 
 def fail(message: str) -> None:
@@ -52,6 +58,8 @@ def validate_readme() -> None:
         fail("Low-signal star telemetry must remain omitted")
     if "20 July 2026 at 23:13 Beijing time" not in text:
         fail("README must preserve the stable, human-readable account creation date")
+    if "four repositories listed above" not in text:
+        fail("README must disclose the selected-repository telemetry scope")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
             fail(f"README references forbidden personal-site scope: {forbidden}")
@@ -63,6 +71,8 @@ def validate_config() -> None:
         fail("Profile repository must target exactly 130U")
     if data["account_created_at"] != "2026-07-20T15:13:55Z":
         fail("Authoritative account creation timestamp changed unexpectedly")
+    if tuple(data["language_source_repositories"]) != EXPECTED_PROJECT_REPOSITORIES:
+        fail("Telemetry must remain confined to the four selected project repositories")
     serialized = json.dumps(data, ensure_ascii=False)
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in serialized.casefold():

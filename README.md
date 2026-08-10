@@ -16,7 +16,7 @@
     <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-mobile-light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-light.svg">
-    <img src="assets/generated/telemetry-light.svg" alt="Build log showing exact GitHub tenure, public commits found by the GitHub author search, pull requests, and public repositories" width="100%">
+    <img src="assets/generated/telemetry-light.svg" alt="Build log showing exact GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count" width="100%">
   </picture>
 </div>
 
@@ -55,5 +55,5 @@ The through-line is simple: turn ambiguous technical questions into evidence tha
 - Where do world models, VLA systems, and agentic workflows meaningfully converge?
 
 <div align="center">
-  <sub>On GitHub since 20 July 2026 at 23:13 Beijing time.<br>Public commits use GitHub's author-search surface. Code proportions use GitHub Linguist bytes across four selected public repositories. The research orbit maps visible work; it is not a performance score.</sub>
+  <sub>On GitHub since 20 July 2026 at 23:13 Beijing time.<br>Project commits and pull requests use GitHub's author-search surface across the four repositories listed above. Code proportions use GitHub Linguist bytes across the same scope. The research orbit maps visible work; it is not a performance score.</sub>
 </div>
