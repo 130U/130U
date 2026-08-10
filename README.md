@@ -1,4 +1,3 @@
-<!-- Profile README registration refresh: 2026-08-10 -->
 <div align="center">
   <picture>
     <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/hero-mobile-dark.svg">
