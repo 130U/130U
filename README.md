@@ -57,3 +57,5 @@ The through-line is simple: turn ambiguous technical questions into evidence tha
 <div align="center">
   <sub>On GitHub since 20 July 2026 at 23:13 Beijing time.<br>Project commits and pull requests use GitHub's author-search surface across the four repositories listed above. Code proportions use GitHub Linguist bytes across the same scope. The research orbit maps visible work; it is not a performance score.</sub>
 </div>
+
+<!-- GitHub profile README activation marker. -->
