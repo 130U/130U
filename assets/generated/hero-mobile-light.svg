@@ -22,7 +22,17 @@
     .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
     .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
     .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
+    .bar-scan { animation: barScan 4.8s ease-in-out infinite; }
     .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
+    .seconds-frame { opacity:0; animation: secondFrame 60s steps(1,end) infinite; }
+    .seconds-static { opacity:0; }
+    .seconds-hand-desktop { transform-box:view-box; transform-origin:650px 210px; animation:secondsSweep 60s linear infinite; }
+    .seconds-hand-mobile { transform-box:view-box; transform-origin:590px 223px; animation:secondsSweep 60s linear infinite; }
+    .clock-orbit { transform-box:fill-box; transform-origin:center; animation:clockOrbit 8s linear infinite; }
+    .metric-runner-desktop { animation:metricRunnerDesktop 4.2s ease-in-out infinite alternate; }
+    .metric-runner-mobile { animation:metricRunnerMobile 4.2s ease-in-out infinite alternate; }
+    .research-sweep-desktop { transform-box:view-box; transform-origin:950px 280px; animation:researchSweep 14s linear infinite; }
+    .research-sweep-mobile { transform-box:view-box; transform-origin:360px 720px; animation:researchSweep 14s linear infinite; }
     .delay-0 { animation-delay: 0s; }
     .delay-1 { animation-delay: -.7s; }
     .delay-2 { animation-delay: -1.4s; }
@@ -85,11 +95,27 @@
     @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
     @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
     @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
+    @keyframes barScan {
+      0% { opacity:0; transform:translateX(-92px); }
+      12%,72% { opacity:.72; }
+      100% { opacity:0; transform:translateX(430px); }
+    }
     @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
+    @keyframes secondFrame { 0%,1.64% { opacity:1; } 1.67%,100% { opacity:0; } }
+    @keyframes secondsSweep { to { transform:rotate(360deg); } }
+    @keyframes clockOrbit { to { transform:rotate(360deg); } }
+    @keyframes metricRunnerDesktop { from { transform:translateX(0); } to { transform:translateX(246px); } }
+    @keyframes metricRunnerMobile { from { transform:translateX(0); } to { transform:translateX(132px); } }
+    @keyframes researchSweep { to { transform:rotate(360deg); } }
     @media (prefers-reduced-motion: reduce) {
       .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
       .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
-      .gauge-sweep, .bar-flow, .node-pulse { animation: none !important; }
+      .gauge-sweep, .bar-flow, .bar-scan, .node-pulse, .seconds-frame,
+      .seconds-hand-desktop, .seconds-hand-mobile, .clock-orbit,
+      .metric-runner-desktop, .metric-runner-mobile,
+      .research-sweep-desktop, .research-sweep-mobile { animation: none !important; }
+      .seconds-frame { opacity:0 !important; }
+      .seconds-static { opacity:1 !important; }
     }
   </style>
 

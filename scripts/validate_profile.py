@@ -54,6 +54,19 @@ def validate_readme() -> None:
         fail("README must load twelve desktop/mobile theme assets from the isolated profile-assets branch")
     if text.count("<picture>") != 3 or text.count("prefers-color-scheme: dark") != 6:
         fail("README must provide three desktop/mobile theme-aware picture blocks")
+    if text.count("<details>") < 1 or "How the live clock works" not in text:
+        fail("README must provide a genuine GitHub-native expandable interaction")
+    required_interactions = (
+        "actions/workflows/update-profile.yml",
+        "type=commits",
+        "github.com/pulls",
+        "tab=repositories",
+        "#selected-systems",
+    )
+    if any(target not in text for target in required_interactions):
+        fail("README is missing one or more real navigation interactions")
+    if "not a wall-clock service" not in text:
+        fail("README must disclose the GitHub clock precision boundary")
     if "Stars" in text or "STARS" in text:
         fail("Low-signal star telemetry must remain omitted")
     if "20 July 2026 at 23:13 Beijing time" not in text:
@@ -92,8 +105,16 @@ def validate_svg(path: Path) -> None:
     if "animation: none !important" not in lowered:
         fail(f"{path.name} lacks an explicit reduced-motion animation override")
     durations = [float(value) for value in re.findall(r"(?<![\w.])(\d+(?:\.\d+)?)s\b", text)]
-    if durations and max(durations) > 30:
-        fail(f"{path.name} contains motion slower than the approved ambient cycle")
+    if durations and max(durations) > 60:
+        fail(f"{path.name} contains motion slower than the sixty-second chronograph cycle")
+    if path.name.startswith("telemetry-"):
+        required_clock_markers = ("seconds-frame", "secondsSweep", "60s", "ACCOUNT AGE")
+        if any(marker not in text for marker in required_clock_markers):
+            fail(f"{path.name} lacks the live chronograph contract")
+    if path.name.startswith("signals-"):
+        required_signal_motion = ("bar-scan", "research-sweep")
+        if any(marker not in text for marker in required_signal_motion):
+            fail(f"{path.name} lacks visible signal scanning motion")
     if "<title" not in text or "<desc" not in text:
         fail(f"{path.name} lacks accessible title/description metadata")
     try:

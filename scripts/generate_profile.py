@@ -158,7 +158,17 @@ def base_style() -> str:
     .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
     .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
     .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
+    .bar-scan { animation: barScan 4.8s ease-in-out infinite; }
     .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
+    .seconds-frame { opacity:0; animation: secondFrame 60s steps(1,end) infinite; }
+    .seconds-static { opacity:0; }
+    .seconds-hand-desktop { transform-box:view-box; transform-origin:650px 210px; animation:secondsSweep 60s linear infinite; }
+    .seconds-hand-mobile { transform-box:view-box; transform-origin:590px 223px; animation:secondsSweep 60s linear infinite; }
+    .clock-orbit { transform-box:fill-box; transform-origin:center; animation:clockOrbit 8s linear infinite; }
+    .metric-runner-desktop { animation:metricRunnerDesktop 4.2s ease-in-out infinite alternate; }
+    .metric-runner-mobile { animation:metricRunnerMobile 4.2s ease-in-out infinite alternate; }
+    .research-sweep-desktop { transform-box:view-box; transform-origin:950px 280px; animation:researchSweep 14s linear infinite; }
+    .research-sweep-mobile { transform-box:view-box; transform-origin:360px 720px; animation:researchSweep 14s linear infinite; }
     .delay-0 { animation-delay: 0s; }
     .delay-1 { animation-delay: -.7s; }
     .delay-2 { animation-delay: -1.4s; }
@@ -221,14 +231,70 @@ def base_style() -> str:
     @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
     @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
     @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
+    @keyframes barScan {
+      0% { opacity:0; transform:translateX(-92px); }
+      12%,72% { opacity:.72; }
+      100% { opacity:0; transform:translateX(430px); }
+    }
     @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
+    @keyframes secondFrame { 0%,1.64% { opacity:1; } 1.67%,100% { opacity:0; } }
+    @keyframes secondsSweep { to { transform:rotate(360deg); } }
+    @keyframes clockOrbit { to { transform:rotate(360deg); } }
+    @keyframes metricRunnerDesktop { from { transform:translateX(0); } to { transform:translateX(246px); } }
+    @keyframes metricRunnerMobile { from { transform:translateX(0); } to { transform:translateX(132px); } }
+    @keyframes researchSweep { to { transform:rotate(360deg); } }
     @media (prefers-reduced-motion: reduce) {
       .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
       .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
-      .gauge-sweep, .bar-flow, .node-pulse { animation: none !important; }
+      .gauge-sweep, .bar-flow, .bar-scan, .node-pulse, .seconds-frame,
+      .seconds-hand-desktop, .seconds-hand-mobile, .clock-orbit,
+      .metric-runner-desktop, .metric-runner-mobile,
+      .research-sweep-desktop, .research-sweep-mobile { animation: none !important; }
+      .seconds-frame { opacity:0 !important; }
+      .seconds-static { opacity:1 !important; }
     }
   </style>
 """
+
+
+def elapsed_parts(created: datetime, generated_at: datetime) -> tuple[int, int, int, int]:
+    total_seconds = max(0, int((generated_at - created).total_seconds()))
+    days, remainder = divmod(total_seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return days, hours, minutes, seconds
+
+
+def clock_ticks(cx: float, cy: float, inner: float, outer: float, color: str) -> list[str]:
+    ticks = []
+    for index in range(60):
+        angle = math.radians(index * 6 - 90)
+        tick_inner = inner - 5 if index % 5 == 0 else inner
+        x1 = cx + tick_inner * math.cos(angle)
+        y1 = cy + tick_inner * math.sin(angle)
+        x2 = cx + outer * math.cos(angle)
+        y2 = cy + outer * math.sin(angle)
+        width = 2 if index % 5 == 0 else 1
+        opacity = ".72" if index % 5 == 0 else ".28"
+        ticks.append(
+            f'  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+            f'stroke="{color}" stroke-width="{width}" stroke-linecap="round" opacity="{opacity}"/>'
+        )
+    return ticks
+
+
+def seconds_frames(start_second: int, x: float, y: float, color: str, font_size: int) -> list[str]:
+    frames = [
+        f'  <text class="seconds-static mono" x="{x}" y="{y}" text-anchor="middle" '
+        f'fill="{color}" font-size="{font_size}" font-weight="760">{start_second:02d}</text>'
+    ]
+    for value in range(60):
+        offset = (start_second - value) % 60
+        frames.append(
+            f'  <text class="seconds-frame mono" style="animation-delay:-{offset}s" x="{x}" y="{y}" '
+            f'text-anchor="middle" fill="{color}" font-size="{font_size}" font-weight="760">{value:02d}</text>'
+        )
+    return frames
 
 
 def hero_svg(config: dict, theme: str) -> str:
@@ -345,6 +411,72 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) 
     return "\n".join(parts)
 
 
+def telemetry_chronograph_svg(config: dict, data: dict, theme: str, generated_at: datetime) -> str:
+    p = PALETTES[theme]
+    created = parse_utc(data["created_at"])
+    days, hours, minutes, seconds = elapsed_parts(created, generated_at)
+    metrics = [
+        (f'{data["public_commits"]}', "PROJECT COMMITS", "AUTHOR SEARCH / 4 REPOS", p["cyan"]),
+        (f'{data["pull_requests"]}', "PULL REQUESTS", "AUTHOR SEARCH / 4 REPOS", p["violet"]),
+        (f'{data["public_repositories"]}', "PUBLIC REPOSITORIES", "GITHUB PUBLIC API", p["amber"]),
+    ]
+    parts = [
+        svg_start(1200, 430, "130U live build log", "A daily-synced GitHub account-age snapshot with a live sixty-second visual pulse, plus author commits and pull requests across four selected project repositories and a public repository count."),
+        base_style(),
+        "  <defs>",
+        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
+        f'    <radialGradient id="clockGlow"><stop stop-color="{p["blue"]}" stop-opacity=".16"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity="0"/></radialGradient>',
+        f'    <filter id="softShadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="{p["shadow"]}" flood-opacity=".12"/></filter>',
+        "  </defs>",
+        f'  <rect x="1" y="1" width="1198" height="428" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
+        f'  <circle cx="76" cy="84" r="170" fill="{p["blue"]}" opacity=".025"/>',
+        f'  <text x="54" y="48" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>',
+        f'  <text x="1146" y="48" text-anchor="end" fill="{p["faint"]}" font-size="11">DAILY-SYNCED DATA / LIVE 60-SECOND PULSE</text>',
+        f'  <rect x="54" y="76" width="720" height="310" rx="28" fill="{p["surface"]}" fill-opacity=".78" stroke="{p["blue"]}" stroke-opacity=".26" filter="url(#softShadow)"/>',
+        f'  <text x="86" y="116" fill="{p["muted"]}" font-size="12" font-weight="700" letter-spacing="1.8">ACCOUNT AGE / LAST SYNC</text>',
+        f'  <text x="742" y="116" text-anchor="end" fill="{p["faint"]}" font-size="10.5">{generated_at.strftime("%d %b %Y / %H:%M UTC").upper()}</text>',
+        f'  <line x1="86" y1="136" x2="742" y2="136" stroke="{p["line"]}"/>',
+        f'  <text class="mono" x="142" y="233" text-anchor="middle" fill="{p["ink"]}" font-size="82" font-weight="780" letter-spacing="-3">{days}</text>',
+        f'  <text class="mono" x="318" y="227" text-anchor="middle" fill="{p["ink"]}" font-size="58" font-weight="760" letter-spacing="-2">{hours:02d}</text>',
+        f'  <text class="mono" x="482" y="227" text-anchor="middle" fill="{p["ink"]}" font-size="58" font-weight="760" letter-spacing="-2">{minutes:02d}</text>',
+        f'  <text x="230" y="219" text-anchor="middle" fill="{p["line"]}" font-size="34">:</text>',
+        f'  <text x="400" y="219" text-anchor="middle" fill="{p["line"]}" font-size="34">:</text>',
+        f'  <text x="566" y="219" text-anchor="middle" fill="{p["line"]}" font-size="34">:</text>',
+        f'  <circle cx="650" cy="210" r="82" fill="url(#clockGlow)"/>',
+        f'  <circle cx="650" cy="210" r="66" fill="none" stroke="{p["blue"]}" stroke-opacity=".20"/>',
+        *clock_ticks(650, 210, 57, 63, p["blue"]),
+        f'  <g transform="rotate({seconds * 6} 650 210)"><g class="seconds-hand-desktop"><line x1="650" y1="210" x2="650" y2="157" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/><circle cx="650" cy="157" r="4.5" fill="{p["blue"]}"/><circle cx="650" cy="210" r="5" fill="{p["surface"]}" stroke="{p["blue"]}" stroke-width="2"/></g></g>',
+        *seconds_frames(seconds, 650, 221, p["ink"], 32),
+        f'  <text class="mono" x="142" y="274" text-anchor="middle" fill="{p["muted"]}" font-size="10" letter-spacing="1.6">DAYS</text>',
+        f'  <text class="mono" x="318" y="274" text-anchor="middle" fill="{p["muted"]}" font-size="10" letter-spacing="1.6">HOURS</text>',
+        f'  <text class="mono" x="482" y="274" text-anchor="middle" fill="{p["muted"]}" font-size="10" letter-spacing="1.6">MINUTES</text>',
+        f'  <text class="mono" x="650" y="296" text-anchor="middle" fill="{p["blue"]}" font-size="10" font-weight="700" letter-spacing="1.6">SECONDS</text>',
+        f'  <rect x="86" y="316" width="656" height="42" rx="14" fill="{p["surface_2"]}" stroke="{p["line"]}"/>',
+        f'  <circle class="metric-pulse" cx="107" cy="337" r="4" fill="{p["blue"]}"/>',
+        f'  <text x="122" y="341" fill="{p["muted"]}" font-size="11">Age values refresh daily; the seconds readout and hand run live while this SVG is open.</text>',
+    ]
+    for index, (value, label, source, color) in enumerate(metrics):
+        y = (76, 178, 280)[index]
+        parts.extend(
+            [
+                f'  <rect x="800" y="{y}" width="346" height="90" rx="22" fill="{p["surface"]}" fill-opacity=".72" stroke="{p["line"]}"/>',
+                f'  <line x1="828" y1="{y + 21}" x2="1098" y2="{y + 21}" stroke="{p["line"]}" stroke-linecap="round"/>',
+                f'  <circle class="metric-runner-desktop delay-{index + 1}" cx="834" cy="{y + 21}" r="4" fill="{color}"/>',
+                f'  <text class="mono" x="842" y="{y + 67}" fill="{p["ink"]}" font-size="34" font-weight="760" letter-spacing="-1">{escape(value)}</text>',
+                f'  <text x="930" y="{y + 53}" fill="{p["ink"]}" font-size="12.5" font-weight="700">{label}</text>',
+                f'  <text class="mono" x="930" y="{y + 72}" fill="{p["muted"]}" font-size="8.5" letter-spacing=".8">{source}</text>',
+                f'  <circle class="metric-pulse delay-{index + 1}" cx="1116" cy="{y + 60}" r="6" fill="none" stroke="{color}" stroke-width="2"/>',
+            ]
+        )
+    parts.extend(
+        [
+            f'  <text x="1146" y="414" text-anchor="end" fill="{p["faint"]}" font-size="9.5">CLICK THE PANEL FOR UPDATE HISTORY / USE THE LINKS BELOW FOR SOURCE VIEWS</text>',
+            "</svg>\n",
+        ]
+    )
+    return "\n".join(parts)
+
+
 def normalized_languages(raw: dict, limit: int = 6) -> list[tuple[str, float]]:
     ranked = sorted(((str(name), float(value)) for name, value in raw.items() if float(value) > 0), key=lambda item: item[1], reverse=True)
     total = sum(value for _, value in ranked) or 1
@@ -427,6 +559,87 @@ def signals_svg(config: dict, data: dict, theme: str) -> str:
         [
             f'  <circle cx="{cx}" cy="{cy}" r="4" fill="{p["ink"]}"/>',
             f'  <text x="942" y="388" text-anchor="middle" fill="{p["faint"]}" font-size="10.5">Equal sectors; node counts reflect the public work listed above.</text>',
+            "</svg>\n",
+        ]
+    )
+    return "\n".join(parts)
+
+
+def signals_grand_svg(config: dict, data: dict, theme: str) -> str:
+    p = PALETTES[theme]
+    languages = normalized_languages(data["languages"])
+    sectors = config["focus_sectors"]
+    accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
+    bar_x, bar_width, start_y = 205, 382, 120
+    parts = [
+        svg_start(1200, 520, "130U code signals and research orbit", "A large-format map of GitHub Linguist code proportions across four selected public repositories and evidence nodes for three current research sectors, with visible ambient scanning motion."),
+        base_style(),
+        "  <defs>",
+        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
+        f'    <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{p["surface"]}" stop-opacity="0"/><stop offset=".5" stop-color="{p["surface"]}" stop-opacity=".92"/><stop offset="1" stop-color="{p["surface"]}" stop-opacity="0"/></linearGradient>',
+    ]
+    for index, (_, percentage) in enumerate(languages):
+        y = start_y + index * 54
+        parts.append(f'    <clipPath id="barclip{index}"><rect x="{bar_x}" y="{y - 7}" width="{bar_width * percentage / 100:.1f}" height="18" rx="9"/></clipPath>')
+    parts.extend(
+        [
+            "  </defs>",
+            f'  <rect x="1" y="1" width="1198" height="518" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
+            f'  <circle cx="1138" cy="470" r="210" fill="{p["violet"]}" opacity=".025"/>',
+            f'  <text x="54" y="50" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
+            f'  <text x="704" y="50" fill="{p["violet"]}" font-size="11" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
+            f'  <text x="54" y="76" fill="{p["faint"]}" font-size="11">GitHub Linguist bytes / four selected public code repositories</text>',
+            f'  <text x="704" y="76" fill="{p["faint"]}" font-size="11">Evidence nodes map visible systems and studies / not proficiency</text>',
+            f'  <line x1="646" y1="38" x2="646" y2="472" stroke="{p["line"]}"/>',
+        ]
+    )
+    for index, (name, percentage) in enumerate(languages):
+        y = start_y + index * 54
+        color = accents[index % len(accents)]
+        parts.extend(
+            [
+                f'  <text x="54" y="{y + 8}" fill="{p["ink"]}" font-size="15" font-weight="650">{escape(name)}</text>',
+                f'  <rect x="{bar_x}" y="{y - 7}" width="{bar_width}" height="18" rx="9" fill="{p["line"]}" opacity=".55"/>',
+                f'  <rect class="bar-flow delay-{index % 4}" x="{bar_x}" y="{y - 7}" width="{bar_width * percentage / 100:.1f}" height="18" rx="9" fill="{color}"/>',
+                f'  <rect class="bar-scan delay-{index % 4}" x="{bar_x}" y="{y - 7}" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip{index})"/>',
+                f'  <text class="mono" x="610" y="{y + 8}" text-anchor="end" fill="{p["muted"]}" font-size="11.5">{percentage:.1f}%</text>',
+            ]
+        )
+
+    cx, cy, radius = 950.0, 280.0, 150.0
+    for ring in (50, 100, 150):
+        parts.append(f'  <circle cx="{cx}" cy="{cy}" r="{ring}" fill="none" stroke="{p["line"]}" stroke-width="1"/>')
+    centers = (0.0, 120.0, 240.0)
+    label_positions = ((950, 108, "middle"), (1140, 458, "end"), (756, 458, "start"))
+    for index, sector in enumerate(sectors):
+        center_angle = centers[index]
+        start = polar_point(cx, cy, radius, center_angle - 55)
+        end = polar_point(cx, cy, radius, center_angle + 55)
+        color = accents[index]
+        parts.extend(
+            [
+                f'  <path d="M {cx:.1f} {cy:.1f} L {start[0]:.1f} {start[1]:.1f} A {radius:.1f} {radius:.1f} 0 0 1 {end[0]:.1f} {end[1]:.1f} Z" fill="{color}" fill-opacity=".12" stroke="{color}" stroke-opacity=".55"/>',
+                f'  <line x1="{cx}" y1="{cy}" x2="{polar_point(cx, cy, radius, center_angle)[0]:.1f}" y2="{polar_point(cx, cy, radius, center_angle)[1]:.1f}" stroke="{color}" stroke-opacity=".42"/>',
+            ]
+        )
+        node_count = int(sector["nodes"])
+        for node_index in range(node_count):
+            node_radius = 66 + node_index * 29
+            node_angle = center_angle + (node_index - (node_count - 1) / 2) * 14
+            node = polar_point(cx, cy, node_radius, node_angle)
+            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="7" fill="{color}" stroke="{p["surface"]}" stroke-width="2.5"/>')
+        label_x, label_y, anchor = label_positions[index]
+        parts.extend(
+            [
+                f'  <text x="{label_x}" y="{label_y}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="12" font-weight="700">{escape(sector["label"])}</text>',
+                f'  <text class="mono" x="{label_x}" y="{label_y + 20}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="9.5">{escape(sector["evidence"]).upper()}</text>',
+            ]
+        )
+    parts.extend(
+        [
+            f'  <g class="research-sweep-desktop"><line x1="{cx}" y1="{cy}" x2="{cx}" y2="{cy - radius + 8}" stroke="{p["violet"]}" stroke-width="2" stroke-linecap="round" opacity=".72"/><circle cx="{cx}" cy="{cy - radius + 8}" r="5" fill="{p["violet"]}"/></g>',
+            f'  <circle cx="{cx}" cy="{cy}" r="5" fill="{p["ink"]}"/>',
+            f'  <text x="1146" y="498" text-anchor="end" fill="{p["faint"]}" font-size="9.5">BARS SHOW CODE PROPORTION / NODES SHOW PUBLIC EVIDENCE / CLICK TO EXPLORE</text>',
             "</svg>\n",
         ]
     )
@@ -527,6 +740,70 @@ def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: dat
     return "\n".join(parts)
 
 
+def telemetry_chronograph_mobile_svg(config: dict, data: dict, theme: str, generated_at: datetime) -> str:
+    p = PALETTES[theme]
+    created = parse_utc(data["created_at"])
+    days, hours, minutes, seconds = elapsed_parts(created, generated_at)
+    metrics = [
+        (str(data["public_commits"]), "PROJECT COMMITS", p["cyan"]),
+        (str(data["pull_requests"]), "PULL REQUESTS", p["violet"]),
+        (str(data["public_repositories"]), "PUBLIC REPOS", p["amber"]),
+    ]
+    parts = [
+        svg_start(720, 760, "130U mobile live build log", "A large mobile GitHub account-age snapshot with a live sixty-second visual pulse, plus public project telemetry."),
+        base_style(),
+        "  <defs>",
+        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
+        f'    <radialGradient id="clockGlow"><stop stop-color="{p["blue"]}" stop-opacity=".16"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity="0"/></radialGradient>',
+        "  </defs>",
+        f'  <rect x="1" y="1" width="718" height="758" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
+        f'  <text x="40" y="46" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>',
+        f'  <text x="680" y="46" text-anchor="end" fill="{p["faint"]}" font-size="10">DAILY DATA / LIVE SECONDS</text>',
+        f'  <rect x="40" y="70" width="640" height="340" rx="26" fill="{p["surface"]}" fill-opacity=".76" stroke="{p["blue"]}" stroke-opacity=".26"/>',
+        f'  <text x="72" y="110" fill="{p["muted"]}" font-size="12" font-weight="700" letter-spacing="1.6">ACCOUNT AGE / LAST SYNC</text>',
+        f'  <text x="648" y="110" text-anchor="end" fill="{p["faint"]}" font-size="10">{generated_at.strftime("%d %b / %H:%M UTC").upper()}</text>',
+        f'  <line x1="72" y1="130" x2="648" y2="130" stroke="{p["line"]}"/>',
+        f'  <text class="mono" x="110" y="245" text-anchor="middle" fill="{p["ink"]}" font-size="68" font-weight="780" letter-spacing="-3">{days}</text>',
+        f'  <text class="mono" x="275" y="240" text-anchor="middle" fill="{p["ink"]}" font-size="50" font-weight="760" letter-spacing="-2">{hours:02d}</text>',
+        f'  <text class="mono" x="425" y="240" text-anchor="middle" fill="{p["ink"]}" font-size="50" font-weight="760" letter-spacing="-2">{minutes:02d}</text>',
+        f'  <text x="193" y="232" text-anchor="middle" fill="{p["line"]}" font-size="30">:</text>',
+        f'  <text x="350" y="232" text-anchor="middle" fill="{p["line"]}" font-size="30">:</text>',
+        f'  <text x="506" y="232" text-anchor="middle" fill="{p["line"]}" font-size="30">:</text>',
+        f'  <circle cx="590" cy="223" r="72" fill="url(#clockGlow)"/>',
+        f'  <circle cx="590" cy="223" r="59" fill="none" stroke="{p["blue"]}" stroke-opacity=".20"/>',
+        *clock_ticks(590, 223, 50, 56, p["blue"]),
+        f'  <g transform="rotate({seconds * 6} 590 223)"><g class="seconds-hand-mobile"><line x1="590" y1="223" x2="590" y2="177" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/><circle cx="590" cy="177" r="4" fill="{p["blue"]}"/><circle cx="590" cy="223" r="5" fill="{p["surface"]}" stroke="{p["blue"]}" stroke-width="2"/></g></g>',
+        *seconds_frames(seconds, 590, 233, p["ink"], 28),
+        f'  <text class="mono" x="110" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">DAYS</text>',
+        f'  <text class="mono" x="275" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">HOURS</text>',
+        f'  <text class="mono" x="425" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">MINUTES</text>',
+        f'  <text class="mono" x="590" y="311" text-anchor="middle" fill="{p["blue"]}" font-size="9.5" font-weight="700" letter-spacing="1.4">SECONDS</text>',
+        f'  <rect x="72" y="335" width="576" height="48" rx="15" fill="{p["surface_2"]}" stroke="{p["line"]}"/>',
+        f'  <circle class="metric-pulse" cx="94" cy="359" r="4" fill="{p["blue"]}"/>',
+        f'  <text x="111" y="363" fill="{p["muted"]}" font-size="10.5">Daily age snapshot; live seconds run while this SVG is open.</text>',
+    ]
+    for index, (value, label, color) in enumerate(metrics):
+        x = 40 + index * 218
+        center = x + 102
+        parts.extend(
+            [
+                f'  <rect x="{x}" y="445" width="204" height="210" rx="22" fill="{p["surface"]}" fill-opacity=".70" stroke="{p["line"]}"/>',
+                f'  <line x1="{x + 28}" y1="478" x2="{x + 176}" y2="478" stroke="{p["line"]}" stroke-linecap="round"/>',
+                f'  <circle class="metric-runner-mobile delay-{index + 1}" cx="{x + 30}" cy="478" r="4" fill="{color}"/>',
+                f'  <text class="mono" x="{center}" y="558" text-anchor="middle" fill="{p["ink"]}" font-size="46" font-weight="760">{escape(value)}</text>',
+                f'  <text class="mono" x="{center}" y="596" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.1">{label}</text>',
+                f'  <circle class="metric-pulse delay-{index + 1}" cx="{center}" cy="625" r="6" fill="none" stroke="{color}" stroke-width="2"/>',
+            ]
+        )
+    parts.extend(
+        [
+            f'  <text x="680" y="730" text-anchor="end" fill="{p["faint"]}" font-size="9.5">CLICK FOR UPDATE HISTORY / SOURCE LINKS BELOW</text>',
+            "</svg>\n",
+        ]
+    )
+    return "\n".join(parts)
+
+
 def signals_mobile_svg(config: dict, data: dict, theme: str) -> str:
     p = PALETTES[theme]
     languages = normalized_languages(data["languages"])
@@ -585,6 +862,82 @@ def signals_mobile_svg(config: dict, data: dict, theme: str) -> str:
     return "\n".join(parts)
 
 
+def signals_grand_mobile_svg(config: dict, data: dict, theme: str) -> str:
+    p = PALETTES[theme]
+    languages = normalized_languages(data["languages"])
+    sectors = config["focus_sectors"]
+    accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
+    bar_x, bar_width, start_y = 174, 418, 114
+    parts = [
+        svg_start(720, 1020, "130U mobile code signals and research orbit", "A large mobile map of GitHub Linguist code proportions and visible research evidence, with ambient scanning motion."),
+        base_style(),
+        "  <defs>",
+        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
+        f'    <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{p["surface"]}" stop-opacity="0"/><stop offset=".5" stop-color="{p["surface"]}" stop-opacity=".92"/><stop offset="1" stop-color="{p["surface"]}" stop-opacity="0"/></linearGradient>',
+    ]
+    for index, (_, percentage) in enumerate(languages):
+        y = start_y + index * 50
+        parts.append(f'    <clipPath id="mobileBar{index}"><rect x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="18" rx="9"/></clipPath>')
+    parts.extend(
+        [
+            "  </defs>",
+            f'  <rect x="1" y="1" width="718" height="1018" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
+            f'  <text x="40" y="48" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
+            f'  <text x="40" y="74" fill="{p["faint"]}" font-size="11">GitHub Linguist bytes / four selected public code repositories</text>',
+        ]
+    )
+    for index, (name, percentage) in enumerate(languages):
+        y = start_y + index * 50
+        color = accents[index]
+        parts.extend(
+            [
+                f'  <text x="40" y="{y + 9}" fill="{p["ink"]}" font-size="13" font-weight="650">{escape(name)}</text>',
+                f'  <rect x="{bar_x}" y="{y - 6}" width="{bar_width}" height="18" rx="9" fill="{p["line"]}" opacity=".55"/>',
+                f'  <rect class="bar-flow delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="18" rx="9" fill="{color}"/>',
+                f'  <rect class="bar-scan delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="76" height="18" fill="url(#scan)" clip-path="url(#mobileBar{index})"/>',
+                f'  <text class="mono" x="674" y="{y + 9}" text-anchor="end" fill="{p["muted"]}" font-size="10.5">{percentage:.1f}%</text>',
+            ]
+        )
+    parts.extend(
+        [
+            f'  <line x1="40" y1="421" x2="680" y2="421" stroke="{p["line"]}"/>',
+            f'  <text x="40" y="466" fill="{p["violet"]}" font-size="11" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
+            f'  <text x="40" y="492" fill="{p["faint"]}" font-size="11">Evidence nodes map visible systems and studies / not proficiency</text>',
+        ]
+    )
+    cx, cy, radius = 360.0, 720.0, 185.0
+    for ring in (62, 123, 185):
+        parts.append(f'  <circle cx="{cx}" cy="{cy}" r="{ring}" fill="none" stroke="{p["line"]}"/>')
+    centers = (0.0, 120.0, 240.0)
+    label_positions = ((360, 515, "middle"), (662, 950, "end"), (58, 950, "start"))
+    for index, sector in enumerate(sectors):
+        angle = centers[index]
+        start = polar_point(cx, cy, radius, angle - 55)
+        end = polar_point(cx, cy, radius, angle + 55)
+        color = accents[index]
+        parts.append(f'  <path d="M {cx} {cy} L {start[0]:.1f} {start[1]:.1f} A {radius} {radius} 0 0 1 {end[0]:.1f} {end[1]:.1f} Z" fill="{color}" fill-opacity=".12" stroke="{color}" stroke-opacity=".55"/>')
+        node_count = int(sector["nodes"])
+        for node_index in range(node_count):
+            node = polar_point(cx, cy, 84 + node_index * 36, angle + (node_index - (node_count - 1) / 2) * 14)
+            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="8" fill="{color}" stroke="{p["surface"]}" stroke-width="2.5"/>')
+        lx, ly, anchor = label_positions[index]
+        parts.extend(
+            [
+                f'  <text x="{lx}" y="{ly}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="12" font-weight="700">{escape(sector["label"])}</text>',
+                f'  <text class="mono" x="{lx}" y="{ly + 20}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="9.5">{escape(sector["evidence"]).upper()}</text>',
+            ]
+        )
+    parts.extend(
+        [
+            f'  <g class="research-sweep-mobile"><line x1="{cx}" y1="{cy}" x2="{cx}" y2="{cy - radius + 10}" stroke="{p["violet"]}" stroke-width="2.5" stroke-linecap="round" opacity=".72"/><circle cx="{cx}" cy="{cy - radius + 10}" r="5" fill="{p["violet"]}"/></g>',
+            f'  <circle cx="{cx}" cy="{cy}" r="5" fill="{p["ink"]}"/>',
+            f'  <text x="680" y="994" text-anchor="end" fill="{p["faint"]}" font-size="9.5">CODE PROPORTION / PUBLIC EVIDENCE / CLICK TO EXPLORE</text>',
+            "</svg>\n",
+        ]
+    )
+    return "\n".join(parts)
+
+
 def write_assets(config: dict, data: dict) -> None:
     generated_at = datetime.now(timezone.utc)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -592,10 +945,10 @@ def write_assets(config: dict, data: dict) -> None:
         assets = {
             f"hero-{theme}.svg": hero_svg(config, theme),
             f"hero-mobile-{theme}.svg": hero_mobile_svg(config, theme),
-            f"telemetry-{theme}.svg": telemetry_svg(config, data, theme, generated_at),
-            f"telemetry-mobile-{theme}.svg": telemetry_mobile_svg(config, data, theme, generated_at),
-            f"signals-{theme}.svg": signals_svg(config, data, theme),
-            f"signals-mobile-{theme}.svg": signals_mobile_svg(config, data, theme),
+            f"telemetry-{theme}.svg": telemetry_chronograph_svg(config, data, theme, generated_at),
+            f"telemetry-mobile-{theme}.svg": telemetry_chronograph_mobile_svg(config, data, theme, generated_at),
+            f"signals-{theme}.svg": signals_grand_svg(config, data, theme),
+            f"signals-mobile-{theme}.svg": signals_grand_mobile_svg(config, data, theme),
         }
         for filename, content in assets.items():
             (OUTPUT_DIR / filename).write_text(content, encoding="utf-8", newline="\n")

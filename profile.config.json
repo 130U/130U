@@ -8,8 +8,8 @@
   },
   "account_created_at": "2026-07-20T15:13:55Z",
   "fallback_metrics": {
-    "public_commits": 41,
-    "pull_requests": 20,
+    "public_commits": 43,
+    "pull_requests": 21,
     "public_repositories": 6
   },
   "language_source_repositories": [
@@ -19,13 +19,13 @@
     "agents-last-exam"
   ],
   "fallback_languages": {
-    "TypeScript": 28.35,
-    "HTML": 22.26,
-    "JavaScript": 19.86,
-    "Python": 16.76,
-    "CSS": 7.40,
-    "PowerShell": 4.52,
-    "Shell": 0.85
+    "TypeScript": 421615,
+    "JavaScript": 313500,
+    "HTML": 308094,
+    "Python": 289699,
+    "CSS": 143773,
+    "PowerShell": 66804,
+    "Shell": 5702
   },
   "focus_sectors": [
     {"label": "Agent Systems & Evaluation", "evidence": "1 benchmark system", "nodes": 1},

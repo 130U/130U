@@ -1,4 +1,5 @@
 <div align="center">
+  <a href="https://github.com/130U/130U#selected-systems" title="Explore selected systems">
   <picture>
     <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/hero-mobile-dark.svg">
     <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/hero-mobile-light.svg">
@@ -6,30 +7,52 @@
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/hero-light.svg">
     <img src="assets/generated/hero-light.svg" alt="130U — systems research across agentic AI, evaluation, research operations, embodied AI, product systems, and evidence design" width="100%">
   </picture>
+  </a>
 </div>
+
+<p align="center"><a href="https://github.com/130U/130U#selected-systems"><strong>Explore the systems behind this map &#8595;</strong></a></p>
 
 <br>
 
 <div align="center">
+  <a href="https://github.com/130U/130U/actions/workflows/update-profile.yml" title="Open telemetry update history">
   <picture>
     <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-mobile-dark.svg">
     <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-mobile-light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/telemetry-light.svg">
-    <img src="assets/generated/telemetry-light.svg" alt="Build log showing exact GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count" width="100%">
+    <img src="assets/generated/telemetry-light.svg" alt="Large build log with a daily-synced GitHub account-age snapshot, a live sixty-second visual pulse, scoped project commits and pull requests, and public repository count" width="100%">
   </picture>
+  </a>
 </div>
+
+<p align="center">
+  <a href="https://github.com/search?q=author%3A130U&type=commits">Explore commits</a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://github.com/pulls?q=is%3Apr+author%3A130U">Review pull requests</a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://github.com/130U?tab=repositories">Browse repositories</a>
+</p>
+
+<details>
+<summary><strong>How the live clock works</strong></summary>
+
+The days, hours, minutes, and starting seconds are calculated from GitHub's public account-creation timestamp when the asset is generated. The seconds readout and hand then advance once per second while the SVG is open. GitHub caches README images and does not run custom JavaScript, so the daily snapshot is the authoritative value; the moving seconds are a live visual continuation, not a wall-clock service.
+
+</details>
 
 <br>
 
 <div align="center">
+  <a href="https://github.com/130U/130U#selected-systems" title="Open the public evidence behind these signals">
   <picture>
     <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/signals-mobile-dark.svg">
     <source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/signals-mobile-light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/signals-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/profile-assets/assets/generated/signals-light.svg">
-    <img src="assets/generated/signals-light.svg" alt="GitHub Linguist code proportions across four selected public repositories and an evidence-node research orbit" width="100%">
+    <img src="assets/generated/signals-light.svg" alt="Large animated GitHub Linguist code-proportion map across four selected public repositories and an evidence-node research orbit" width="100%">
   </picture>
+  </a>
 </div>
 
 ## Evidence before spectacle
