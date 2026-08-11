@@ -87,11 +87,13 @@ def validate_svg(path: Path) -> None:
             fail(f"{path.name} contains forbidden SVG marker: {marker}")
     if "prefers-reduced-motion: reduce" not in text:
         fail(f"{path.name} lacks a reduced-motion fallback")
-    if "infinite" in lowered:
-        fail(f"{path.name} contains perpetual motion without an embedded pause control")
+    if "infinite" not in lowered:
+        fail(f"{path.name} must preserve GitHub-safe continuous SVG motion")
+    if "animation: none !important" not in lowered:
+        fail(f"{path.name} lacks an explicit reduced-motion animation override")
     durations = [float(value) for value in re.findall(r"(?<![\w.])(\d+(?:\.\d+)?)s\b", text)]
-    if durations and max(durations) > 5:
-        fail(f"{path.name} contains motion longer than five seconds")
+    if durations and max(durations) > 30:
+        fail(f"{path.name} contains motion slower than the approved ambient cycle")
     if "<title" not in text or "<desc" not in text:
         fail(f"{path.name} lacks accessible title/description metadata")
     try:

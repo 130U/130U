@@ -143,22 +143,89 @@ def base_style() -> str:
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .orbit-a { transform-origin: 870px 188px; animation: settleA 3.2s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-b { transform-origin: 870px 188px; animation: settleB 3.5s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-c { transform-origin: 870px 188px; animation: settleC 3.8s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-mobile-a { transform-origin: 360px 396px; animation: settleA 3.2s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-mobile-b { transform-origin: 360px 396px; animation: settleB 3.6s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .pulse { animation: appear 2.6s ease-out 1 both; }
-    .drift-a { animation: arriveY 3.1s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .drift-b { animation: arriveX 3.4s cubic-bezier(.2,.8,.2,1) 1 both; }
-    @keyframes settleA { from { transform: rotate(-7deg) scale(.985); opacity:.4; } to { transform: rotate(0) scale(1); opacity:1; } }
-    @keyframes settleB { from { transform: rotate(6deg) scale(.98); opacity:.45; } to { transform: rotate(0) scale(1); opacity:1; } }
-    @keyframes settleC { from { transform: rotate(-4deg); opacity:.35; } to { transform: rotate(0); opacity:1; } }
-    @keyframes appear { from { opacity:.25; } to { opacity:1; } }
-    @keyframes arriveY { from { transform: translateY(6px); opacity:.55; } to { transform: translateY(0); opacity:1; } }
-    @keyframes arriveX { from { transform: translateX(-6px); opacity:.55; } to { transform: translateX(0); opacity:1; } }
+    .orbit-track { animation: dashFlow 3.8s linear infinite; }
+    .orbiter-a { animation: orbitA 13s linear infinite; }
+    .orbiter-b { animation: orbitB 18s linear infinite; }
+    .orbiter-c { animation: orbitC 26s linear infinite; }
+    .orbiter-mobile-a { animation: orbitMobileA 12s linear infinite; }
+    .orbiter-mobile-b { animation: orbitMobileB 17s linear infinite; }
+    .core-desktop { transform-box: view-box; transform-origin: 870px 188px; animation: coreBreathe 3.8s ease-in-out infinite; }
+    .core-mobile { transform-box: view-box; transform-origin: 360px 396px; animation: coreBreathe 3.8s ease-in-out infinite; }
+    .twinkle, .metric-pulse, .node-pulse { transform-box: fill-box; transform-origin: center; }
+    .twinkle { animation: twinkle 3.2s ease-in-out infinite alternate; }
+    .float-a { animation: floatY 4.2s ease-in-out infinite alternate; }
+    .float-b { animation: floatX 4.6s ease-in-out infinite alternate; }
+    .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
+    .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
+    .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
+    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
+    .delay-0 { animation-delay: 0s; }
+    .delay-1 { animation-delay: -.7s; }
+    .delay-2 { animation-delay: -1.4s; }
+    .delay-3 { animation-delay: -2.1s; }
+    @keyframes dashFlow { to { stroke-dashoffset: -44; } }
+    @keyframes orbitA {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-40.4px,38.2px); }
+      25% { transform: translate(-138px,54px); }
+      37.5% { transform: translate(-235.6px,38.2px); }
+      50% { transform: translate(-276px,0); }
+      62.5% { transform: translate(-235.6px,-38.2px); }
+      75% { transform: translate(-138px,-54px); }
+      87.5% { transform: translate(-40.4px,-38.2px); }
+    }
+    @keyframes orbitB {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(58px,-58px); }
+      25% { transform: translate(198px,-82px); }
+      37.5% { transform: translate(338px,-58px); }
+      50% { transform: translate(396px,0); }
+      62.5% { transform: translate(338px,58px); }
+      75% { transform: translate(198px,82px); }
+      87.5% { transform: translate(58px,58px); }
+    }
+    @keyframes orbitC {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-75.6px,79.2px); }
+      25% { transform: translate(-258px,112px); }
+      37.5% { transform: translate(-440.4px,79.2px); }
+      50% { transform: translate(-516px,0); }
+      62.5% { transform: translate(-440.4px,-79.2px); }
+      75% { transform: translate(-258px,-112px); }
+      87.5% { transform: translate(-75.6px,-79.2px); }
+    }
+    @keyframes orbitMobileA {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-53.9px,49.5px); }
+      25% { transform: translate(-184px,70px); }
+      37.5% { transform: translate(-314.1px,49.5px); }
+      50% { transform: translate(-368px,0); }
+      62.5% { transform: translate(-314.1px,-49.5px); }
+      75% { transform: translate(-184px,-70px); }
+      87.5% { transform: translate(-53.9px,-49.5px); }
+    }
+    @keyframes orbitMobileB {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(73.2px,-77.8px); }
+      25% { transform: translate(250px,-110px); }
+      37.5% { transform: translate(426.8px,-77.8px); }
+      50% { transform: translate(500px,0); }
+      62.5% { transform: translate(426.8px,77.8px); }
+      75% { transform: translate(250px,110px); }
+      87.5% { transform: translate(73.2px,77.8px); }
+    }
+    @keyframes coreBreathe { 0%,100% { transform: scale(.985); } 50% { transform: scale(1.035); } }
+    @keyframes twinkle { from { opacity:.18; transform: scale(.72); } to { opacity:.78; transform: scale(1.24); } }
+    @keyframes floatY { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
+    @keyframes floatX { from { transform: translateX(-2px); } to { transform: translateX(3px); } }
+    @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
+    @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
+    @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
+    @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
     @media (prefers-reduced-motion: reduce) {
-      .orbit-a, .orbit-b, .orbit-c, .orbit-mobile-a, .orbit-mobile-b, .pulse, .drift-a, .drift-b { animation: none !important; }
+      .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
+      .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
+      .gauge-sweep, .bar-flow, .node-pulse { animation: none !important; }
     }
   </style>
 """
@@ -175,7 +242,7 @@ def hero_svg(config: dict, theme: str) -> str:
         y = rng.randint(28, 332)
         radius = rng.choice((1, 1, 1.4, 1.8))
         opacity = rng.choice((0.22, 0.32, 0.45, 0.6))
-        cls = "pulse" if index % 7 == 0 else ""
+        cls = f"twinkle delay-{index % 4}" if index % 3 == 0 else ""
         stars.append(
             f'  <circle class="{cls}" cx="{x}" cy="{y}" r="{radius}" fill="{p["faint"]}" opacity="{opacity}"/>'
         )
@@ -212,14 +279,14 @@ def hero_svg(config: dict, theme: str) -> str:
         f'  <line x1="68" y1="229" x2="388" y2="229" stroke="{p["line"]}"/>',
         f'  <text class="mono" x="68" y="260" fill="{p["muted"]}" font-size="12" letter-spacing="1.8">{escape(identity["descriptor"])}</text>',
         f'  <text x="68" y="316" fill="{p["faint"]}" font-size="13">A public field map of the questions I am pursuing now.</text>',
-        f'  <g class="orbit-c" opacity=".65"><ellipse cx="870" cy="188" rx="258" ry="112" fill="none" stroke="{p["line"]}" stroke-width="1" stroke-dasharray="3 8"/><circle cx="1128" cy="188" r="5" fill="{p["amber"]}"/></g>',
-        f'  <g class="orbit-b" opacity=".8"><ellipse cx="870" cy="188" rx="198" ry="82" fill="none" stroke="{p["violet"]}" stroke-width="1.2" stroke-opacity=".55"/><circle cx="672" cy="188" r="6" fill="{p["violet"]}"/></g>',
-        f'  <g class="orbit-a"><ellipse cx="870" cy="188" rx="138" ry="54" fill="none" stroke="{p["cyan"]}" stroke-width="1.5" stroke-opacity=".7"/><circle cx="1008" cy="188" r="6" fill="{p["cyan"]}"/></g>',
-        f'  <g filter="url(#shadow)" class="drift-a"><circle cx="870" cy="188" r="55" fill="url(#core)" stroke="{p["blue"]}" stroke-opacity=".34"/><circle cx="870" cy="188" r="42" fill="none" stroke="{p["blue"]}" stroke-opacity=".18"/><text x="870" y="197" text-anchor="middle" fill="{p["ink"]}" font-size="28" font-weight="760" letter-spacing="-1">130U</text></g>',
+        f'  <g opacity=".65"><ellipse class="orbit-track" cx="870" cy="188" rx="258" ry="112" fill="none" stroke="{p["line"]}" stroke-width="1" stroke-dasharray="3 8"/><circle class="orbiter-c" cx="1128" cy="188" r="5" fill="{p["amber"]}"/></g>',
+        f'  <g opacity=".8"><ellipse cx="870" cy="188" rx="198" ry="82" fill="none" stroke="{p["violet"]}" stroke-width="1.2" stroke-opacity=".55"/><circle class="orbiter-b" cx="672" cy="188" r="6" fill="{p["violet"]}"/></g>',
+        f'  <g><ellipse cx="870" cy="188" rx="138" ry="54" fill="none" stroke="{p["cyan"]}" stroke-width="1.5" stroke-opacity=".7"/><circle class="orbiter-a" cx="1008" cy="188" r="6" fill="{p["cyan"]}"/></g>',
+        f'  <g filter="url(#shadow)" class="core-desktop"><circle cx="870" cy="188" r="55" fill="url(#core)" stroke="{p["blue"]}" stroke-opacity=".34"/><circle cx="870" cy="188" r="42" fill="none" stroke="{p["blue"]}" stroke-opacity=".18"/><text x="870" y="197" text-anchor="middle" fill="{p["ink"]}" font-size="28" font-weight="760" letter-spacing="-1">130U</text></g>',
     ]
     for index, (label, x, y, color) in enumerate(labels):
         width = max(88, len(label) * 7.1 + 28)
-        cls = "drift-a" if index % 2 == 0 else "drift-b"
+        cls = "float-a" if index % 2 == 0 else "float-b"
         parts.extend(
             [
                 f'  <g class="{cls}">',
@@ -254,8 +321,8 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) 
         f'  <text x="1146" y="48" text-anchor="end" fill="{p["faint"]}" font-size="11">PUBLIC GITHUB SIGNALS · UPDATED DAILY</text>',
         f'  <rect x="54" y="77" width="348" height="137" rx="22" fill="{p["surface"]}" fill-opacity=".76" stroke="{p["blue"]}" stroke-opacity=".28"/>',
         f'  <circle cx="108" cy="126" r="27" fill="{p["blue"]}" opacity=".10"/>',
-        f'  <path d="M 95 126 A 13 13 0 1 1 120 131" fill="none" stroke="{p["blue"]}" stroke-width="2.5" stroke-linecap="round"/>',
-        f'  <circle cx="108" cy="126" r="3" fill="{p["blue"]}"/>',
+        f'  <path class="gauge-sweep" d="M 95 126 A 13 13 0 1 1 120 131" fill="none" stroke="{p["blue"]}" stroke-width="2.5" stroke-linecap="round"/>',
+        f'  <circle class="metric-pulse" cx="108" cy="126" r="3" fill="{p["blue"]}"/>',
         f'  <text x="151" y="143" fill="{p["ink"]}" font-size="54" font-weight="780" letter-spacing="-2">{days}</text>',
         f'  <text class="mono" x="151" y="165" fill="{p["muted"]}" font-size="10.5" letter-spacing="1.5">DAYS ON GITHUB</text>',
         f'  <text x="78" y="195" fill="{p["faint"]}" font-size="10.5">JOINED {created_beijing.strftime("%d %b %Y · %H:%M").upper()} BEIJING TIME</text>',
@@ -267,7 +334,7 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) 
         parts.extend(
             [
                 f'  <rect x="{x}" y="77" width="208" height="137" rx="22" fill="{p["surface"]}" fill-opacity=".66" stroke="{p["line"]}"/>',
-                f'  <circle cx="{center:.0f}" cy="111" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
+                f'  <circle class="metric-pulse delay-{index + 1}" cx="{center:.0f}" cy="111" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
                 f'  <line x1="{center - 12:.0f}" y1="111" x2="{center - 20:.0f}" y2="111" stroke="{color}" stroke-width="2" stroke-linecap="round"/>',
                 f'  <text x="{center:.0f}" y="166" text-anchor="middle" fill="{p["ink"]}" font-size="36" font-weight="760" letter-spacing="-1">{escape(value)}</text>',
                 f'  <text class="mono" x="{center:.0f}" y="194" text-anchor="middle" fill="{p["muted"]}" font-size="9.7" letter-spacing="1.25">{label}</text>',
@@ -322,7 +389,7 @@ def signals_svg(config: dict, data: dict, theme: str) -> str:
             [
                 f'  <text x="54" y="{y + 8}" fill="{p["ink"]}" font-size="14" font-weight="600">{escape(name)}</text>',
                 f'  <rect x="{bar_x}" y="{y - 6}" width="{bar_width}" height="16" rx="8" fill="{p["line"]}" opacity=".55"/>',
-                f'  <rect x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="16" rx="8" fill="{color}" opacity=".88"/>',
+                f'  <rect class="bar-flow delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="16" rx="8" fill="{color}" opacity=".88"/>',
                 f'  <text class="mono" x="590" y="{y + 8}" text-anchor="end" fill="{p["muted"]}" font-size="11">{percentage:.1f}%</text>',
             ]
         )
@@ -348,7 +415,7 @@ def signals_svg(config: dict, data: dict, theme: str) -> str:
             node_radius = 53 + node_index * 22
             node_angle = center_angle + (node_index - (node_count - 1) / 2) * 14
             node = polar_point(cx, cy, node_radius, node_angle)
-            parts.append(f'  <circle cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="6" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
+            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="6" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
         label_x, label_y, anchor = label_positions[index]
         parts.extend(
             [
@@ -394,16 +461,18 @@ def hero_mobile_svg(config: dict, theme: str) -> str:
         f'  <text class="mono" x="44" y="204" fill="{p["muted"]}" font-size="10" letter-spacing="1.4">{escape(identity["descriptor"])}</text>',
         f'  <line x1="44" y1="229" x2="676" y2="229" stroke="{p["line"]}"/>',
         f'  <text x="44" y="258" fill="{p["faint"]}" font-size="12">A public field map of the questions I am pursuing now.</text>',
-        f'  <g class="orbit-mobile-b"><ellipse cx="360" cy="396" rx="250" ry="110" fill="none" stroke="{p["violet"]}" stroke-opacity=".55"/><circle cx="110" cy="396" r="6" fill="{p["violet"]}"/></g>',
-        f'  <g class="orbit-mobile-a"><ellipse cx="360" cy="396" rx="184" ry="70" fill="none" stroke="{p["cyan"]}" stroke-opacity=".7" stroke-width="1.5"/><circle cx="544" cy="396" r="6" fill="{p["cyan"]}"/></g>',
-        f'  <circle cx="360" cy="396" r="54" fill="url(#core)" stroke="{p["blue"]}" stroke-opacity=".35"/>',
-        f'  <text x="360" y="406" text-anchor="middle" fill="{p["ink"]}" font-size="28" font-weight="760">130U</text>',
+        f'  <g><ellipse cx="360" cy="396" rx="250" ry="110" fill="none" stroke="{p["violet"]}" stroke-opacity=".55"/><circle class="orbiter-mobile-b" cx="110" cy="396" r="6" fill="{p["violet"]}"/></g>',
+        f'  <g><ellipse cx="360" cy="396" rx="184" ry="70" fill="none" stroke="{p["cyan"]}" stroke-opacity=".7" stroke-width="1.5"/><circle class="orbiter-mobile-a" cx="544" cy="396" r="6" fill="{p["cyan"]}"/></g>',
+        f'  <g class="core-mobile"><circle cx="360" cy="396" r="54" fill="url(#core)" stroke="{p["blue"]}" stroke-opacity=".35"/><text x="360" y="406" text-anchor="middle" fill="{p["ink"]}" font-size="28" font-weight="760">130U</text></g>',
     ]
-    for label, x, y, color in labels:
+    for index, (label, x, y, color) in enumerate(labels):
+        cls = "float-a" if index % 2 == 0 else "float-b"
         parts.extend(
             [
-                f'  <circle cx="{x}" cy="{y - 4}" r="4" fill="{color}"/>',
-                f'  <text x="{x + 11}" y="{y}" fill="{p["muted"]}" font-size="11" font-weight="600">{escape(label)}</text>',
+                f'  <g class="{cls}">',
+                f'    <circle cx="{x}" cy="{y - 4}" r="4" fill="{color}"/>',
+                f'    <text x="{x + 11}" y="{y}" fill="{p["muted"]}" font-size="11" font-weight="600">{escape(label)}</text>',
+                "  </g>",
             ]
         )
     parts.append("</svg>\n")
@@ -431,7 +500,7 @@ def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: dat
         f'  <text x="680" y="46" text-anchor="end" fill="{p["faint"]}" font-size="10">UPDATED DAILY</text>',
         f'  <rect x="40" y="70" width="640" height="174" rx="22" fill="{p["surface"]}" fill-opacity=".74" stroke="{p["blue"]}" stroke-opacity=".28"/>',
         f'  <circle cx="108" cy="137" r="32" fill="{p["blue"]}" opacity=".10"/>',
-        f'  <path d="M 91 137 A 17 17 0 1 1 122 145" fill="none" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/>',
+        f'  <path class="gauge-sweep" d="M 91 137 A 17 17 0 1 1 122 145" fill="none" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/>',
         f'  <text x="162" y="160" fill="{p["ink"]}" font-size="70" font-weight="780" letter-spacing="-2">{days}</text>',
         f'  <text class="mono" x="162" y="187" fill="{p["muted"]}" font-size="11" letter-spacing="1.5">DAYS ON GITHUB</text>',
         f'  <text x="450" y="150" fill="{p["muted"]}" font-size="12">JOINED</text>',
@@ -444,7 +513,7 @@ def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: dat
         parts.extend(
             [
                 f'  <rect x="{x}" y="274" width="204" height="154" rx="20" fill="{p["surface"]}" fill-opacity=".68" stroke="{p["line"]}"/>',
-                f'  <circle cx="{center}" cy="309" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
+                f'  <circle class="metric-pulse delay-{index + 1}" cx="{center}" cy="309" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
                 f'  <text x="{center}" y="368" text-anchor="middle" fill="{p["ink"]}" font-size="39" font-weight="760">{escape(value)}</text>',
                 f'  <text class="mono" x="{center}" y="399" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.1">{label}</text>',
             ]
@@ -480,7 +549,7 @@ def signals_mobile_svg(config: dict, data: dict, theme: str) -> str:
             [
                 f'  <text x="40" y="{y + 9}" fill="{p["ink"]}" font-size="13" font-weight="600">{escape(name)}</text>',
                 f'  <rect x="174" y="{y - 5}" width="418" height="16" rx="8" fill="{p["line"]}" opacity=".55"/>',
-                f'  <rect x="174" y="{y - 5}" width="{418 * percentage / 100:.1f}" height="16" rx="8" fill="{color}"/>',
+                f'  <rect class="bar-flow delay-{index % 4}" x="174" y="{y - 5}" width="{418 * percentage / 100:.1f}" height="16" rx="8" fill="{color}"/>',
                 f'  <text class="mono" x="674" y="{y + 9}" text-anchor="end" fill="{p["muted"]}" font-size="10.5">{percentage:.1f}%</text>',
             ]
         )
@@ -504,7 +573,7 @@ def signals_mobile_svg(config: dict, data: dict, theme: str) -> str:
         parts.append(f'  <path d="M {cx} {cy} L {start[0]:.1f} {start[1]:.1f} A {radius} {radius} 0 0 1 {end[0]:.1f} {end[1]:.1f} Z" fill="{color}" fill-opacity=".12" stroke="{color}" stroke-opacity=".55"/>')
         for node_index in range(int(sector["nodes"])):
             node = polar_point(cx, cy, 68 + node_index * 27, angle + (node_index - (int(sector["nodes"]) - 1) / 2) * 14)
-            parts.append(f'  <circle cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="7" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
+            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="7" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
         lx, ly, anchor = label_positions[index]
         parts.extend(
             [

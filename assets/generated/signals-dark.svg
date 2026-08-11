@@ -7,22 +7,89 @@
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .orbit-a { transform-origin: 870px 188px; animation: settleA 3.2s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-b { transform-origin: 870px 188px; animation: settleB 3.5s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-c { transform-origin: 870px 188px; animation: settleC 3.8s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-mobile-a { transform-origin: 360px 396px; animation: settleA 3.2s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .orbit-mobile-b { transform-origin: 360px 396px; animation: settleB 3.6s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .pulse { animation: appear 2.6s ease-out 1 both; }
-    .drift-a { animation: arriveY 3.1s cubic-bezier(.2,.8,.2,1) 1 both; }
-    .drift-b { animation: arriveX 3.4s cubic-bezier(.2,.8,.2,1) 1 both; }
-    @keyframes settleA { from { transform: rotate(-7deg) scale(.985); opacity:.4; } to { transform: rotate(0) scale(1); opacity:1; } }
-    @keyframes settleB { from { transform: rotate(6deg) scale(.98); opacity:.45; } to { transform: rotate(0) scale(1); opacity:1; } }
-    @keyframes settleC { from { transform: rotate(-4deg); opacity:.35; } to { transform: rotate(0); opacity:1; } }
-    @keyframes appear { from { opacity:.25; } to { opacity:1; } }
-    @keyframes arriveY { from { transform: translateY(6px); opacity:.55; } to { transform: translateY(0); opacity:1; } }
-    @keyframes arriveX { from { transform: translateX(-6px); opacity:.55; } to { transform: translateX(0); opacity:1; } }
+    .orbit-track { animation: dashFlow 3.8s linear infinite; }
+    .orbiter-a { animation: orbitA 13s linear infinite; }
+    .orbiter-b { animation: orbitB 18s linear infinite; }
+    .orbiter-c { animation: orbitC 26s linear infinite; }
+    .orbiter-mobile-a { animation: orbitMobileA 12s linear infinite; }
+    .orbiter-mobile-b { animation: orbitMobileB 17s linear infinite; }
+    .core-desktop { transform-box: view-box; transform-origin: 870px 188px; animation: coreBreathe 3.8s ease-in-out infinite; }
+    .core-mobile { transform-box: view-box; transform-origin: 360px 396px; animation: coreBreathe 3.8s ease-in-out infinite; }
+    .twinkle, .metric-pulse, .node-pulse { transform-box: fill-box; transform-origin: center; }
+    .twinkle { animation: twinkle 3.2s ease-in-out infinite alternate; }
+    .float-a { animation: floatY 4.2s ease-in-out infinite alternate; }
+    .float-b { animation: floatX 4.6s ease-in-out infinite alternate; }
+    .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
+    .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
+    .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
+    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
+    .delay-0 { animation-delay: 0s; }
+    .delay-1 { animation-delay: -.7s; }
+    .delay-2 { animation-delay: -1.4s; }
+    .delay-3 { animation-delay: -2.1s; }
+    @keyframes dashFlow { to { stroke-dashoffset: -44; } }
+    @keyframes orbitA {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-40.4px,38.2px); }
+      25% { transform: translate(-138px,54px); }
+      37.5% { transform: translate(-235.6px,38.2px); }
+      50% { transform: translate(-276px,0); }
+      62.5% { transform: translate(-235.6px,-38.2px); }
+      75% { transform: translate(-138px,-54px); }
+      87.5% { transform: translate(-40.4px,-38.2px); }
+    }
+    @keyframes orbitB {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(58px,-58px); }
+      25% { transform: translate(198px,-82px); }
+      37.5% { transform: translate(338px,-58px); }
+      50% { transform: translate(396px,0); }
+      62.5% { transform: translate(338px,58px); }
+      75% { transform: translate(198px,82px); }
+      87.5% { transform: translate(58px,58px); }
+    }
+    @keyframes orbitC {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-75.6px,79.2px); }
+      25% { transform: translate(-258px,112px); }
+      37.5% { transform: translate(-440.4px,79.2px); }
+      50% { transform: translate(-516px,0); }
+      62.5% { transform: translate(-440.4px,-79.2px); }
+      75% { transform: translate(-258px,-112px); }
+      87.5% { transform: translate(-75.6px,-79.2px); }
+    }
+    @keyframes orbitMobileA {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(-53.9px,49.5px); }
+      25% { transform: translate(-184px,70px); }
+      37.5% { transform: translate(-314.1px,49.5px); }
+      50% { transform: translate(-368px,0); }
+      62.5% { transform: translate(-314.1px,-49.5px); }
+      75% { transform: translate(-184px,-70px); }
+      87.5% { transform: translate(-53.9px,-49.5px); }
+    }
+    @keyframes orbitMobileB {
+      0%,100% { transform: translate(0,0); }
+      12.5% { transform: translate(73.2px,-77.8px); }
+      25% { transform: translate(250px,-110px); }
+      37.5% { transform: translate(426.8px,-77.8px); }
+      50% { transform: translate(500px,0); }
+      62.5% { transform: translate(426.8px,77.8px); }
+      75% { transform: translate(250px,110px); }
+      87.5% { transform: translate(73.2px,77.8px); }
+    }
+    @keyframes coreBreathe { 0%,100% { transform: scale(.985); } 50% { transform: scale(1.035); } }
+    @keyframes twinkle { from { opacity:.18; transform: scale(.72); } to { opacity:.78; transform: scale(1.24); } }
+    @keyframes floatY { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
+    @keyframes floatX { from { transform: translateX(-2px); } to { transform: translateX(3px); } }
+    @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
+    @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
+    @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
+    @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
     @media (prefers-reduced-motion: reduce) {
-      .orbit-a, .orbit-b, .orbit-c, .orbit-mobile-a, .orbit-mobile-b, .pulse, .drift-a, .drift-b { animation: none !important; }
+      .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
+      .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
+      .gauge-sweep, .bar-flow, .node-pulse { animation: none !important; }
     }
   </style>
 
@@ -37,47 +104,47 @@
   <line x1="642" y1="38" x2="642" y2="372" stroke="#3C4D68"/>
   <text x="54" y="121" fill="#F6F8FC" font-size="14" font-weight="600">TypeScript</text>
   <rect x="188" y="107" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="107" width="105.2" height="16" rx="8" fill="#72A2FF" opacity=".88"/>
-  <text class="mono" x="590" y="121" text-anchor="end" fill="#C7D2E3" font-size="11">28.8%</text>
-  <text x="54" y="166" fill="#F6F8FC" font-size="14" font-weight="600">HTML</text>
+  <rect class="bar-flow delay-0" x="188" y="107" width="99.3" height="16" rx="8" fill="#72A2FF" opacity=".88"/>
+  <text class="mono" x="590" y="121" text-anchor="end" fill="#C7D2E3" font-size="11">27.2%</text>
+  <text x="54" y="166" fill="#F6F8FC" font-size="14" font-weight="600">JavaScript</text>
   <rect x="188" y="152" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="152" width="80.4" height="16" rx="8" fill="#55C7D9" opacity=".88"/>
-  <text class="mono" x="590" y="166" text-anchor="end" fill="#C7D2E3" font-size="11">22.0%</text>
-  <text x="54" y="211" fill="#F6F8FC" font-size="14" font-weight="600">JavaScript</text>
+  <rect class="bar-flow delay-1" x="188" y="152" width="73.9" height="16" rx="8" fill="#55C7D9" opacity=".88"/>
+  <text class="mono" x="590" y="166" text-anchor="end" fill="#C7D2E3" font-size="11">20.2%</text>
+  <text x="54" y="211" fill="#F6F8FC" font-size="14" font-weight="600">HTML</text>
   <rect x="188" y="197" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="197" width="72.9" height="16" rx="8" fill="#B59AF5" opacity=".88"/>
-  <text class="mono" x="590" y="211" text-anchor="end" fill="#C7D2E3" font-size="11">20.0%</text>
+  <rect class="bar-flow delay-2" x="188" y="197" width="72.6" height="16" rx="8" fill="#B59AF5" opacity=".88"/>
+  <text class="mono" x="590" y="211" text-anchor="end" fill="#C7D2E3" font-size="11">19.9%</text>
   <text x="54" y="256" fill="#F6F8FC" font-size="14" font-weight="600">Python</text>
   <rect x="188" y="242" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="242" width="60.4" height="16" rx="8" fill="#F0B55A" opacity=".88"/>
-  <text class="mono" x="590" y="256" text-anchor="end" fill="#C7D2E3" font-size="11">16.6%</text>
+  <rect class="bar-flow delay-3" x="188" y="242" width="68.3" height="16" rx="8" fill="#F0B55A" opacity=".88"/>
+  <text class="mono" x="590" y="256" text-anchor="end" fill="#C7D2E3" font-size="11">18.7%</text>
   <text x="54" y="301" fill="#F6F8FC" font-size="14" font-weight="600">CSS</text>
   <rect x="188" y="287" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="287" width="26.7" height="16" rx="8" fill="#61C7A5" opacity=".88"/>
-  <text class="mono" x="590" y="301" text-anchor="end" fill="#C7D2E3" font-size="11">7.3%</text>
+  <rect class="bar-flow delay-0" x="188" y="287" width="33.9" height="16" rx="8" fill="#61C7A5" opacity=".88"/>
+  <text class="mono" x="590" y="301" text-anchor="end" fill="#C7D2E3" font-size="11">9.3%</text>
   <text x="54" y="346" fill="#F6F8FC" font-size="14" font-weight="600">PowerShell</text>
   <rect x="188" y="332" width="365" height="16" rx="8" fill="#3C4D68" opacity=".55"/>
-  <rect x="188" y="332" width="16.3" height="16" rx="8" fill="#AAB7CB" opacity=".88"/>
-  <text class="mono" x="590" y="346" text-anchor="end" fill="#C7D2E3" font-size="11">4.5%</text>
+  <rect class="bar-flow delay-1" x="188" y="332" width="15.7" height="16" rx="8" fill="#AAB7CB" opacity=".88"/>
+  <text class="mono" x="590" y="346" text-anchor="end" fill="#C7D2E3" font-size="11">4.3%</text>
   <circle cx="942.0" cy="229.0" r="38" fill="none" stroke="#3C4D68" stroke-width="1"/>
   <circle cx="942.0" cy="229.0" r="76" fill="none" stroke="#3C4D68" stroke-width="1"/>
   <circle cx="942.0" cy="229.0" r="114" fill="none" stroke="#3C4D68" stroke-width="1"/>
   <path d="M 942.0 229.0 L 848.6 163.6 A 114.0 114.0 0 0 1 1035.4 163.6 Z" fill="#72A2FF" fill-opacity=".12" stroke="#72A2FF" stroke-opacity=".55"/>
   <line x1="942.0" y1="229.0" x2="942.0" y2="115.0" stroke="#72A2FF" stroke-opacity=".45"/>
-  <circle cx="942.0" cy="176.0" r="6" fill="#72A2FF" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-0" cx="942.0" cy="176.0" r="6" fill="#72A2FF" stroke="#202C42" stroke-width="2"/>
   <text x="942" y="94" text-anchor="middle" fill="#F6F8FC" font-size="11.5" font-weight="650">Agent Systems &amp; Evaluation</text>
   <text class="mono" x="942" y="112" text-anchor="middle" fill="#C7D2E3" font-size="9.5">1 BENCHMARK SYSTEM</text>
   <path d="M 942.0 229.0 L 1045.3 180.8 A 114.0 114.0 0 0 1 951.9 342.6 Z" fill="#55C7D9" fill-opacity=".12" stroke="#55C7D9" stroke-opacity=".55"/>
   <line x1="942.0" y1="229.0" x2="1040.7" y2="286.0" stroke="#55C7D9" stroke-opacity=".45"/>
-  <circle cx="992.9" cy="243.6" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
-  <circle cx="1007.0" cy="266.5" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
-  <circle cx="1011.8" cy="296.4" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-1" cx="992.9" cy="243.6" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-2" cx="1007.0" cy="266.5" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-3" cx="1011.8" cy="296.4" r="6" fill="#55C7D9" stroke="#202C42" stroke-width="2"/>
   <text x="1134" y="328" text-anchor="end" fill="#F6F8FC" font-size="11.5" font-weight="650">Embodied Intelligence</text>
   <text class="mono" x="1134" y="346" text-anchor="end" fill="#C7D2E3" font-size="9.5">3 RESEARCH STUDIES</text>
   <path d="M 942.0 229.0 L 932.1 342.6 A 114.0 114.0 0 0 1 838.7 180.8 Z" fill="#B59AF5" fill-opacity=".12" stroke="#B59AF5" stroke-opacity=".55"/>
   <line x1="942.0" y1="229.0" x2="843.3" y2="286.0" stroke="#B59AF5" stroke-opacity=".45"/>
-  <circle cx="899.7" cy="260.9" r="6" fill="#B59AF5" stroke="#202C42" stroke-width="2"/>
-  <circle cx="873.0" cy="258.3" r="6" fill="#B59AF5" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-2" cx="899.7" cy="260.9" r="6" fill="#B59AF5" stroke="#202C42" stroke-width="2"/>
+  <circle class="node-pulse delay-3" cx="873.0" cy="258.3" r="6" fill="#B59AF5" stroke="#202C42" stroke-width="2"/>
   <text x="754" y="328" text-anchor="start" fill="#F6F8FC" font-size="11.5" font-weight="650">Context &amp; Knowledge Systems</text>
   <text class="mono" x="754" y="346" text-anchor="start" fill="#C7D2E3" font-size="9.5">2 WORKING SYSTEMS</text>
   <circle cx="942.0" cy="229.0" r="4" fill="#F6F8FC"/>
