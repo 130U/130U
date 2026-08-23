@@ -6,8 +6,9 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import os
 import random
+import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -66,12 +67,11 @@ def parse_utc(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
 
 
-def api_get(path: str, token: str) -> object:
+def api_get(path: str) -> object:
     request = urllib.request.Request(
         f"{API_ROOT}{path}",
         headers={
             "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {token}",
             "User-Agent": "130U-profile-generator",
             "X-GitHub-Api-Version": "2022-11-28",
         },
@@ -80,30 +80,41 @@ def api_get(path: str, token: str) -> object:
         return json.load(response)
 
 
-def collect_live_data(config: dict) -> dict:
-    token = os.environ.get("GITHUB_TOKEN", "").strip()
-    if not token:
-        raise RuntimeError("--live requires GITHUB_TOKEN")
+def api_get_all(path: str, per_page: int = 100, max_pages: int = 50) -> list[dict]:
+    """Collect a small public repository listing without using GitHub Search."""
+    items: list[dict] = []
+    separator = "&" if "?" in path else "?"
+    for page in range(1, max_pages + 1):
+        batch = api_get(f"{path}{separator}{urllib.parse.urlencode({'per_page': per_page, 'page': page})}")
+        if not isinstance(batch, list):
+            raise RuntimeError(f"Expected a GitHub list response for {path}")
+        items.extend(batch)
+        if len(batch) < per_page:
+            return items
+    raise RuntimeError(f"GitHub listing exceeded {max_pages} pages for {path}")
 
+
+def collect_live_data(config: dict) -> dict:
     username = config["username"]
-    user = api_get(f"/users/{urllib.parse.quote(username)}", token)
+    encoded_username = urllib.parse.quote(username)
+    user = api_get(f"/users/{encoded_username}")
 
     language_bytes: dict[str, int] = {}
     project_commits = 0
     project_pull_requests = 0
     for repository in config["language_source_repositories"]:
-        repository_query = f"repo:{username}/{repository}"
-        commit_query = urllib.parse.urlencode(
-            {"q": f"author:{username} {repository_query}", "per_page": 1}
-        )
-        pr_query = urllib.parse.urlencode(
-            {"q": f"type:pr author:{username} {repository_query}", "per_page": 1}
-        )
-        project_commits += int(api_get(f"/search/commits?{commit_query}", token)["total_count"])
-        project_pull_requests += int(api_get(f"/search/issues?{pr_query}", token)["total_count"])
+        repository_root = f"/repos/{encoded_username}/{urllib.parse.quote(repository)}"
+        commit_query = urllib.parse.urlencode({"author": username})
+        project_commits += len(api_get_all(f"{repository_root}/commits?{commit_query}"))
 
-        path = f"/repos/{urllib.parse.quote(username)}/{urllib.parse.quote(repository)}/languages"
-        for language, size in api_get(path, token).items():
+        pull_requests = api_get_all(f"{repository_root}/pulls?state=all")
+        project_pull_requests += sum(
+            1
+            for pull_request in pull_requests
+            if (pull_request.get("user") or {}).get("login", "").casefold() == username.casefold()
+        )
+
+        for language, size in api_get(f"{repository_root}/languages").items():
             language_bytes[language] = language_bytes.get(language, 0) + int(size)
 
     return {
@@ -126,6 +137,23 @@ def collect_snapshot_data(config: dict) -> dict:
         "languages": config["fallback_languages"],
         "source": "verified local snapshot",
     }
+
+
+def resolve_profile_data(config: dict, live: bool) -> dict:
+    if not live:
+        return collect_snapshot_data(config)
+    try:
+        return collect_live_data(config)
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as error:
+        if isinstance(error, urllib.error.HTTPError):
+            reason = f"HTTP {error.code}"
+        else:
+            reason = error.__class__.__name__
+        print(
+            f"GitHub public API unavailable ({reason}); using the verified local snapshot.",
+            file=sys.stderr,
+        )
+        return collect_snapshot_data(config)
 
 
 def svg_start(width: int, height: int, title: str, description: str) -> str:
@@ -956,10 +984,10 @@ def write_assets(config: dict, data: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--live", action="store_true", help="Fetch current public GitHub metrics using GITHUB_TOKEN")
+    parser.add_argument("--live", action="store_true", help="Fetch current metrics from GitHub's public API")
     args = parser.parse_args()
     config = load_config()
-    data = collect_live_data(config) if args.live else collect_snapshot_data(config)
+    data = resolve_profile_data(config, args.live)
     write_assets(config, data)
     print(f"Generated twelve SVG assets from {data['source']}.")
 

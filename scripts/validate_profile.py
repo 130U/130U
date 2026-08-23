@@ -139,8 +139,15 @@ def validate_workflow() -> None:
         fail("Telemetry workflow requires scoped contents write permission")
     if "pull-requests: write" in workflow or "issues: write" in workflow:
         fail("Telemetry workflow requests unnecessary permissions")
-    if "scripts/generate_profile.py --live" not in workflow or "scripts/validate_profile.py" not in workflow:
-        fail("Telemetry workflow must generate live assets and validate them")
+    required_commands = (
+        "python -m unittest discover -s tests -v",
+        "scripts/generate_profile.py --live",
+        "scripts/validate_profile.py",
+    )
+    if any(command not in workflow for command in required_commands):
+        fail("Telemetry workflow must test, generate live assets, and validate them")
+    if "GITHUB_TOKEN:" in workflow:
+        fail("Public telemetry generation must not receive the repository-scoped GitHub token")
     required_output_controls = (
         "ref: profile-assets",
         "_profile-assets/assets/generated",
