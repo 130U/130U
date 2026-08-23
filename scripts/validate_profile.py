@@ -148,6 +148,8 @@ def validate_workflow() -> None:
         fail("Telemetry workflow must test, generate live assets, and validate them")
     if "GITHUB_TOKEN:" in workflow:
         fail("Public telemetry generation must not receive the repository-scoped GitHub token")
+    if "push:" not in workflow or '"tests/**"' not in workflow:
+        fail("Telemetry workflow must verify generator changes pushed to main")
     required_output_controls = (
         "ref: profile-assets",
         "_profile-assets/assets/generated",
