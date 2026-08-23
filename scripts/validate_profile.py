@@ -50,8 +50,10 @@ def validate_readme() -> None:
         fail("README must remain English-only; CJK characters were found")
     if "assets/generated/hero-light.svg" not in text:
         fail("README is missing the light hero fallback")
-    if text.count("/profile-assets/") != 12:
-        fail("README must load twelve desktop/mobile theme assets from the isolated profile-assets branch")
+    if text.count("/main/assets/generated/") != 12:
+        fail("README must load twelve desktop/mobile theme assets from main")
+    if "/profile-assets/" in text:
+        fail("README must not depend on the retired profile-assets branch")
     if text.count("<picture>") != 3 or text.count("prefers-color-scheme: dark") != 6:
         fail("README must provide three desktop/mobile theme-aware picture blocks")
     if text.count("<details>") < 1 or "How the live clock works" not in text:
@@ -151,12 +153,14 @@ def validate_workflow() -> None:
     if "push:" not in workflow or '"tests/**"' not in workflow:
         fail("Telemetry workflow must verify generator changes pushed to main")
     required_output_controls = (
-        "ref: profile-assets",
-        "_profile-assets/assets/generated",
-        "git diff --quiet",
+        "git diff --quiet -- assets/generated",
+        "git add assets/generated",
+        "git push",
     )
     if any(control not in workflow for control in required_output_controls):
-        fail("Telemetry workflow must isolate generated assets and skip unchanged output")
+        fail("Telemetry workflow must update generated assets on main and skip unchanged output")
+    if "profile-assets" in workflow or "_profile-assets" in workflow:
+        fail("Telemetry workflow must not depend on the retired asset branch")
 
 
 def relative_luminance(hex_color: str) -> float:

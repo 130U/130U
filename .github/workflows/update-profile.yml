@@ -42,24 +42,15 @@ jobs:
       - name: Validate profile
         run: python scripts/validate_profile.py
 
-      - name: Check out isolated asset branch
-        uses: actions/checkout@v7
-        with:
-          ref: profile-assets
-          path: _profile-assets
-
       - name: Commit changed telemetry
         shell: bash
         run: |
-          mkdir -p _profile-assets/assets/generated
-          cp assets/generated/*.svg _profile-assets/assets/generated/
-          cd _profile-assets
-          if git diff --quiet -- .; then
+          if git diff --quiet -- assets/generated; then
             echo "Profile telemetry is already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add assets/generated
           git commit -m "chore: refresh public profile telemetry [skip ci]"
           git push
