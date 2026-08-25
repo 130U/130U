@@ -130,11 +130,11 @@
   <text x="1146" y="48" text-anchor="end" fill="#64748B" font-size="11">DAILY-SYNCED DATA / LIVE 60-SECOND PULSE</text>
   <rect x="54" y="76" width="720" height="310" rx="28" fill="#FFFFFF" fill-opacity=".78" stroke="#2563EB" stroke-opacity=".26" filter="url(#softShadow)"/>
   <text x="86" y="116" fill="#475569" font-size="12" font-weight="700" letter-spacing="1.8">ACCOUNT AGE / LAST SYNC</text>
-  <text x="742" y="116" text-anchor="end" fill="#64748B" font-size="10.5">24 AUG 2026 / 01:57 UTC</text>
+  <text x="742" y="116" text-anchor="end" fill="#64748B" font-size="10.5">25 AUG 2026 / 01:52 UTC</text>
   <line x1="86" y1="136" x2="742" y2="136" stroke="#D7E0EC"/>
-  <text class="mono" x="142" y="233" text-anchor="middle" fill="#13213A" font-size="82" font-weight="780" letter-spacing="-3">34</text>
+  <text class="mono" x="142" y="233" text-anchor="middle" fill="#13213A" font-size="82" font-weight="780" letter-spacing="-3">35</text>
   <text class="mono" x="318" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">10</text>
-  <text class="mono" x="482" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">43</text>
+  <text class="mono" x="482" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">39</text>
   <text x="230" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
   <text x="400" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
   <text x="566" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
@@ -200,68 +200,68 @@
   <line x1="632.4" y1="155.8" x2="630.5" y2="150.1" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
   <line x1="638.1" y1="154.2" x2="636.9" y2="148.4" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
   <line x1="644.0" y1="153.3" x2="643.4" y2="147.3" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
-  <g transform="rotate(336 650 210)"><g class="seconds-hand-desktop"><line x1="650" y1="210" x2="650" y2="157" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/><circle cx="650" cy="157" r="4.5" fill="#2563EB"/><circle cx="650" cy="210" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/></g></g>
-  <text class="seconds-static mono" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">56</text>
-  <text class="seconds-frame mono" style="animation-delay:-56s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">00</text>
-  <text class="seconds-frame mono" style="animation-delay:-55s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">01</text>
-  <text class="seconds-frame mono" style="animation-delay:-54s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">02</text>
-  <text class="seconds-frame mono" style="animation-delay:-53s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">03</text>
-  <text class="seconds-frame mono" style="animation-delay:-52s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">04</text>
-  <text class="seconds-frame mono" style="animation-delay:-51s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">05</text>
-  <text class="seconds-frame mono" style="animation-delay:-50s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">06</text>
-  <text class="seconds-frame mono" style="animation-delay:-49s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">07</text>
-  <text class="seconds-frame mono" style="animation-delay:-48s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">08</text>
-  <text class="seconds-frame mono" style="animation-delay:-47s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">09</text>
-  <text class="seconds-frame mono" style="animation-delay:-46s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">10</text>
-  <text class="seconds-frame mono" style="animation-delay:-45s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">11</text>
-  <text class="seconds-frame mono" style="animation-delay:-44s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">12</text>
-  <text class="seconds-frame mono" style="animation-delay:-43s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">13</text>
-  <text class="seconds-frame mono" style="animation-delay:-42s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">14</text>
-  <text class="seconds-frame mono" style="animation-delay:-41s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">15</text>
-  <text class="seconds-frame mono" style="animation-delay:-40s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">16</text>
-  <text class="seconds-frame mono" style="animation-delay:-39s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">17</text>
-  <text class="seconds-frame mono" style="animation-delay:-38s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">18</text>
-  <text class="seconds-frame mono" style="animation-delay:-37s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">19</text>
-  <text class="seconds-frame mono" style="animation-delay:-36s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">20</text>
-  <text class="seconds-frame mono" style="animation-delay:-35s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">21</text>
-  <text class="seconds-frame mono" style="animation-delay:-34s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">22</text>
-  <text class="seconds-frame mono" style="animation-delay:-33s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">23</text>
-  <text class="seconds-frame mono" style="animation-delay:-32s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">24</text>
-  <text class="seconds-frame mono" style="animation-delay:-31s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">25</text>
-  <text class="seconds-frame mono" style="animation-delay:-30s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">26</text>
-  <text class="seconds-frame mono" style="animation-delay:-29s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">27</text>
-  <text class="seconds-frame mono" style="animation-delay:-28s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">28</text>
-  <text class="seconds-frame mono" style="animation-delay:-27s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">29</text>
-  <text class="seconds-frame mono" style="animation-delay:-26s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">30</text>
-  <text class="seconds-frame mono" style="animation-delay:-25s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">31</text>
-  <text class="seconds-frame mono" style="animation-delay:-24s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">32</text>
-  <text class="seconds-frame mono" style="animation-delay:-23s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">33</text>
-  <text class="seconds-frame mono" style="animation-delay:-22s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">34</text>
-  <text class="seconds-frame mono" style="animation-delay:-21s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">35</text>
-  <text class="seconds-frame mono" style="animation-delay:-20s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">36</text>
-  <text class="seconds-frame mono" style="animation-delay:-19s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">37</text>
-  <text class="seconds-frame mono" style="animation-delay:-18s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">38</text>
-  <text class="seconds-frame mono" style="animation-delay:-17s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">39</text>
-  <text class="seconds-frame mono" style="animation-delay:-16s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">40</text>
-  <text class="seconds-frame mono" style="animation-delay:-15s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">41</text>
-  <text class="seconds-frame mono" style="animation-delay:-14s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">42</text>
-  <text class="seconds-frame mono" style="animation-delay:-13s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">43</text>
-  <text class="seconds-frame mono" style="animation-delay:-12s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">44</text>
-  <text class="seconds-frame mono" style="animation-delay:-11s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">45</text>
-  <text class="seconds-frame mono" style="animation-delay:-10s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">46</text>
-  <text class="seconds-frame mono" style="animation-delay:-9s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">47</text>
-  <text class="seconds-frame mono" style="animation-delay:-8s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">48</text>
-  <text class="seconds-frame mono" style="animation-delay:-7s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">49</text>
-  <text class="seconds-frame mono" style="animation-delay:-6s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">50</text>
-  <text class="seconds-frame mono" style="animation-delay:-5s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">51</text>
-  <text class="seconds-frame mono" style="animation-delay:-4s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">52</text>
-  <text class="seconds-frame mono" style="animation-delay:-3s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">53</text>
-  <text class="seconds-frame mono" style="animation-delay:-2s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">54</text>
-  <text class="seconds-frame mono" style="animation-delay:-1s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">55</text>
-  <text class="seconds-frame mono" style="animation-delay:-0s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">56</text>
-  <text class="seconds-frame mono" style="animation-delay:-59s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">57</text>
-  <text class="seconds-frame mono" style="animation-delay:-58s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">58</text>
-  <text class="seconds-frame mono" style="animation-delay:-57s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">59</text>
+  <g transform="rotate(18 650 210)"><g class="seconds-hand-desktop"><line x1="650" y1="210" x2="650" y2="157" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/><circle cx="650" cy="157" r="4.5" fill="#2563EB"/><circle cx="650" cy="210" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/></g></g>
+  <text class="seconds-static mono" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">03</text>
+  <text class="seconds-frame mono" style="animation-delay:-3s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">00</text>
+  <text class="seconds-frame mono" style="animation-delay:-2s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">01</text>
+  <text class="seconds-frame mono" style="animation-delay:-1s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">02</text>
+  <text class="seconds-frame mono" style="animation-delay:-0s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">03</text>
+  <text class="seconds-frame mono" style="animation-delay:-59s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">04</text>
+  <text class="seconds-frame mono" style="animation-delay:-58s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">05</text>
+  <text class="seconds-frame mono" style="animation-delay:-57s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">06</text>
+  <text class="seconds-frame mono" style="animation-delay:-56s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">07</text>
+  <text class="seconds-frame mono" style="animation-delay:-55s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">08</text>
+  <text class="seconds-frame mono" style="animation-delay:-54s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">09</text>
+  <text class="seconds-frame mono" style="animation-delay:-53s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">10</text>
+  <text class="seconds-frame mono" style="animation-delay:-52s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">11</text>
+  <text class="seconds-frame mono" style="animation-delay:-51s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">12</text>
+  <text class="seconds-frame mono" style="animation-delay:-50s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">13</text>
+  <text class="seconds-frame mono" style="animation-delay:-49s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">14</text>
+  <text class="seconds-frame mono" style="animation-delay:-48s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">15</text>
+  <text class="seconds-frame mono" style="animation-delay:-47s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">16</text>
+  <text class="seconds-frame mono" style="animation-delay:-46s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">17</text>
+  <text class="seconds-frame mono" style="animation-delay:-45s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">18</text>
+  <text class="seconds-frame mono" style="animation-delay:-44s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">19</text>
+  <text class="seconds-frame mono" style="animation-delay:-43s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">20</text>
+  <text class="seconds-frame mono" style="animation-delay:-42s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">21</text>
+  <text class="seconds-frame mono" style="animation-delay:-41s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">22</text>
+  <text class="seconds-frame mono" style="animation-delay:-40s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">23</text>
+  <text class="seconds-frame mono" style="animation-delay:-39s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">24</text>
+  <text class="seconds-frame mono" style="animation-delay:-38s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">25</text>
+  <text class="seconds-frame mono" style="animation-delay:-37s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">26</text>
+  <text class="seconds-frame mono" style="animation-delay:-36s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">27</text>
+  <text class="seconds-frame mono" style="animation-delay:-35s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">28</text>
+  <text class="seconds-frame mono" style="animation-delay:-34s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">29</text>
+  <text class="seconds-frame mono" style="animation-delay:-33s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">30</text>
+  <text class="seconds-frame mono" style="animation-delay:-32s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">31</text>
+  <text class="seconds-frame mono" style="animation-delay:-31s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">32</text>
+  <text class="seconds-frame mono" style="animation-delay:-30s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">33</text>
+  <text class="seconds-frame mono" style="animation-delay:-29s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">34</text>
+  <text class="seconds-frame mono" style="animation-delay:-28s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">35</text>
+  <text class="seconds-frame mono" style="animation-delay:-27s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">36</text>
+  <text class="seconds-frame mono" style="animation-delay:-26s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">37</text>
+  <text class="seconds-frame mono" style="animation-delay:-25s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">38</text>
+  <text class="seconds-frame mono" style="animation-delay:-24s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">39</text>
+  <text class="seconds-frame mono" style="animation-delay:-23s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">40</text>
+  <text class="seconds-frame mono" style="animation-delay:-22s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">41</text>
+  <text class="seconds-frame mono" style="animation-delay:-21s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">42</text>
+  <text class="seconds-frame mono" style="animation-delay:-20s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">43</text>
+  <text class="seconds-frame mono" style="animation-delay:-19s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">44</text>
+  <text class="seconds-frame mono" style="animation-delay:-18s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">45</text>
+  <text class="seconds-frame mono" style="animation-delay:-17s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">46</text>
+  <text class="seconds-frame mono" style="animation-delay:-16s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">47</text>
+  <text class="seconds-frame mono" style="animation-delay:-15s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">48</text>
+  <text class="seconds-frame mono" style="animation-delay:-14s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">49</text>
+  <text class="seconds-frame mono" style="animation-delay:-13s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">50</text>
+  <text class="seconds-frame mono" style="animation-delay:-12s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">51</text>
+  <text class="seconds-frame mono" style="animation-delay:-11s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">52</text>
+  <text class="seconds-frame mono" style="animation-delay:-10s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">53</text>
+  <text class="seconds-frame mono" style="animation-delay:-9s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">54</text>
+  <text class="seconds-frame mono" style="animation-delay:-8s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">55</text>
+  <text class="seconds-frame mono" style="animation-delay:-7s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">56</text>
+  <text class="seconds-frame mono" style="animation-delay:-6s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">57</text>
+  <text class="seconds-frame mono" style="animation-delay:-5s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">58</text>
+  <text class="seconds-frame mono" style="animation-delay:-4s" x="650" y="221" text-anchor="middle" fill="#13213A" font-size="32" font-weight="760">59</text>
   <text class="mono" x="142" y="274" text-anchor="middle" fill="#475569" font-size="10" letter-spacing="1.6">DAYS</text>
   <text class="mono" x="318" y="274" text-anchor="middle" fill="#475569" font-size="10" letter-spacing="1.6">HOURS</text>
   <text class="mono" x="482" y="274" text-anchor="middle" fill="#475569" font-size="10" letter-spacing="1.6">MINUTES</text>
@@ -272,7 +272,7 @@
   <rect x="800" y="76" width="346" height="90" rx="22" fill="#FFFFFF" fill-opacity=".72" stroke="#D7E0EC"/>
   <line x1="828" y1="97" x2="1098" y2="97" stroke="#D7E0EC" stroke-linecap="round"/>
   <circle class="metric-runner-desktop delay-1" cx="834" cy="97" r="4" fill="#0891B2"/>
-  <text class="mono" x="842" y="143" fill="#13213A" font-size="34" font-weight="760" letter-spacing="-1">45</text>
+  <text class="mono" x="842" y="143" fill="#13213A" font-size="34" font-weight="760" letter-spacing="-1">46</text>
   <text x="930" y="129" fill="#13213A" font-size="12.5" font-weight="700">PROJECT COMMITS</text>
   <text class="mono" x="930" y="148" fill="#475569" font-size="8.5" letter-spacing=".8">AUTHOR SEARCH / 4 REPOS</text>
   <circle class="metric-pulse delay-1" cx="1116" cy="136" r="6" fill="none" stroke="#0891B2" stroke-width="2"/>
