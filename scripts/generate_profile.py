@@ -14,7 +14,6 @@ import urllib.request
 from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +30,7 @@ PALETTES = {
         "surface_2": "#F5F7FB",
         "ink": "#13213A",
         "muted": "#475569",
-        "faint": "#64748B",
+        "faint": "#5B6B82",
         "line": "#D7E0EC",
         "blue": "#2563EB",
         "cyan": "#0891B2",
@@ -166,123 +165,124 @@ def svg_start(width: int, height: int, title: str, description: str) -> str:
     )
 
 
-def base_style() -> str:
-    return """
-  <style>
-    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .orbit-track { animation: dashFlow 3.8s linear infinite; }
-    .orbiter-a { animation: orbitA 13s linear infinite; }
-    .orbiter-b { animation: orbitB 18s linear infinite; }
-    .orbiter-c { animation: orbitC 26s linear infinite; }
-    .orbiter-mobile-a { animation: orbitMobileA 12s linear infinite; }
-    .orbiter-mobile-b { animation: orbitMobileB 17s linear infinite; }
-    .core-desktop { transform-box: view-box; transform-origin: 870px 188px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .core-mobile { transform-box: view-box; transform-origin: 360px 396px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .twinkle, .metric-pulse, .node-pulse { transform-box: fill-box; transform-origin: center; }
-    .twinkle { animation: twinkle 3.2s ease-in-out infinite alternate; }
-    .float-a { animation: floatY 4.2s ease-in-out infinite alternate; }
-    .float-b { animation: floatX 4.6s ease-in-out infinite alternate; }
-    .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
-    .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
-    .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
-    .bar-scan { animation: barScan 4.8s ease-in-out infinite; }
-    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
-    .seconds-frame { opacity:0; animation: secondFrame 60s steps(1,end) infinite; }
-    .seconds-static { opacity:0; }
-    .seconds-hand-desktop { transform-box:view-box; transform-origin:650px 210px; animation:secondsSweep 60s linear infinite; }
-    .seconds-hand-mobile { transform-box:view-box; transform-origin:590px 223px; animation:secondsSweep 60s linear infinite; }
-    .clock-orbit { transform-box:fill-box; transform-origin:center; animation:clockOrbit 8s linear infinite; }
-    .metric-runner-desktop { animation:metricRunnerDesktop 4.2s ease-in-out infinite alternate; }
-    .metric-runner-mobile { animation:metricRunnerMobile 4.2s ease-in-out infinite alternate; }
-    .research-sweep-desktop { transform-box:view-box; transform-origin:950px 280px; animation:researchSweep 14s linear infinite; }
-    .research-sweep-mobile { transform-box:view-box; transform-origin:360px 720px; animation:researchSweep 14s linear infinite; }
-    .delay-0 { animation-delay: 0s; }
-    .delay-1 { animation-delay: -.7s; }
-    .delay-2 { animation-delay: -1.4s; }
-    .delay-3 { animation-delay: -2.1s; }
-    @keyframes dashFlow { to { stroke-dashoffset: -44; } }
-    @keyframes orbitA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-40.4px,38.2px); }
-      25% { transform: translate(-138px,54px); }
-      37.5% { transform: translate(-235.6px,38.2px); }
-      50% { transform: translate(-276px,0); }
-      62.5% { transform: translate(-235.6px,-38.2px); }
-      75% { transform: translate(-138px,-54px); }
-      87.5% { transform: translate(-40.4px,-38.2px); }
-    }
-    @keyframes orbitB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(58px,-58px); }
-      25% { transform: translate(198px,-82px); }
-      37.5% { transform: translate(338px,-58px); }
-      50% { transform: translate(396px,0); }
-      62.5% { transform: translate(338px,58px); }
-      75% { transform: translate(198px,82px); }
-      87.5% { transform: translate(58px,58px); }
-    }
-    @keyframes orbitC {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-75.6px,79.2px); }
-      25% { transform: translate(-258px,112px); }
-      37.5% { transform: translate(-440.4px,79.2px); }
-      50% { transform: translate(-516px,0); }
-      62.5% { transform: translate(-440.4px,-79.2px); }
-      75% { transform: translate(-258px,-112px); }
-      87.5% { transform: translate(-75.6px,-79.2px); }
-    }
-    @keyframes orbitMobileA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-53.9px,49.5px); }
-      25% { transform: translate(-184px,70px); }
-      37.5% { transform: translate(-314.1px,49.5px); }
-      50% { transform: translate(-368px,0); }
-      62.5% { transform: translate(-314.1px,-49.5px); }
-      75% { transform: translate(-184px,-70px); }
-      87.5% { transform: translate(-53.9px,-49.5px); }
-    }
-    @keyframes orbitMobileB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(73.2px,-77.8px); }
-      25% { transform: translate(250px,-110px); }
-      37.5% { transform: translate(426.8px,-77.8px); }
-      50% { transform: translate(500px,0); }
-      62.5% { transform: translate(426.8px,77.8px); }
-      75% { transform: translate(250px,110px); }
-      87.5% { transform: translate(73.2px,77.8px); }
-    }
-    @keyframes coreBreathe { 0%,100% { transform: scale(.985); } 50% { transform: scale(1.035); } }
-    @keyframes twinkle { from { opacity:.18; transform: scale(.72); } to { opacity:.78; transform: scale(1.24); } }
-    @keyframes floatY { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
-    @keyframes floatX { from { transform: translateX(-2px); } to { transform: translateX(3px); } }
-    @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
-    @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
-    @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
-    @keyframes barScan {
-      0% { opacity:0; transform:translateX(-92px); }
-      12%,72% { opacity:.72; }
-      100% { opacity:0; transform:translateX(430px); }
-    }
-    @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
-    @keyframes secondFrame { 0%,1.64% { opacity:1; } 1.67%,100% { opacity:0; } }
-    @keyframes secondsSweep { to { transform:rotate(360deg); } }
-    @keyframes clockOrbit { to { transform:rotate(360deg); } }
-    @keyframes metricRunnerDesktop { from { transform:translateX(0); } to { transform:translateX(246px); } }
-    @keyframes metricRunnerMobile { from { transform:translateX(0); } to { transform:translateX(132px); } }
-    @keyframes researchSweep { to { transform:rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) {
-      .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
-      .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
-      .gauge-sweep, .bar-flow, .bar-scan, .node-pulse, .seconds-frame,
-      .seconds-hand-desktop, .seconds-hand-mobile, .clock-orbit,
-      .metric-runner-desktop, .metric-runner-mobile,
-      .research-sweep-desktop, .research-sweep-mobile { animation: none !important; }
+def svg_style(rules: str, reduced_motion_selectors: str, *, static_seconds: bool = False) -> str:
+    rules = "\n".join(line.rstrip() for line in rules.strip().splitlines())
+    seconds_fallback = (
+        """
       .seconds-frame { opacity:0 !important; }
-      .seconds-static { opacity:1 !important; }
-    }
+      .seconds-static { opacity:1 !important; }"""
+        if static_seconds
+        else ""
+    )
+    return f"""
+  <style>
+    text {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }}
+    .mono {{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }}
+{rules}
+    @media (prefers-reduced-motion: reduce) {{
+      {reduced_motion_selectors} {{ animation: none !important; }}{seconds_fallback}
+    }}
   </style>
 """
+
+
+def hero_style(*, mobile: bool) -> str:
+    viewport = "mobile" if mobile else "desktop"
+    orbit_rules = """
+    .orbiter-mobile-a { animation: orbitMobileA 4.6s cubic-bezier(.2,.8,.2,1) 1 both; }
+    .orbiter-mobile-b { animation: orbitMobileB 4.8s cubic-bezier(.2,.8,.2,1) 1 both; }
+    @keyframes orbitMobileA {
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(-53.9px,49.5px); }
+      25% { transform: translate(-184px,70px); } 37.5% { transform: translate(-314.1px,49.5px); }
+      50% { transform: translate(-368px,0); } 62.5% { transform: translate(-314.1px,-49.5px); }
+      75% { transform: translate(-184px,-70px); } 87.5% { transform: translate(-53.9px,-49.5px); }
+    }
+    @keyframes orbitMobileB {
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(73.2px,-77.8px); }
+      25% { transform: translate(250px,-110px); } 37.5% { transform: translate(426.8px,-77.8px); }
+      50% { transform: translate(500px,0); } 62.5% { transform: translate(426.8px,77.8px); }
+      75% { transform: translate(250px,110px); } 87.5% { transform: translate(73.2px,77.8px); }
+    }""" if mobile else """
+    .orbit-track { animation: dashFlow 4.6s linear 1 both; }
+    .orbiter-a { animation: orbitA 4.6s cubic-bezier(.2,.8,.2,1) 1 both; }
+    .orbiter-b { animation: orbitB 4.7s cubic-bezier(.2,.8,.2,1) 1 both; }
+    .orbiter-c { animation: orbitC 4.8s cubic-bezier(.2,.8,.2,1) 1 both; }
+    @keyframes dashFlow { to { stroke-dashoffset: -44; } }
+    @keyframes orbitA {
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(-40.4px,38.2px); }
+      25% { transform: translate(-138px,54px); } 37.5% { transform: translate(-235.6px,38.2px); }
+      50% { transform: translate(-276px,0); } 62.5% { transform: translate(-235.6px,-38.2px); }
+      75% { transform: translate(-138px,-54px); } 87.5% { transform: translate(-40.4px,-38.2px); }
+    }
+    @keyframes orbitB {
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(58px,-58px); }
+      25% { transform: translate(198px,-82px); } 37.5% { transform: translate(338px,-58px); }
+      50% { transform: translate(396px,0); } 62.5% { transform: translate(338px,58px); }
+      75% { transform: translate(198px,82px); } 87.5% { transform: translate(58px,58px); }
+    }
+    @keyframes orbitC {
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(-75.6px,79.2px); }
+      25% { transform: translate(-258px,112px); } 37.5% { transform: translate(-440.4px,79.2px); }
+      50% { transform: translate(-516px,0); } 62.5% { transform: translate(-440.4px,-79.2px); }
+      75% { transform: translate(-258px,-112px); } 87.5% { transform: translate(-75.6px,-79.2px); }
+    }"""
+    core_class = f"core-{viewport}"
+    core_origin = "360px 396px" if mobile else "870px 188px"
+    rules = f"""
+    .{core_class} {{ transform-box:view-box; transform-origin:{core_origin}; animation:coreBreathe 3.8s ease-out 1 both; }}
+    .float-a {{ animation:floatY 4.2s ease-out 1 both; }}
+    .float-b {{ animation:floatX 4.4s ease-out 1 both; }}
+    {orbit_rules}
+    @keyframes coreBreathe {{ 0%,100% {{ transform:scale(1); }} 50% {{ transform:scale(1.025); }} }}
+    @keyframes floatY {{ 0%,100% {{ transform:translateY(0); }} 50% {{ transform:translateY(3px); }} }}
+    @keyframes floatX {{ 0%,100% {{ transform:translateX(0); }} 50% {{ transform:translateX(3px); }} }}"""
+    selectors = [f".{core_class}", ".float-a", ".float-b"]
+    if mobile:
+        selectors.extend((".orbiter-mobile-a", ".orbiter-mobile-b"))
+    else:
+        rules += """
+    .twinkle { transform-box:fill-box; transform-origin:center; animation:twinkle 3.2s ease-out 1 both; }
+    .delay-1 { animation-delay:.12s; } .delay-2 { animation-delay:.24s; } .delay-3 { animation-delay:.36s; }
+    @keyframes twinkle { 0%,100% { opacity:.42; transform:scale(1); } 50% { opacity:.78; transform:scale(1.18); } }"""
+        selectors.extend((".orbit-track", ".orbiter-a", ".orbiter-b", ".orbiter-c", ".twinkle"))
+    return svg_style(rules, ", ".join(selectors))
+
+
+def telemetry_style(*, mobile: bool) -> str:
+    runner_class = "metric-runner-mobile" if mobile else "metric-runner-desktop"
+    hand_class = "seconds-hand-mobile" if mobile else "seconds-hand-desktop"
+    runner_distance = 132 if mobile else 246
+    hand_origin = "590px 223px" if mobile else "650px 210px"
+    rules = f"""
+    .metric-pulse {{ transform-box:fill-box; transform-origin:center; animation:signalPulse 2.8s ease-out 1 both; }}
+    .seconds-frame {{ opacity:0; animation:secondFrame 60s steps(1,end) infinite; }}
+    .seconds-static {{ opacity:0; }}
+    .{hand_class} {{ transform-box:view-box; transform-origin:{hand_origin}; animation:secondsSweep 60s linear infinite; }}
+    .{runner_class} {{ animation:metricRunner 4.2s ease-out 1 both; }}
+    .delay-1 {{ animation-delay:.12s; }} .delay-2 {{ animation-delay:.24s; }} .delay-3 {{ animation-delay:.36s; }}
+    @keyframes signalPulse {{ 0%,100% {{ opacity:.72; transform:scale(1); }} 50% {{ opacity:1; transform:scale(1.14); }} }}
+    @keyframes secondFrame {{ 0%,1.64% {{ opacity:1; }} 1.67%,100% {{ opacity:0; }} }}
+    @keyframes secondsSweep {{ to {{ transform:rotate(360deg); }} }}
+    @keyframes metricRunner {{ 0%,100% {{ transform:translateX(0); }} 50% {{ transform:translateX({runner_distance}px); }} }}"""
+    selectors = ", ".join((".metric-pulse", ".seconds-frame", f".{hand_class}", f".{runner_class}"))
+    return svg_style(rules, selectors, static_seconds=True)
+
+
+def signals_style(*, mobile: bool) -> str:
+    sweep_class = "research-sweep-mobile" if mobile else "research-sweep-desktop"
+    sweep_origin = "360px 720px" if mobile else "950px 280px"
+    rules = f"""
+    .bar-flow {{ animation:barGlow 3.6s ease-out 1 both; }}
+    .bar-scan {{ animation:barScan 4.8s ease-out 1 both; }}
+    .node-pulse {{ transform-box:fill-box; transform-origin:center; animation:nodePulse 3s ease-out 1 both; }}
+    .{sweep_class} {{ transform-box:view-box; transform-origin:{sweep_origin}; animation:researchSweep 4.8s ease-out 1 both; }}
+    .delay-1 {{ animation-delay:.12s; }} .delay-2 {{ animation-delay:.24s; }} .delay-3 {{ animation-delay:.36s; }}
+    @keyframes barGlow {{ 0% {{ opacity:.72; }} 55%,100% {{ opacity:1; }} }}
+    @keyframes barScan {{ 0% {{ opacity:0; transform:translateX(-92px); }} 12%,72% {{ opacity:.72; }} 100% {{ opacity:0; transform:translateX(430px); }} }}
+    @keyframes nodePulse {{ 0%,100% {{ opacity:.72; transform:scale(1); }} 50% {{ opacity:1; transform:scale(1.16); }} }}
+    @keyframes researchSweep {{ to {{ transform:rotate(360deg); }} }}"""
+    selectors = ", ".join((".bar-flow", ".bar-scan", ".node-pulse", f".{sweep_class}"))
+    return svg_style(rules, selectors)
 
 
 def elapsed_parts(created: datetime, generated_at: datetime) -> tuple[int, int, int, int]:
@@ -357,7 +357,7 @@ def hero_svg(config: dict, theme: str) -> str:
             "130U systems research signal map",
             "A light galaxy-inspired map connecting agentic AI, evaluation, research operations, embodied AI, product systems, and evidence design.",
         ),
-        base_style(),
+        hero_style(mobile=False),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <radialGradient id="core"><stop stop-color="{p["surface"]}"/><stop offset=".55" stop-color="{p["surface_2"]}"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity=".18"/></radialGradient>',
@@ -394,51 +394,6 @@ def hero_svg(config: dict, theme: str) -> str:
     return "\n".join(parts)
 
 
-def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime) -> str:
-    p = PALETTES[theme]
-    created = parse_utc(data["created_at"])
-    days = max(0, int((generated_at - created).total_seconds() // 86400))
-    created_beijing = created.astimezone(ZoneInfo("Asia/Shanghai"))
-    metrics = [
-        (f'{data["public_commits"]}', "PROJECT COMMITS", p["cyan"]),
-        (f'{data["pull_requests"]}', "PULL REQUESTS", p["violet"]),
-        (f'{data["public_repositories"]}', "PUBLIC REPOSITORIES", p["amber"]),
-    ]
-    parts = [
-        svg_start(1200, 250, "130U build log", "Exact GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count."),
-        base_style(),
-        "  <defs>",
-        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
-        "  </defs>",
-        f'  <rect x="1" y="1" width="1198" height="248" rx="26" fill="url(#bg)" stroke="{p["line"]}"/>',
-        f'  <text x="54" y="48" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>',
-        f'  <text x="1146" y="48" text-anchor="end" fill="{p["faint"]}" font-size="11">PUBLIC GITHUB SIGNALS · UPDATED DAILY</text>',
-        f'  <rect x="54" y="77" width="348" height="137" rx="22" fill="{p["surface"]}" fill-opacity=".76" stroke="{p["blue"]}" stroke-opacity=".28"/>',
-        f'  <circle cx="108" cy="126" r="27" fill="{p["blue"]}" opacity=".10"/>',
-        f'  <path class="gauge-sweep" d="M 95 126 A 13 13 0 1 1 120 131" fill="none" stroke="{p["blue"]}" stroke-width="2.5" stroke-linecap="round"/>',
-        f'  <circle class="metric-pulse" cx="108" cy="126" r="3" fill="{p["blue"]}"/>',
-        f'  <text x="151" y="143" fill="{p["ink"]}" font-size="54" font-weight="780" letter-spacing="-2">{days}</text>',
-        f'  <text class="mono" x="151" y="165" fill="{p["muted"]}" font-size="10.5" letter-spacing="1.5">DAYS ON GITHUB</text>',
-        f'  <text x="78" y="195" fill="{p["faint"]}" font-size="10.5">JOINED {created_beijing.strftime("%d %b %Y · %H:%M").upper()} BEIJING TIME</text>',
-    ]
-    card_x = (438, 680, 922)
-    for index, (value, label, color) in enumerate(metrics):
-        x = card_x[index]
-        center = x + 104
-        parts.extend(
-            [
-                f'  <rect x="{x}" y="77" width="208" height="137" rx="22" fill="{p["surface"]}" fill-opacity=".66" stroke="{p["line"]}"/>',
-                f'  <circle class="metric-pulse delay-{index + 1}" cx="{center:.0f}" cy="111" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
-                f'  <line x1="{center - 12:.0f}" y1="111" x2="{center - 20:.0f}" y2="111" stroke="{color}" stroke-width="2" stroke-linecap="round"/>',
-                f'  <text x="{center:.0f}" y="166" text-anchor="middle" fill="{p["ink"]}" font-size="36" font-weight="760" letter-spacing="-1">{escape(value)}</text>',
-                f'  <text class="mono" x="{center:.0f}" y="194" text-anchor="middle" fill="{p["muted"]}" font-size="9.7" letter-spacing="1.25">{label}</text>',
-            ]
-        )
-    parts.append(f'  <text x="1146" y="235" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PROJECT COMMITS + PRS: GITHUB AUTHOR SEARCH · FOUR SELECTED REPOSITORIES</text>')
-    parts.append("</svg>\n")
-    return "\n".join(parts)
-
-
 def telemetry_chronograph_svg(config: dict, data: dict, theme: str, generated_at: datetime) -> str:
     p = PALETTES[theme]
     created = parse_utc(data["created_at"])
@@ -450,7 +405,7 @@ def telemetry_chronograph_svg(config: dict, data: dict, theme: str, generated_at
     ]
     parts = [
         svg_start(1200, 430, "130U live build log", "A daily-synced GitHub account-age snapshot with a live sixty-second visual pulse, plus author commits and pull requests across four selected project repositories and a public repository count."),
-        base_style(),
+        telemetry_style(mobile=False),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <radialGradient id="clockGlow"><stop stop-color="{p["blue"]}" stop-opacity=".16"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity="0"/></radialGradient>',
@@ -516,83 +471,6 @@ def polar_point(cx: float, cy: float, radius: float, angle_degrees: float) -> tu
     return cx + radius * math.cos(angle), cy + radius * math.sin(angle)
 
 
-def points_string(points: list[tuple[float, float]]) -> str:
-    return " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
-
-
-def signals_svg(config: dict, data: dict, theme: str) -> str:
-    p = PALETTES[theme]
-    languages = normalized_languages(data["languages"])
-    sectors = config["focus_sectors"]
-    accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
-    parts = [
-        svg_start(1200, 410, "130U code signals and research orbit", "GitHub Linguist code proportions across four selected public repositories and evidence nodes for three current research sectors."),
-        base_style(),
-        "  <defs>",
-        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
-        "  </defs>",
-        f'  <rect x="1" y="1" width="1198" height="408" rx="26" fill="url(#bg)" stroke="{p["line"]}"/>',
-        f'  <text x="54" y="50" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
-        f'  <text x="702" y="50" fill="{p["violet"]}" font-size="11" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
-        f'  <text x="54" y="75" fill="{p["faint"]}" font-size="11">GitHub Linguist bytes across four selected public code repositories</text>',
-        f'  <text x="702" y="75" fill="{p["faint"]}" font-size="11">Evidence nodes map visible systems and studies</text>',
-        f'  <line x1="642" y1="38" x2="642" y2="372" stroke="{p["line"]}"/>',
-    ]
-
-    bar_x = 188
-    bar_width = 365
-    start_y = 113
-    for index, (name, percentage) in enumerate(languages):
-        y = start_y + index * 45
-        color = accents[index % len(accents)]
-        parts.extend(
-            [
-                f'  <text x="54" y="{y + 8}" fill="{p["ink"]}" font-size="14" font-weight="600">{escape(name)}</text>',
-                f'  <rect x="{bar_x}" y="{y - 6}" width="{bar_width}" height="16" rx="8" fill="{p["line"]}" opacity=".55"/>',
-                f'  <rect class="bar-flow delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="16" rx="8" fill="{color}" opacity=".88"/>',
-                f'  <text class="mono" x="590" y="{y + 8}" text-anchor="end" fill="{p["muted"]}" font-size="11">{percentage:.1f}%</text>',
-            ]
-        )
-
-    cx, cy, radius = 942.0, 229.0, 114.0
-    for ring in (38, 76, 114):
-        parts.append(f'  <circle cx="{cx}" cy="{cy}" r="{ring}" fill="none" stroke="{p["line"]}" stroke-width="1"/>')
-    centers = (0.0, 120.0, 240.0)
-    label_positions = ((942, 94, "middle"), (1134, 328, "end"), (754, 328, "start"))
-    for index, sector in enumerate(sectors):
-        center_angle = centers[index]
-        start = polar_point(cx, cy, radius, center_angle - 55)
-        end = polar_point(cx, cy, radius, center_angle + 55)
-        color = accents[index]
-        parts.extend(
-            [
-                f'  <path d="M {cx:.1f} {cy:.1f} L {start[0]:.1f} {start[1]:.1f} A {radius:.1f} {radius:.1f} 0 0 1 {end[0]:.1f} {end[1]:.1f} Z" fill="{color}" fill-opacity=".12" stroke="{color}" stroke-opacity=".55"/>',
-                f'  <line x1="{cx}" y1="{cy}" x2="{polar_point(cx, cy, radius, center_angle)[0]:.1f}" y2="{polar_point(cx, cy, radius, center_angle)[1]:.1f}" stroke="{color}" stroke-opacity=".45"/>',
-            ]
-        )
-        node_count = int(sector["nodes"])
-        for node_index in range(node_count):
-            node_radius = 53 + node_index * 22
-            node_angle = center_angle + (node_index - (node_count - 1) / 2) * 14
-            node = polar_point(cx, cy, node_radius, node_angle)
-            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="6" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
-        label_x, label_y, anchor = label_positions[index]
-        parts.extend(
-            [
-                f'  <text x="{label_x}" y="{label_y}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="11.5" font-weight="650">{escape(sector["label"])}</text>',
-                f'  <text class="mono" x="{label_x}" y="{label_y + 18}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="9.5">{escape(sector["evidence"]).upper()}</text>',
-            ]
-        )
-    parts.extend(
-        [
-            f'  <circle cx="{cx}" cy="{cy}" r="4" fill="{p["ink"]}"/>',
-            f'  <text x="942" y="388" text-anchor="middle" fill="{p["faint"]}" font-size="10.5">Equal sectors; node counts reflect the public work listed above.</text>',
-            "</svg>\n",
-        ]
-    )
-    return "\n".join(parts)
-
-
 def signals_grand_svg(config: dict, data: dict, theme: str) -> str:
     p = PALETTES[theme]
     languages = normalized_languages(data["languages"])
@@ -600,8 +478,8 @@ def signals_grand_svg(config: dict, data: dict, theme: str) -> str:
     accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
     bar_x, bar_width, start_y = 205, 382, 120
     parts = [
-        svg_start(1200, 520, "130U code signals and research orbit", "A large-format map of GitHub Linguist code proportions across four selected public repositories and evidence nodes for three current research sectors, with visible ambient scanning motion."),
-        base_style(),
+        svg_start(1200, 520, "130U code signals and research orbit", "A large-format map of GitHub Linguist code proportions across four selected public repositories and evidence nodes for three current research sectors, with a finite evidence scan."),
+        signals_style(mobile=False),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{p["surface"]}" stop-opacity="0"/><stop offset=".5" stop-color="{p["surface"]}" stop-opacity=".92"/><stop offset="1" stop-color="{p["surface"]}" stop-opacity="0"/></linearGradient>',
@@ -688,7 +566,7 @@ def hero_mobile_svg(config: dict, theme: str) -> str:
     ]
     parts = [
         svg_start(720, 560, "130U mobile systems research atlas", "A mobile light-galaxy identity atlas for 130U systems research."),
-        base_style(),
+        hero_style(mobile=True),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <radialGradient id="core"><stop stop-color="{p["surface"]}"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity=".2"/></radialGradient>',
@@ -696,12 +574,12 @@ def hero_mobile_svg(config: dict, theme: str) -> str:
         f'  <rect x="1" y="1" width="718" height="558" rx="26" fill="url(#bg)" stroke="{p["line"]}"/>',
         f'  <circle cx="54" cy="45" r="120" fill="{p["cyan"]}" opacity=".04"/>',
         f'  <circle cx="676" cy="530" r="150" fill="{p["violet"]}" opacity=".05"/>',
-        f'  <text x="44" y="58" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">{escape(identity["eyebrow"])}</text>',
+        f'  <text x="44" y="58" fill="{p["blue"]}" font-size="14" font-weight="700" letter-spacing="3">{escape(identity["eyebrow"])}</text>',
         f'  <text x="44" y="119" fill="{p["ink"]}" font-size="36" font-weight="760" letter-spacing="-1.1">{escape(identity["headline"])}</text>',
         f'  <text x="44" y="163" fill="{p["ink"]}" font-size="36" font-weight="360" letter-spacing="-1">{escape(identity["subheadline"])}</text>',
-        f'  <text class="mono" x="44" y="204" fill="{p["muted"]}" font-size="10" letter-spacing="1.4">{escape(identity["descriptor"])}</text>',
+        f'  <text class="mono" x="44" y="204" fill="{p["muted"]}" font-size="13" letter-spacing="1.2">{escape(identity["descriptor"])}</text>',
         f'  <line x1="44" y1="229" x2="676" y2="229" stroke="{p["line"]}"/>',
-        f'  <text x="44" y="258" fill="{p["faint"]}" font-size="12">A public field map of the questions I am pursuing now.</text>',
+        f'  <text x="44" y="258" fill="{p["faint"]}" font-size="15">A public field map of the questions I am pursuing now.</text>',
         f'  <g><ellipse cx="360" cy="396" rx="250" ry="110" fill="none" stroke="{p["violet"]}" stroke-opacity=".55"/><circle class="orbiter-mobile-b" cx="110" cy="396" r="6" fill="{p["violet"]}"/></g>',
         f'  <g><ellipse cx="360" cy="396" rx="184" ry="70" fill="none" stroke="{p["cyan"]}" stroke-opacity=".7" stroke-width="1.5"/><circle class="orbiter-mobile-a" cx="544" cy="396" r="6" fill="{p["cyan"]}"/></g>',
         f'  <g class="core-mobile"><circle cx="360" cy="396" r="54" fill="url(#core)" stroke="{p["blue"]}" stroke-opacity=".35"/><text x="360" y="406" text-anchor="middle" fill="{p["ink"]}" font-size="28" font-weight="760">130U</text></g>',
@@ -712,59 +590,11 @@ def hero_mobile_svg(config: dict, theme: str) -> str:
             [
                 f'  <g class="{cls}">',
                 f'    <circle cx="{x}" cy="{y - 4}" r="4" fill="{color}"/>',
-                f'    <text x="{x + 11}" y="{y}" fill="{p["muted"]}" font-size="11" font-weight="600">{escape(label)}</text>',
+                f'    <text x="{x + 11}" y="{y}" fill="{p["muted"]}" font-size="16" font-weight="600">{escape(label)}</text>',
                 "  </g>",
             ]
         )
     parts.append("</svg>\n")
-    return "\n".join(parts)
-
-
-def telemetry_mobile_svg(config: dict, data: dict, theme: str, generated_at: datetime) -> str:
-    p = PALETTES[theme]
-    created = parse_utc(data["created_at"])
-    days = max(0, int((generated_at - created).total_seconds() // 86400))
-    created_beijing = created.astimezone(ZoneInfo("Asia/Shanghai"))
-    metrics = [
-        (str(data["public_commits"]), "PROJECT COMMITS", p["cyan"]),
-        (str(data["pull_requests"]), "PULL REQUESTS", p["violet"]),
-        (str(data["public_repositories"]), "PUBLIC REPOS", p["amber"]),
-    ]
-    parts = [
-        svg_start(720, 500, "130U mobile build log", "Mobile build log with GitHub tenure, author commits and pull requests across four selected project repositories, and public repository count."),
-        base_style(),
-        "  <defs>",
-        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
-        "  </defs>",
-        f'  <rect x="1" y="1" width="718" height="498" rx="26" fill="url(#bg)" stroke="{p["line"]}"/>',
-        f'  <text x="40" y="46" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>',
-        f'  <text x="680" y="46" text-anchor="end" fill="{p["faint"]}" font-size="10">UPDATED DAILY</text>',
-        f'  <rect x="40" y="70" width="640" height="174" rx="22" fill="{p["surface"]}" fill-opacity=".74" stroke="{p["blue"]}" stroke-opacity=".28"/>',
-        f'  <circle cx="108" cy="137" r="32" fill="{p["blue"]}" opacity=".10"/>',
-        f'  <path class="gauge-sweep" d="M 91 137 A 17 17 0 1 1 122 145" fill="none" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/>',
-        f'  <text x="162" y="160" fill="{p["ink"]}" font-size="70" font-weight="780" letter-spacing="-2">{days}</text>',
-        f'  <text class="mono" x="162" y="187" fill="{p["muted"]}" font-size="11" letter-spacing="1.5">DAYS ON GITHUB</text>',
-        f'  <text x="450" y="150" fill="{p["muted"]}" font-size="12">JOINED</text>',
-        f'  <text x="450" y="176" fill="{p["ink"]}" font-size="17" font-weight="650">{created_beijing.strftime("%d %b %Y · %H:%M").upper()}</text>',
-        f'  <text x="450" y="199" fill="{p["faint"]}" font-size="11">BEIJING TIME</text>',
-    ]
-    for index, (value, label, color) in enumerate(metrics):
-        x = 40 + index * 218
-        center = x + 102
-        parts.extend(
-            [
-                f'  <rect x="{x}" y="274" width="204" height="154" rx="20" fill="{p["surface"]}" fill-opacity=".68" stroke="{p["line"]}"/>',
-                f'  <circle class="metric-pulse delay-{index + 1}" cx="{center}" cy="309" r="7" fill="none" stroke="{color}" stroke-width="2"/>',
-                f'  <text x="{center}" y="368" text-anchor="middle" fill="{p["ink"]}" font-size="39" font-weight="760">{escape(value)}</text>',
-                f'  <text class="mono" x="{center}" y="399" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.1">{label}</text>',
-            ]
-        )
-    parts.extend(
-        [
-            f'  <text x="680" y="469" text-anchor="end" fill="{p["faint"]}" font-size="9.5">PROJECT COMMITS + PRS · FOUR SELECTED REPOSITORIES</text>',
-            "</svg>\n",
-        ]
-    )
     return "\n".join(parts)
 
 
@@ -779,17 +609,17 @@ def telemetry_chronograph_mobile_svg(config: dict, data: dict, theme: str, gener
     ]
     parts = [
         svg_start(720, 760, "130U mobile live build log", "A large mobile GitHub account-age snapshot with a live sixty-second visual pulse, plus public project telemetry."),
-        base_style(),
+        telemetry_style(mobile=True),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <radialGradient id="clockGlow"><stop stop-color="{p["blue"]}" stop-opacity=".16"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity="0"/></radialGradient>',
         "  </defs>",
         f'  <rect x="1" y="1" width="718" height="758" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
-        f'  <text x="40" y="46" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>',
-        f'  <text x="680" y="46" text-anchor="end" fill="{p["faint"]}" font-size="10">DAILY DATA / LIVE SECONDS</text>',
+        f'  <text x="40" y="46" fill="{p["blue"]}" font-size="14" font-weight="700" letter-spacing="3">BUILD LOG</text>',
+        f'  <text x="680" y="46" text-anchor="end" fill="{p["faint"]}" font-size="12">DAILY DATA / LIVE SECONDS</text>',
         f'  <rect x="40" y="70" width="640" height="340" rx="26" fill="{p["surface"]}" fill-opacity=".76" stroke="{p["blue"]}" stroke-opacity=".26"/>',
-        f'  <text x="72" y="110" fill="{p["muted"]}" font-size="12" font-weight="700" letter-spacing="1.6">ACCOUNT AGE / LAST SYNC</text>',
-        f'  <text x="648" y="110" text-anchor="end" fill="{p["faint"]}" font-size="10">{generated_at.strftime("%d %b / %H:%M UTC").upper()}</text>',
+        f'  <text x="72" y="110" fill="{p["muted"]}" font-size="14" font-weight="700" letter-spacing="1.4">ACCOUNT AGE / LAST SYNC</text>',
+        f'  <text x="648" y="110" text-anchor="end" fill="{p["faint"]}" font-size="12">{generated_at.strftime("%d %b / %H:%M UTC").upper()}</text>',
         f'  <line x1="72" y1="130" x2="648" y2="130" stroke="{p["line"]}"/>',
         f'  <text class="mono" x="110" y="245" text-anchor="middle" fill="{p["ink"]}" font-size="68" font-weight="780" letter-spacing="-3">{days}</text>',
         f'  <text class="mono" x="275" y="240" text-anchor="middle" fill="{p["ink"]}" font-size="50" font-weight="760" letter-spacing="-2">{hours:02d}</text>',
@@ -802,13 +632,13 @@ def telemetry_chronograph_mobile_svg(config: dict, data: dict, theme: str, gener
         *clock_ticks(590, 223, 50, 56, p["blue"]),
         f'  <g transform="rotate({seconds * 6} 590 223)"><g class="seconds-hand-mobile"><line x1="590" y1="223" x2="590" y2="177" stroke="{p["blue"]}" stroke-width="3" stroke-linecap="round"/><circle cx="590" cy="177" r="4" fill="{p["blue"]}"/><circle cx="590" cy="223" r="5" fill="{p["surface"]}" stroke="{p["blue"]}" stroke-width="2"/></g></g>',
         *seconds_frames(seconds, 590, 233, p["ink"], 28),
-        f'  <text class="mono" x="110" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">DAYS</text>',
-        f'  <text class="mono" x="275" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">HOURS</text>',
-        f'  <text class="mono" x="425" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.4">MINUTES</text>',
-        f'  <text class="mono" x="590" y="311" text-anchor="middle" fill="{p["blue"]}" font-size="9.5" font-weight="700" letter-spacing="1.4">SECONDS</text>',
+        f'  <text class="mono" x="110" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="13" letter-spacing="1.2">DAYS</text>',
+        f'  <text class="mono" x="275" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="13" letter-spacing="1.2">HOURS</text>',
+        f'  <text class="mono" x="425" y="286" text-anchor="middle" fill="{p["muted"]}" font-size="13" letter-spacing="1.2">MINUTES</text>',
+        f'  <text class="mono" x="590" y="311" text-anchor="middle" fill="{p["blue"]}" font-size="13" font-weight="700" letter-spacing="1.2">SECONDS</text>',
         f'  <rect x="72" y="335" width="576" height="48" rx="15" fill="{p["surface_2"]}" stroke="{p["line"]}"/>',
         f'  <circle class="metric-pulse" cx="94" cy="359" r="4" fill="{p["blue"]}"/>',
-        f'  <text x="111" y="363" fill="{p["muted"]}" font-size="10.5">Daily age snapshot; live seconds run while this SVG is open.</text>',
+        f'  <text x="111" y="363" fill="{p["muted"]}" font-size="13">Daily age snapshot; live seconds run while this SVG is open.</text>',
     ]
     for index, (value, label, color) in enumerate(metrics):
         x = 40 + index * 218
@@ -819,74 +649,16 @@ def telemetry_chronograph_mobile_svg(config: dict, data: dict, theme: str, gener
                 f'  <line x1="{x + 28}" y1="478" x2="{x + 176}" y2="478" stroke="{p["line"]}" stroke-linecap="round"/>',
                 f'  <circle class="metric-runner-mobile delay-{index + 1}" cx="{x + 30}" cy="478" r="4" fill="{color}"/>',
                 f'  <text class="mono" x="{center}" y="558" text-anchor="middle" fill="{p["ink"]}" font-size="46" font-weight="760">{escape(value)}</text>',
-                f'  <text class="mono" x="{center}" y="596" text-anchor="middle" fill="{p["muted"]}" font-size="9.5" letter-spacing="1.1">{label}</text>',
+                f'  <text class="mono" x="{center}" y="596" text-anchor="middle" fill="{p["muted"]}" font-size="13" letter-spacing=".8">{label}</text>',
                 f'  <circle class="metric-pulse delay-{index + 1}" cx="{center}" cy="625" r="6" fill="none" stroke="{color}" stroke-width="2"/>',
             ]
         )
     parts.extend(
         [
-            f'  <text x="680" y="730" text-anchor="end" fill="{p["faint"]}" font-size="9.5">CLICK FOR UPDATE HISTORY / SOURCE LINKS BELOW</text>',
+            f'  <text x="680" y="730" text-anchor="end" fill="{p["faint"]}" font-size="11.5">CLICK FOR UPDATE HISTORY / SOURCE LINKS BELOW</text>',
             "</svg>\n",
         ]
     )
-    return "\n".join(parts)
-
-
-def signals_mobile_svg(config: dict, data: dict, theme: str) -> str:
-    p = PALETTES[theme]
-    languages = normalized_languages(data["languages"])
-    sectors = config["focus_sectors"]
-    accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
-    parts = [
-        svg_start(720, 900, "130U mobile code signals and research orbit", "Mobile language proportions and evidence-node research orbit."),
-        base_style(),
-        "  <defs>",
-        f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
-        "  </defs>",
-        f'  <rect x="1" y="1" width="718" height="898" rx="26" fill="url(#bg)" stroke="{p["line"]}"/>',
-        f'  <text x="40" y="48" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
-        f'  <text x="40" y="73" fill="{p["faint"]}" font-size="11">GitHub Linguist bytes · four selected public code repositories</text>',
-    ]
-    for index, (name, percentage) in enumerate(languages):
-        y = 112 + index * 47
-        color = accents[index]
-        parts.extend(
-            [
-                f'  <text x="40" y="{y + 9}" fill="{p["ink"]}" font-size="13" font-weight="600">{escape(name)}</text>',
-                f'  <rect x="174" y="{y - 5}" width="418" height="16" rx="8" fill="{p["line"]}" opacity=".55"/>',
-                f'  <rect class="bar-flow delay-{index % 4}" x="174" y="{y - 5}" width="{418 * percentage / 100:.1f}" height="16" rx="8" fill="{color}"/>',
-                f'  <text class="mono" x="674" y="{y + 9}" text-anchor="end" fill="{p["muted"]}" font-size="10.5">{percentage:.1f}%</text>',
-            ]
-        )
-    parts.extend(
-        [
-            f'  <line x1="40" y1="412" x2="680" y2="412" stroke="{p["line"]}"/>',
-            f'  <text x="40" y="456" fill="{p["violet"]}" font-size="11" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
-            f'  <text x="40" y="481" fill="{p["faint"]}" font-size="11">Evidence nodes map visible systems and studies</text>',
-        ]
-    )
-    cx, cy, radius = 360.0, 660.0, 145.0
-    for ring in (48, 96, 145):
-        parts.append(f'  <circle cx="{cx}" cy="{cy}" r="{ring}" fill="none" stroke="{p["line"]}"/>')
-    centers = (0.0, 120.0, 240.0)
-    label_positions = ((360, 523, "middle"), (652, 825, "end"), (68, 825, "start"))
-    for index, sector in enumerate(sectors):
-        angle = centers[index]
-        start = polar_point(cx, cy, radius, angle - 55)
-        end = polar_point(cx, cy, radius, angle + 55)
-        color = accents[index]
-        parts.append(f'  <path d="M {cx} {cy} L {start[0]:.1f} {start[1]:.1f} A {radius} {radius} 0 0 1 {end[0]:.1f} {end[1]:.1f} Z" fill="{color}" fill-opacity=".12" stroke="{color}" stroke-opacity=".55"/>')
-        for node_index in range(int(sector["nodes"])):
-            node = polar_point(cx, cy, 68 + node_index * 27, angle + (node_index - (int(sector["nodes"]) - 1) / 2) * 14)
-            parts.append(f'  <circle class="node-pulse delay-{(index + node_index) % 4}" cx="{node[0]:.1f}" cy="{node[1]:.1f}" r="7" fill="{color}" stroke="{p["surface"]}" stroke-width="2"/>')
-        lx, ly, anchor = label_positions[index]
-        parts.extend(
-            [
-                f'  <text x="{lx}" y="{ly}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="11.5" font-weight="650">{escape(sector["label"])}</text>',
-                f'  <text class="mono" x="{lx}" y="{ly + 19}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="9.5">{escape(sector["evidence"]).upper()}</text>',
-            ]
-        )
-    parts.extend([f'  <circle cx="{cx}" cy="{cy}" r="4" fill="{p["ink"]}"/>', f'  <text x="360" y="875" text-anchor="middle" fill="{p["faint"]}" font-size="10">Equal sectors; node counts reflect the public work listed in the README.</text>', "</svg>\n"])
     return "\n".join(parts)
 
 
@@ -897,8 +669,8 @@ def signals_grand_mobile_svg(config: dict, data: dict, theme: str) -> str:
     accents = [p["blue"], p["cyan"], p["violet"], p["amber"], p["green"], p["faint"]]
     bar_x, bar_width, start_y = 174, 418, 114
     parts = [
-        svg_start(720, 1020, "130U mobile code signals and research orbit", "A large mobile map of GitHub Linguist code proportions and visible research evidence, with ambient scanning motion."),
-        base_style(),
+        svg_start(720, 1020, "130U mobile code signals and research orbit", "A large mobile map of GitHub Linguist code proportions and visible research evidence, with a finite evidence scan."),
+        signals_style(mobile=True),
         "  <defs>",
         f'    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{p["bg_a"]}"/><stop offset="1" stop-color="{p["bg_b"]}"/></linearGradient>',
         f'    <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="{p["surface"]}" stop-opacity="0"/><stop offset=".5" stop-color="{p["surface"]}" stop-opacity=".92"/><stop offset="1" stop-color="{p["surface"]}" stop-opacity="0"/></linearGradient>',
@@ -910,8 +682,8 @@ def signals_grand_mobile_svg(config: dict, data: dict, theme: str) -> str:
         [
             "  </defs>",
             f'  <rect x="1" y="1" width="718" height="1018" rx="28" fill="url(#bg)" stroke="{p["line"]}"/>',
-            f'  <text x="40" y="48" fill="{p["blue"]}" font-size="11" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
-            f'  <text x="40" y="74" fill="{p["faint"]}" font-size="11">GitHub Linguist bytes / four selected public code repositories</text>',
+            f'  <text x="40" y="48" fill="{p["blue"]}" font-size="14" font-weight="700" letter-spacing="3">CODE SIGNALS</text>',
+            f'  <text x="40" y="74" fill="{p["faint"]}" font-size="14">GitHub Linguist bytes / four selected public code repositories</text>',
         ]
     )
     for index, (name, percentage) in enumerate(languages):
@@ -919,18 +691,18 @@ def signals_grand_mobile_svg(config: dict, data: dict, theme: str) -> str:
         color = accents[index]
         parts.extend(
             [
-                f'  <text x="40" y="{y + 9}" fill="{p["ink"]}" font-size="13" font-weight="650">{escape(name)}</text>',
+                f'  <text x="40" y="{y + 9}" fill="{p["ink"]}" font-size="16" font-weight="650">{escape(name)}</text>',
                 f'  <rect x="{bar_x}" y="{y - 6}" width="{bar_width}" height="18" rx="9" fill="{p["line"]}" opacity=".55"/>',
                 f'  <rect class="bar-flow delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="{bar_width * percentage / 100:.1f}" height="18" rx="9" fill="{color}"/>',
                 f'  <rect class="bar-scan delay-{index % 4}" x="{bar_x}" y="{y - 6}" width="76" height="18" fill="url(#scan)" clip-path="url(#mobileBar{index})"/>',
-                f'  <text class="mono" x="674" y="{y + 9}" text-anchor="end" fill="{p["muted"]}" font-size="10.5">{percentage:.1f}%</text>',
+                f'  <text class="mono" x="674" y="{y + 9}" text-anchor="end" fill="{p["muted"]}" font-size="14">{percentage:.1f}%</text>',
             ]
         )
     parts.extend(
         [
             f'  <line x1="40" y1="421" x2="680" y2="421" stroke="{p["line"]}"/>',
-            f'  <text x="40" y="466" fill="{p["violet"]}" font-size="11" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
-            f'  <text x="40" y="492" fill="{p["faint"]}" font-size="11">Evidence nodes map visible systems and studies / not proficiency</text>',
+            f'  <text x="40" y="466" fill="{p["violet"]}" font-size="14" font-weight="700" letter-spacing="3">RESEARCH ORBIT</text>',
+            f'  <text x="40" y="492" fill="{p["faint"]}" font-size="14">Evidence nodes map visible systems and studies / not proficiency</text>',
         ]
     )
     cx, cy, radius = 360.0, 720.0, 185.0
@@ -951,35 +723,42 @@ def signals_grand_mobile_svg(config: dict, data: dict, theme: str) -> str:
         lx, ly, anchor = label_positions[index]
         parts.extend(
             [
-                f'  <text x="{lx}" y="{ly}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="12" font-weight="700">{escape(sector["label"])}</text>',
-                f'  <text class="mono" x="{lx}" y="{ly + 20}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="9.5">{escape(sector["evidence"]).upper()}</text>',
+                f'  <text x="{lx}" y="{ly}" text-anchor="{anchor}" fill="{p["ink"]}" font-size="15" font-weight="700">{escape(sector["label"])}</text>',
+                f'  <text class="mono" x="{lx}" y="{ly + 21}" text-anchor="{anchor}" fill="{p["muted"]}" font-size="12">{escape(sector["evidence"]).upper()}</text>',
             ]
         )
     parts.extend(
         [
             f'  <g class="research-sweep-mobile"><line x1="{cx}" y1="{cy}" x2="{cx}" y2="{cy - radius + 10}" stroke="{p["violet"]}" stroke-width="2.5" stroke-linecap="round" opacity=".72"/><circle cx="{cx}" cy="{cy - radius + 10}" r="5" fill="{p["violet"]}"/></g>',
             f'  <circle cx="{cx}" cy="{cy}" r="5" fill="{p["ink"]}"/>',
-            f'  <text x="680" y="994" text-anchor="end" fill="{p["faint"]}" font-size="9.5">CODE PROPORTION / PUBLIC EVIDENCE / CLICK TO EXPLORE</text>',
+            f'  <text x="680" y="994" text-anchor="end" fill="{p["faint"]}" font-size="11.5">CODE PROPORTION / PUBLIC EVIDENCE / CLICK TO EXPLORE</text>',
             "</svg>\n",
         ]
     )
     return "\n".join(parts)
 
 
-def write_assets(config: dict, data: dict) -> None:
-    generated_at = datetime.now(timezone.utc)
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def build_assets(config: dict, data: dict, generated_at: datetime) -> dict[str, str]:
+    assets: dict[str, str] = {}
     for theme in ("light", "dark"):
-        assets = {
-            f"hero-{theme}.svg": hero_svg(config, theme),
-            f"hero-mobile-{theme}.svg": hero_mobile_svg(config, theme),
-            f"telemetry-{theme}.svg": telemetry_chronograph_svg(config, data, theme, generated_at),
-            f"telemetry-mobile-{theme}.svg": telemetry_chronograph_mobile_svg(config, data, theme, generated_at),
-            f"signals-{theme}.svg": signals_grand_svg(config, data, theme),
-            f"signals-mobile-{theme}.svg": signals_grand_mobile_svg(config, data, theme),
-        }
-        for filename, content in assets.items():
-            (OUTPUT_DIR / filename).write_text(content, encoding="utf-8", newline="\n")
+        assets.update(
+            {
+                f"hero-{theme}.svg": hero_svg(config, theme),
+                f"hero-mobile-{theme}.svg": hero_mobile_svg(config, theme),
+                f"telemetry-{theme}.svg": telemetry_chronograph_svg(config, data, theme, generated_at),
+                f"telemetry-mobile-{theme}.svg": telemetry_chronograph_mobile_svg(config, data, theme, generated_at),
+                f"signals-{theme}.svg": signals_grand_svg(config, data, theme),
+                f"signals-mobile-{theme}.svg": signals_grand_mobile_svg(config, data, theme),
+            }
+        )
+    return assets
+
+
+def write_assets(config: dict, data: dict, generated_at: datetime | None = None) -> None:
+    generated_at = generated_at or datetime.now(timezone.utc)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    for filename, content in build_assets(config, data, generated_at).items():
+        (OUTPUT_DIR / filename).write_text(content, encoding="utf-8", newline="\n")
 
 
 def main() -> None:

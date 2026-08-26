@@ -7,115 +7,41 @@
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .orbit-track { animation: dashFlow 3.8s linear infinite; }
-    .orbiter-a { animation: orbitA 13s linear infinite; }
-    .orbiter-b { animation: orbitB 18s linear infinite; }
-    .orbiter-c { animation: orbitC 26s linear infinite; }
-    .orbiter-mobile-a { animation: orbitMobileA 12s linear infinite; }
-    .orbiter-mobile-b { animation: orbitMobileB 17s linear infinite; }
-    .core-desktop { transform-box: view-box; transform-origin: 870px 188px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .core-mobile { transform-box: view-box; transform-origin: 360px 396px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .twinkle, .metric-pulse, .node-pulse { transform-box: fill-box; transform-origin: center; }
-    .twinkle { animation: twinkle 3.2s ease-in-out infinite alternate; }
-    .float-a { animation: floatY 4.2s ease-in-out infinite alternate; }
-    .float-b { animation: floatX 4.6s ease-in-out infinite alternate; }
-    .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
-    .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
-    .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
-    .bar-scan { animation: barScan 4.8s ease-in-out infinite; }
-    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
-    .seconds-frame { opacity:0; animation: secondFrame 60s steps(1,end) infinite; }
-    .seconds-static { opacity:0; }
-    .seconds-hand-desktop { transform-box:view-box; transform-origin:650px 210px; animation:secondsSweep 60s linear infinite; }
-    .seconds-hand-mobile { transform-box:view-box; transform-origin:590px 223px; animation:secondsSweep 60s linear infinite; }
-    .clock-orbit { transform-box:fill-box; transform-origin:center; animation:clockOrbit 8s linear infinite; }
-    .metric-runner-desktop { animation:metricRunnerDesktop 4.2s ease-in-out infinite alternate; }
-    .metric-runner-mobile { animation:metricRunnerMobile 4.2s ease-in-out infinite alternate; }
-    .research-sweep-desktop { transform-box:view-box; transform-origin:950px 280px; animation:researchSweep 14s linear infinite; }
-    .research-sweep-mobile { transform-box:view-box; transform-origin:360px 720px; animation:researchSweep 14s linear infinite; }
-    .delay-0 { animation-delay: 0s; }
-    .delay-1 { animation-delay: -.7s; }
-    .delay-2 { animation-delay: -1.4s; }
-    .delay-3 { animation-delay: -2.1s; }
+.core-desktop { transform-box:view-box; transform-origin:870px 188px; animation:coreBreathe 3.8s ease-out 1 both; }
+    .float-a { animation:floatY 4.2s ease-out 1 both; }
+    .float-b { animation:floatX 4.4s ease-out 1 both; }
+
+    .orbit-track { animation: dashFlow 4.6s linear 1 both; }
+    .orbiter-a { animation: orbitA 4.6s cubic-bezier(.2,.8,.2,1) 1 both; }
+    .orbiter-b { animation: orbitB 4.7s cubic-bezier(.2,.8,.2,1) 1 both; }
+    .orbiter-c { animation: orbitC 4.8s cubic-bezier(.2,.8,.2,1) 1 both; }
     @keyframes dashFlow { to { stroke-dashoffset: -44; } }
     @keyframes orbitA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-40.4px,38.2px); }
-      25% { transform: translate(-138px,54px); }
-      37.5% { transform: translate(-235.6px,38.2px); }
-      50% { transform: translate(-276px,0); }
-      62.5% { transform: translate(-235.6px,-38.2px); }
-      75% { transform: translate(-138px,-54px); }
-      87.5% { transform: translate(-40.4px,-38.2px); }
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(-40.4px,38.2px); }
+      25% { transform: translate(-138px,54px); } 37.5% { transform: translate(-235.6px,38.2px); }
+      50% { transform: translate(-276px,0); } 62.5% { transform: translate(-235.6px,-38.2px); }
+      75% { transform: translate(-138px,-54px); } 87.5% { transform: translate(-40.4px,-38.2px); }
     }
     @keyframes orbitB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(58px,-58px); }
-      25% { transform: translate(198px,-82px); }
-      37.5% { transform: translate(338px,-58px); }
-      50% { transform: translate(396px,0); }
-      62.5% { transform: translate(338px,58px); }
-      75% { transform: translate(198px,82px); }
-      87.5% { transform: translate(58px,58px); }
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(58px,-58px); }
+      25% { transform: translate(198px,-82px); } 37.5% { transform: translate(338px,-58px); }
+      50% { transform: translate(396px,0); } 62.5% { transform: translate(338px,58px); }
+      75% { transform: translate(198px,82px); } 87.5% { transform: translate(58px,58px); }
     }
     @keyframes orbitC {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-75.6px,79.2px); }
-      25% { transform: translate(-258px,112px); }
-      37.5% { transform: translate(-440.4px,79.2px); }
-      50% { transform: translate(-516px,0); }
-      62.5% { transform: translate(-440.4px,-79.2px); }
-      75% { transform: translate(-258px,-112px); }
-      87.5% { transform: translate(-75.6px,-79.2px); }
+      0%,100% { transform: translate(0,0); } 12.5% { transform: translate(-75.6px,79.2px); }
+      25% { transform: translate(-258px,112px); } 37.5% { transform: translate(-440.4px,79.2px); }
+      50% { transform: translate(-516px,0); } 62.5% { transform: translate(-440.4px,-79.2px); }
+      75% { transform: translate(-258px,-112px); } 87.5% { transform: translate(-75.6px,-79.2px); }
     }
-    @keyframes orbitMobileA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-53.9px,49.5px); }
-      25% { transform: translate(-184px,70px); }
-      37.5% { transform: translate(-314.1px,49.5px); }
-      50% { transform: translate(-368px,0); }
-      62.5% { transform: translate(-314.1px,-49.5px); }
-      75% { transform: translate(-184px,-70px); }
-      87.5% { transform: translate(-53.9px,-49.5px); }
-    }
-    @keyframes orbitMobileB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(73.2px,-77.8px); }
-      25% { transform: translate(250px,-110px); }
-      37.5% { transform: translate(426.8px,-77.8px); }
-      50% { transform: translate(500px,0); }
-      62.5% { transform: translate(426.8px,77.8px); }
-      75% { transform: translate(250px,110px); }
-      87.5% { transform: translate(73.2px,77.8px); }
-    }
-    @keyframes coreBreathe { 0%,100% { transform: scale(.985); } 50% { transform: scale(1.035); } }
-    @keyframes twinkle { from { opacity:.18; transform: scale(.72); } to { opacity:.78; transform: scale(1.24); } }
-    @keyframes floatY { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
-    @keyframes floatX { from { transform: translateX(-2px); } to { transform: translateX(3px); } }
-    @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
-    @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
-    @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
-    @keyframes barScan {
-      0% { opacity:0; transform:translateX(-92px); }
-      12%,72% { opacity:.72; }
-      100% { opacity:0; transform:translateX(430px); }
-    }
-    @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
-    @keyframes secondFrame { 0%,1.64% { opacity:1; } 1.67%,100% { opacity:0; } }
-    @keyframes secondsSweep { to { transform:rotate(360deg); } }
-    @keyframes clockOrbit { to { transform:rotate(360deg); } }
-    @keyframes metricRunnerDesktop { from { transform:translateX(0); } to { transform:translateX(246px); } }
-    @keyframes metricRunnerMobile { from { transform:translateX(0); } to { transform:translateX(132px); } }
-    @keyframes researchSweep { to { transform:rotate(360deg); } }
+    @keyframes coreBreathe { 0%,100% { transform:scale(1); } 50% { transform:scale(1.025); } }
+    @keyframes floatY { 0%,100% { transform:translateY(0); } 50% { transform:translateY(3px); } }
+    @keyframes floatX { 0%,100% { transform:translateX(0); } 50% { transform:translateX(3px); } }
+    .twinkle { transform-box:fill-box; transform-origin:center; animation:twinkle 3.2s ease-out 1 both; }
+    .delay-1 { animation-delay:.12s; } .delay-2 { animation-delay:.24s; } .delay-3 { animation-delay:.36s; }
+    @keyframes twinkle { 0%,100% { opacity:.42; transform:scale(1); } 50% { opacity:.78; transform:scale(1.18); } }
     @media (prefers-reduced-motion: reduce) {
-      .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
-      .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
-      .gauge-sweep, .bar-flow, .bar-scan, .node-pulse, .seconds-frame,
-      .seconds-hand-desktop, .seconds-hand-mobile, .clock-orbit,
-      .metric-runner-desktop, .metric-runner-mobile,
-      .research-sweep-desktop, .research-sweep-mobile { animation: none !important; }
-      .seconds-frame { opacity:0 !important; }
-      .seconds-static { opacity:1 !important; }
+      .core-desktop, .float-a, .float-b, .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .twinkle { animation: none !important; }
     }
   </style>
 

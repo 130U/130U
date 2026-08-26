@@ -56,6 +56,8 @@ def validate_readme() -> None:
         fail("README must not depend on the retired profile-assets branch")
     if text.count("<picture>") != 3 or text.count("prefers-color-scheme: dark") != 6:
         fail("README must provide three desktop/mobile theme-aware picture blocks")
+    if text.count("(max-width: 767px)") != 6 or "(max-width: 600px)" in text:
+        fail("README must use the tested 767px mobile asset breakpoint")
     if text.count("<details>") < 1 or "How the live clock works" not in text:
         fail("README must provide a genuine GitHub-native expandable interaction")
     required_interactions = (
@@ -102,21 +104,33 @@ def validate_svg(path: Path) -> None:
             fail(f"{path.name} contains forbidden SVG marker: {marker}")
     if "prefers-reduced-motion: reduce" not in text:
         fail(f"{path.name} lacks a reduced-motion fallback")
-    if "infinite" not in lowered:
-        fail(f"{path.name} must preserve GitHub-safe continuous SVG motion")
     if "animation: none !important" not in lowered:
         fail(f"{path.name} lacks an explicit reduced-motion animation override")
     durations = [float(value) for value in re.findall(r"(?<![\w.])(\d+(?:\.\d+)?)s\b", text)]
-    if durations and max(durations) > 60:
-        fail(f"{path.name} contains motion slower than the sixty-second chronograph cycle")
     if path.name.startswith("telemetry-"):
         required_clock_markers = ("seconds-frame", "secondsSweep", "60s", "ACCOUNT AGE")
         if any(marker not in text for marker in required_clock_markers):
             fail(f"{path.name} lacks the live chronograph contract")
-    if path.name.startswith("signals-"):
+        if "infinite" not in lowered or (durations and max(durations) > 60):
+            fail(f"{path.name} must limit continuous motion to the sixty-second chronograph")
+        forbidden_markers = ("orbiter-", "bar-scan", "research-sweep")
+    elif path.name.startswith("hero-"):
+        if "infinite" in lowered or (durations and max(durations) > 5):
+            fail(f"{path.name} ambient motion must settle within five seconds")
+        forbidden_markers = ("seconds-frame", "bar-scan", "metric-runner")
+    elif path.name.startswith("signals-"):
         required_signal_motion = ("bar-scan", "research-sweep")
         if any(marker not in text for marker in required_signal_motion):
             fail(f"{path.name} lacks visible signal scanning motion")
+        if "infinite" in lowered or (durations and max(durations) > 5):
+            fail(f"{path.name} ambient motion must settle within five seconds")
+        forbidden_markers = ("seconds-frame", "orbiter-", "metric-runner")
+    if any(marker in text for marker in forbidden_markers):
+        fail(f"{path.name} embeds styles from another visual family")
+    if "-mobile-" in path.name:
+        font_sizes = [float(value) for value in re.findall(r'font-size="(\d+(?:\.\d+)?)"', text)]
+        if font_sizes and min(font_sizes) < 11.5:
+            fail(f"{path.name} contains mobile SVG type below the 11.5-unit floor")
     if "<title" not in text or "<desc" not in text:
         fail(f"{path.name} lacks accessible title/description metadata")
     try:
@@ -150,8 +164,10 @@ def validate_workflow() -> None:
         fail("Telemetry workflow must test, generate live assets, and validate them")
     if "GITHUB_TOKEN:" in workflow:
         fail("Public telemetry generation must not receive the repository-scoped GitHub token")
-    if "push:" not in workflow or '"tests/**"' not in workflow:
-        fail("Telemetry workflow must verify generator changes pushed to main")
+    if "push:" not in workflow or '"tests/**"' not in workflow or '"README.md"' not in workflow:
+        fail("Telemetry workflow must verify README and generator changes pushed to main")
+    if "[skip ci]" in workflow:
+        fail("Telemetry commits must rely on bounded paths instead of a skip-ci marker")
     required_output_controls = (
         "git diff --quiet -- assets/generated",
         "git add assets/generated",
@@ -179,12 +195,13 @@ def contrast_ratio(first: str, second: str) -> float:
 
 def validate_palette_contrast() -> None:
     for theme, palette in PALETTES.items():
-        surface = palette["surface"]
+        backgrounds = ("bg_a", "bg_b", "surface", "surface_2")
         for role in ("ink", "muted", "faint"):
-            if contrast_ratio(palette[role], surface) < 4.5:
-                fail(f"{theme} {role} text does not reach 4.5:1 against its surface")
+            for background in backgrounds:
+                if contrast_ratio(palette[role], palette[background]) < 4.5:
+                    fail(f"{theme} {role} text does not reach 4.5:1 against {background}")
         for role in ("blue", "cyan", "violet", "amber", "green"):
-            if contrast_ratio(palette[role], surface) < 3:
+            if contrast_ratio(palette[role], palette["surface"]) < 3:
                 fail(f"{theme} {role} chart mark does not reach 3:1 against its surface")
 
 

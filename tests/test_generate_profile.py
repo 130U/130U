@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import urllib.error
 import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -105,16 +106,41 @@ class GenerateProfileTests(unittest.TestCase):
     def test_snapshot_generation_writes_twelve_valid_svg_assets(self) -> None:
         config = generate_profile.load_config()
         data = generate_profile.collect_snapshot_data(config)
+        generated_at = datetime(2026, 8, 26, 12, 0, tzinfo=timezone.utc)
 
         with tempfile.TemporaryDirectory() as directory, patch.object(
             generate_profile, "OUTPUT_DIR", Path(directory)
         ):
-            generate_profile.write_assets(config, data)
+            generate_profile.write_assets(config, data, generated_at)
             assets = sorted(Path(directory).glob("*.svg"))
             for asset in assets:
                 ET.parse(asset)
 
         self.assertEqual(len(assets), 12)
+
+    def test_asset_build_is_deterministic_and_styles_are_family_scoped(self) -> None:
+        config = generate_profile.load_config()
+        data = generate_profile.collect_snapshot_data(config)
+        generated_at = datetime(2026, 8, 26, 12, 0, tzinfo=timezone.utc)
+
+        first = generate_profile.build_assets(config, data, generated_at)
+        second = generate_profile.build_assets(config, data, generated_at)
+
+        self.assertEqual(first, second)
+        self.assertEqual(len(first), 12)
+        for name, svg in first.items():
+            if name.startswith("telemetry-"):
+                self.assertIn("infinite", svg)
+                self.assertNotIn("bar-scan", svg)
+                self.assertNotIn("orbiter-", svg)
+            else:
+                self.assertNotIn("infinite", svg)
+            if name.startswith("hero-"):
+                self.assertNotIn("seconds-frame", svg)
+                self.assertNotIn("bar-scan", svg)
+            if name.startswith("signals-"):
+                self.assertNotIn("seconds-frame", svg)
+                self.assertNotIn("metric-runner", svg)
 
 
 if __name__ == "__main__":

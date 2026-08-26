@@ -7,113 +7,18 @@
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .orbit-track { animation: dashFlow 3.8s linear infinite; }
-    .orbiter-a { animation: orbitA 13s linear infinite; }
-    .orbiter-b { animation: orbitB 18s linear infinite; }
-    .orbiter-c { animation: orbitC 26s linear infinite; }
-    .orbiter-mobile-a { animation: orbitMobileA 12s linear infinite; }
-    .orbiter-mobile-b { animation: orbitMobileB 17s linear infinite; }
-    .core-desktop { transform-box: view-box; transform-origin: 870px 188px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .core-mobile { transform-box: view-box; transform-origin: 360px 396px; animation: coreBreathe 3.8s ease-in-out infinite; }
-    .twinkle, .metric-pulse, .node-pulse { transform-box: fill-box; transform-origin: center; }
-    .twinkle { animation: twinkle 3.2s ease-in-out infinite alternate; }
-    .float-a { animation: floatY 4.2s ease-in-out infinite alternate; }
-    .float-b { animation: floatX 4.6s ease-in-out infinite alternate; }
-    .metric-pulse { animation: signalPulse 2.8s ease-in-out infinite; }
-    .gauge-sweep { animation: gaugeGlow 2.4s ease-in-out infinite alternate; }
-    .bar-flow { animation: barGlow 3.6s ease-in-out infinite alternate; }
-    .bar-scan { animation: barScan 4.8s ease-in-out infinite; }
-    .node-pulse { animation: nodePulse 3s ease-in-out infinite; }
-    .seconds-frame { opacity:0; animation: secondFrame 60s steps(1,end) infinite; }
+.metric-pulse { transform-box:fill-box; transform-origin:center; animation:signalPulse 2.8s ease-out 1 both; }
+    .seconds-frame { opacity:0; animation:secondFrame 60s steps(1,end) infinite; }
     .seconds-static { opacity:0; }
-    .seconds-hand-desktop { transform-box:view-box; transform-origin:650px 210px; animation:secondsSweep 60s linear infinite; }
     .seconds-hand-mobile { transform-box:view-box; transform-origin:590px 223px; animation:secondsSweep 60s linear infinite; }
-    .clock-orbit { transform-box:fill-box; transform-origin:center; animation:clockOrbit 8s linear infinite; }
-    .metric-runner-desktop { animation:metricRunnerDesktop 4.2s ease-in-out infinite alternate; }
-    .metric-runner-mobile { animation:metricRunnerMobile 4.2s ease-in-out infinite alternate; }
-    .research-sweep-desktop { transform-box:view-box; transform-origin:950px 280px; animation:researchSweep 14s linear infinite; }
-    .research-sweep-mobile { transform-box:view-box; transform-origin:360px 720px; animation:researchSweep 14s linear infinite; }
-    .delay-0 { animation-delay: 0s; }
-    .delay-1 { animation-delay: -.7s; }
-    .delay-2 { animation-delay: -1.4s; }
-    .delay-3 { animation-delay: -2.1s; }
-    @keyframes dashFlow { to { stroke-dashoffset: -44; } }
-    @keyframes orbitA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-40.4px,38.2px); }
-      25% { transform: translate(-138px,54px); }
-      37.5% { transform: translate(-235.6px,38.2px); }
-      50% { transform: translate(-276px,0); }
-      62.5% { transform: translate(-235.6px,-38.2px); }
-      75% { transform: translate(-138px,-54px); }
-      87.5% { transform: translate(-40.4px,-38.2px); }
-    }
-    @keyframes orbitB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(58px,-58px); }
-      25% { transform: translate(198px,-82px); }
-      37.5% { transform: translate(338px,-58px); }
-      50% { transform: translate(396px,0); }
-      62.5% { transform: translate(338px,58px); }
-      75% { transform: translate(198px,82px); }
-      87.5% { transform: translate(58px,58px); }
-    }
-    @keyframes orbitC {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-75.6px,79.2px); }
-      25% { transform: translate(-258px,112px); }
-      37.5% { transform: translate(-440.4px,79.2px); }
-      50% { transform: translate(-516px,0); }
-      62.5% { transform: translate(-440.4px,-79.2px); }
-      75% { transform: translate(-258px,-112px); }
-      87.5% { transform: translate(-75.6px,-79.2px); }
-    }
-    @keyframes orbitMobileA {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(-53.9px,49.5px); }
-      25% { transform: translate(-184px,70px); }
-      37.5% { transform: translate(-314.1px,49.5px); }
-      50% { transform: translate(-368px,0); }
-      62.5% { transform: translate(-314.1px,-49.5px); }
-      75% { transform: translate(-184px,-70px); }
-      87.5% { transform: translate(-53.9px,-49.5px); }
-    }
-    @keyframes orbitMobileB {
-      0%,100% { transform: translate(0,0); }
-      12.5% { transform: translate(73.2px,-77.8px); }
-      25% { transform: translate(250px,-110px); }
-      37.5% { transform: translate(426.8px,-77.8px); }
-      50% { transform: translate(500px,0); }
-      62.5% { transform: translate(426.8px,77.8px); }
-      75% { transform: translate(250px,110px); }
-      87.5% { transform: translate(73.2px,77.8px); }
-    }
-    @keyframes coreBreathe { 0%,100% { transform: scale(.985); } 50% { transform: scale(1.035); } }
-    @keyframes twinkle { from { opacity:.18; transform: scale(.72); } to { opacity:.78; transform: scale(1.24); } }
-    @keyframes floatY { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
-    @keyframes floatX { from { transform: translateX(-2px); } to { transform: translateX(3px); } }
-    @keyframes signalPulse { 0%,100% { opacity:.68; transform: scale(.88); } 50% { opacity:1; transform: scale(1.16); } }
-    @keyframes gaugeGlow { from { opacity:.58; stroke-width:2; } to { opacity:1; stroke-width:3.2; } }
-    @keyframes barGlow { from { opacity:.72; } to { opacity:1; } }
-    @keyframes barScan {
-      0% { opacity:0; transform:translateX(-92px); }
-      12%,72% { opacity:.72; }
-      100% { opacity:0; transform:translateX(430px); }
-    }
-    @keyframes nodePulse { 0%,100% { opacity:.7; transform: scale(.86); } 50% { opacity:1; transform: scale(1.18); } }
+    .metric-runner-mobile { animation:metricRunner 4.2s ease-out 1 both; }
+    .delay-1 { animation-delay:.12s; } .delay-2 { animation-delay:.24s; } .delay-3 { animation-delay:.36s; }
+    @keyframes signalPulse { 0%,100% { opacity:.72; transform:scale(1); } 50% { opacity:1; transform:scale(1.14); } }
     @keyframes secondFrame { 0%,1.64% { opacity:1; } 1.67%,100% { opacity:0; } }
     @keyframes secondsSweep { to { transform:rotate(360deg); } }
-    @keyframes clockOrbit { to { transform:rotate(360deg); } }
-    @keyframes metricRunnerDesktop { from { transform:translateX(0); } to { transform:translateX(246px); } }
-    @keyframes metricRunnerMobile { from { transform:translateX(0); } to { transform:translateX(132px); } }
-    @keyframes researchSweep { to { transform:rotate(360deg); } }
+    @keyframes metricRunner { 0%,100% { transform:translateX(0); } 50% { transform:translateX(132px); } }
     @media (prefers-reduced-motion: reduce) {
-      .orbit-track, .orbiter-a, .orbiter-b, .orbiter-c, .orbiter-mobile-a, .orbiter-mobile-b,
-      .core-desktop, .core-mobile, .twinkle, .float-a, .float-b, .metric-pulse,
-      .gauge-sweep, .bar-flow, .bar-scan, .node-pulse, .seconds-frame,
-      .seconds-hand-desktop, .seconds-hand-mobile, .clock-orbit,
-      .metric-runner-desktop, .metric-runner-mobile,
-      .research-sweep-desktop, .research-sweep-mobile { animation: none !important; }
+      .metric-pulse, .seconds-frame, .seconds-hand-mobile, .metric-runner-mobile { animation: none !important; }
       .seconds-frame { opacity:0 !important; }
       .seconds-static { opacity:1 !important; }
     }
@@ -124,15 +29,15 @@
     <radialGradient id="clockGlow"><stop stop-color="#2563EB" stop-opacity=".16"/><stop offset="1" stop-color="#2563EB" stop-opacity="0"/></radialGradient>
   </defs>
   <rect x="1" y="1" width="718" height="758" rx="28" fill="url(#bg)" stroke="#D7E0EC"/>
-  <text x="40" y="46" fill="#2563EB" font-size="11" font-weight="700" letter-spacing="3">BUILD LOG</text>
-  <text x="680" y="46" text-anchor="end" fill="#64748B" font-size="10">DAILY DATA / LIVE SECONDS</text>
+  <text x="40" y="46" fill="#2563EB" font-size="14" font-weight="700" letter-spacing="3">BUILD LOG</text>
+  <text x="680" y="46" text-anchor="end" fill="#5B6B82" font-size="12">DAILY DATA / LIVE SECONDS</text>
   <rect x="40" y="70" width="640" height="340" rx="26" fill="#FFFFFF" fill-opacity=".76" stroke="#2563EB" stroke-opacity=".26"/>
-  <text x="72" y="110" fill="#475569" font-size="12" font-weight="700" letter-spacing="1.6">ACCOUNT AGE / LAST SYNC</text>
-  <text x="648" y="110" text-anchor="end" fill="#64748B" font-size="10">26 AUG / 01:59 UTC</text>
+  <text x="72" y="110" fill="#475569" font-size="14" font-weight="700" letter-spacing="1.4">ACCOUNT AGE / LAST SYNC</text>
+  <text x="648" y="110" text-anchor="end" fill="#5B6B82" font-size="12">26 AUG / 16:08 UTC</text>
   <line x1="72" y1="130" x2="648" y2="130" stroke="#D7E0EC"/>
-  <text class="mono" x="110" y="245" text-anchor="middle" fill="#13213A" font-size="68" font-weight="780" letter-spacing="-3">36</text>
-  <text class="mono" x="275" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">10</text>
-  <text class="mono" x="425" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">45</text>
+  <text class="mono" x="110" y="245" text-anchor="middle" fill="#13213A" font-size="68" font-weight="780" letter-spacing="-3">37</text>
+  <text class="mono" x="275" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">00</text>
+  <text class="mono" x="425" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">54</text>
   <text x="193" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>
   <text x="350" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>
   <text x="506" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>
@@ -198,92 +103,92 @@
   <line x1="574.5" y1="175.4" x2="572.7" y2="169.7" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
   <line x1="579.6" y1="174.1" x2="578.4" y2="168.2" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
   <line x1="584.8" y1="173.3" x2="584.1" y2="167.3" stroke="#2563EB" stroke-width="1" stroke-linecap="round" opacity=".28"/>
-  <g transform="rotate(42 590 223)"><g class="seconds-hand-mobile"><line x1="590" y1="223" x2="590" y2="177" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/><circle cx="590" cy="177" r="4" fill="#2563EB"/><circle cx="590" cy="223" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/></g></g>
-  <text class="seconds-static mono" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">07</text>
-  <text class="seconds-frame mono" style="animation-delay:-7s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">00</text>
-  <text class="seconds-frame mono" style="animation-delay:-6s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">01</text>
-  <text class="seconds-frame mono" style="animation-delay:-5s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">02</text>
-  <text class="seconds-frame mono" style="animation-delay:-4s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">03</text>
-  <text class="seconds-frame mono" style="animation-delay:-3s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">04</text>
-  <text class="seconds-frame mono" style="animation-delay:-2s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">05</text>
-  <text class="seconds-frame mono" style="animation-delay:-1s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">06</text>
-  <text class="seconds-frame mono" style="animation-delay:-0s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">07</text>
-  <text class="seconds-frame mono" style="animation-delay:-59s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">08</text>
-  <text class="seconds-frame mono" style="animation-delay:-58s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">09</text>
-  <text class="seconds-frame mono" style="animation-delay:-57s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">10</text>
-  <text class="seconds-frame mono" style="animation-delay:-56s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">11</text>
-  <text class="seconds-frame mono" style="animation-delay:-55s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">12</text>
-  <text class="seconds-frame mono" style="animation-delay:-54s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">13</text>
-  <text class="seconds-frame mono" style="animation-delay:-53s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">14</text>
-  <text class="seconds-frame mono" style="animation-delay:-52s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">15</text>
-  <text class="seconds-frame mono" style="animation-delay:-51s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">16</text>
-  <text class="seconds-frame mono" style="animation-delay:-50s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">17</text>
-  <text class="seconds-frame mono" style="animation-delay:-49s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">18</text>
-  <text class="seconds-frame mono" style="animation-delay:-48s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">19</text>
-  <text class="seconds-frame mono" style="animation-delay:-47s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">20</text>
-  <text class="seconds-frame mono" style="animation-delay:-46s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">21</text>
-  <text class="seconds-frame mono" style="animation-delay:-45s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">22</text>
-  <text class="seconds-frame mono" style="animation-delay:-44s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">23</text>
-  <text class="seconds-frame mono" style="animation-delay:-43s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">24</text>
-  <text class="seconds-frame mono" style="animation-delay:-42s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">25</text>
-  <text class="seconds-frame mono" style="animation-delay:-41s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">26</text>
-  <text class="seconds-frame mono" style="animation-delay:-40s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">27</text>
-  <text class="seconds-frame mono" style="animation-delay:-39s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">28</text>
-  <text class="seconds-frame mono" style="animation-delay:-38s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">29</text>
-  <text class="seconds-frame mono" style="animation-delay:-37s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">30</text>
-  <text class="seconds-frame mono" style="animation-delay:-36s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">31</text>
-  <text class="seconds-frame mono" style="animation-delay:-35s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">32</text>
-  <text class="seconds-frame mono" style="animation-delay:-34s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">33</text>
-  <text class="seconds-frame mono" style="animation-delay:-33s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">34</text>
-  <text class="seconds-frame mono" style="animation-delay:-32s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">35</text>
-  <text class="seconds-frame mono" style="animation-delay:-31s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">36</text>
-  <text class="seconds-frame mono" style="animation-delay:-30s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">37</text>
-  <text class="seconds-frame mono" style="animation-delay:-29s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">38</text>
-  <text class="seconds-frame mono" style="animation-delay:-28s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">39</text>
-  <text class="seconds-frame mono" style="animation-delay:-27s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">40</text>
-  <text class="seconds-frame mono" style="animation-delay:-26s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">41</text>
-  <text class="seconds-frame mono" style="animation-delay:-25s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">42</text>
-  <text class="seconds-frame mono" style="animation-delay:-24s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">43</text>
-  <text class="seconds-frame mono" style="animation-delay:-23s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">44</text>
-  <text class="seconds-frame mono" style="animation-delay:-22s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">45</text>
-  <text class="seconds-frame mono" style="animation-delay:-21s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">46</text>
-  <text class="seconds-frame mono" style="animation-delay:-20s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">47</text>
-  <text class="seconds-frame mono" style="animation-delay:-19s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">48</text>
-  <text class="seconds-frame mono" style="animation-delay:-18s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">49</text>
-  <text class="seconds-frame mono" style="animation-delay:-17s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">50</text>
-  <text class="seconds-frame mono" style="animation-delay:-16s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">51</text>
-  <text class="seconds-frame mono" style="animation-delay:-15s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">52</text>
-  <text class="seconds-frame mono" style="animation-delay:-14s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">53</text>
-  <text class="seconds-frame mono" style="animation-delay:-13s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">54</text>
-  <text class="seconds-frame mono" style="animation-delay:-12s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">55</text>
-  <text class="seconds-frame mono" style="animation-delay:-11s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">56</text>
-  <text class="seconds-frame mono" style="animation-delay:-10s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">57</text>
-  <text class="seconds-frame mono" style="animation-delay:-9s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">58</text>
-  <text class="seconds-frame mono" style="animation-delay:-8s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">59</text>
-  <text class="mono" x="110" y="286" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.4">DAYS</text>
-  <text class="mono" x="275" y="286" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.4">HOURS</text>
-  <text class="mono" x="425" y="286" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.4">MINUTES</text>
-  <text class="mono" x="590" y="311" text-anchor="middle" fill="#2563EB" font-size="9.5" font-weight="700" letter-spacing="1.4">SECONDS</text>
+  <g transform="rotate(312 590 223)"><g class="seconds-hand-mobile"><line x1="590" y1="223" x2="590" y2="177" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/><circle cx="590" cy="177" r="4" fill="#2563EB"/><circle cx="590" cy="223" r="5" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/></g></g>
+  <text class="seconds-static mono" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">52</text>
+  <text class="seconds-frame mono" style="animation-delay:-52s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">00</text>
+  <text class="seconds-frame mono" style="animation-delay:-51s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">01</text>
+  <text class="seconds-frame mono" style="animation-delay:-50s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">02</text>
+  <text class="seconds-frame mono" style="animation-delay:-49s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">03</text>
+  <text class="seconds-frame mono" style="animation-delay:-48s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">04</text>
+  <text class="seconds-frame mono" style="animation-delay:-47s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">05</text>
+  <text class="seconds-frame mono" style="animation-delay:-46s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">06</text>
+  <text class="seconds-frame mono" style="animation-delay:-45s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">07</text>
+  <text class="seconds-frame mono" style="animation-delay:-44s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">08</text>
+  <text class="seconds-frame mono" style="animation-delay:-43s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">09</text>
+  <text class="seconds-frame mono" style="animation-delay:-42s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">10</text>
+  <text class="seconds-frame mono" style="animation-delay:-41s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">11</text>
+  <text class="seconds-frame mono" style="animation-delay:-40s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">12</text>
+  <text class="seconds-frame mono" style="animation-delay:-39s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">13</text>
+  <text class="seconds-frame mono" style="animation-delay:-38s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">14</text>
+  <text class="seconds-frame mono" style="animation-delay:-37s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">15</text>
+  <text class="seconds-frame mono" style="animation-delay:-36s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">16</text>
+  <text class="seconds-frame mono" style="animation-delay:-35s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">17</text>
+  <text class="seconds-frame mono" style="animation-delay:-34s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">18</text>
+  <text class="seconds-frame mono" style="animation-delay:-33s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">19</text>
+  <text class="seconds-frame mono" style="animation-delay:-32s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">20</text>
+  <text class="seconds-frame mono" style="animation-delay:-31s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">21</text>
+  <text class="seconds-frame mono" style="animation-delay:-30s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">22</text>
+  <text class="seconds-frame mono" style="animation-delay:-29s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">23</text>
+  <text class="seconds-frame mono" style="animation-delay:-28s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">24</text>
+  <text class="seconds-frame mono" style="animation-delay:-27s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">25</text>
+  <text class="seconds-frame mono" style="animation-delay:-26s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">26</text>
+  <text class="seconds-frame mono" style="animation-delay:-25s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">27</text>
+  <text class="seconds-frame mono" style="animation-delay:-24s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">28</text>
+  <text class="seconds-frame mono" style="animation-delay:-23s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">29</text>
+  <text class="seconds-frame mono" style="animation-delay:-22s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">30</text>
+  <text class="seconds-frame mono" style="animation-delay:-21s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">31</text>
+  <text class="seconds-frame mono" style="animation-delay:-20s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">32</text>
+  <text class="seconds-frame mono" style="animation-delay:-19s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">33</text>
+  <text class="seconds-frame mono" style="animation-delay:-18s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">34</text>
+  <text class="seconds-frame mono" style="animation-delay:-17s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">35</text>
+  <text class="seconds-frame mono" style="animation-delay:-16s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">36</text>
+  <text class="seconds-frame mono" style="animation-delay:-15s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">37</text>
+  <text class="seconds-frame mono" style="animation-delay:-14s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">38</text>
+  <text class="seconds-frame mono" style="animation-delay:-13s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">39</text>
+  <text class="seconds-frame mono" style="animation-delay:-12s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">40</text>
+  <text class="seconds-frame mono" style="animation-delay:-11s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">41</text>
+  <text class="seconds-frame mono" style="animation-delay:-10s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">42</text>
+  <text class="seconds-frame mono" style="animation-delay:-9s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">43</text>
+  <text class="seconds-frame mono" style="animation-delay:-8s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">44</text>
+  <text class="seconds-frame mono" style="animation-delay:-7s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">45</text>
+  <text class="seconds-frame mono" style="animation-delay:-6s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">46</text>
+  <text class="seconds-frame mono" style="animation-delay:-5s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">47</text>
+  <text class="seconds-frame mono" style="animation-delay:-4s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">48</text>
+  <text class="seconds-frame mono" style="animation-delay:-3s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">49</text>
+  <text class="seconds-frame mono" style="animation-delay:-2s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">50</text>
+  <text class="seconds-frame mono" style="animation-delay:-1s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">51</text>
+  <text class="seconds-frame mono" style="animation-delay:-0s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">52</text>
+  <text class="seconds-frame mono" style="animation-delay:-59s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">53</text>
+  <text class="seconds-frame mono" style="animation-delay:-58s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">54</text>
+  <text class="seconds-frame mono" style="animation-delay:-57s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">55</text>
+  <text class="seconds-frame mono" style="animation-delay:-56s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">56</text>
+  <text class="seconds-frame mono" style="animation-delay:-55s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">57</text>
+  <text class="seconds-frame mono" style="animation-delay:-54s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">58</text>
+  <text class="seconds-frame mono" style="animation-delay:-53s" x="590" y="233" text-anchor="middle" fill="#13213A" font-size="28" font-weight="760">59</text>
+  <text class="mono" x="110" y="286" text-anchor="middle" fill="#475569" font-size="13" letter-spacing="1.2">DAYS</text>
+  <text class="mono" x="275" y="286" text-anchor="middle" fill="#475569" font-size="13" letter-spacing="1.2">HOURS</text>
+  <text class="mono" x="425" y="286" text-anchor="middle" fill="#475569" font-size="13" letter-spacing="1.2">MINUTES</text>
+  <text class="mono" x="590" y="311" text-anchor="middle" fill="#2563EB" font-size="13" font-weight="700" letter-spacing="1.2">SECONDS</text>
   <rect x="72" y="335" width="576" height="48" rx="15" fill="#F5F7FB" stroke="#D7E0EC"/>
   <circle class="metric-pulse" cx="94" cy="359" r="4" fill="#2563EB"/>
-  <text x="111" y="363" fill="#475569" font-size="10.5">Daily age snapshot; live seconds run while this SVG is open.</text>
+  <text x="111" y="363" fill="#475569" font-size="13">Daily age snapshot; live seconds run while this SVG is open.</text>
   <rect x="40" y="445" width="204" height="210" rx="22" fill="#FFFFFF" fill-opacity=".70" stroke="#D7E0EC"/>
   <line x1="68" y1="478" x2="216" y2="478" stroke="#D7E0EC" stroke-linecap="round"/>
   <circle class="metric-runner-mobile delay-1" cx="70" cy="478" r="4" fill="#0891B2"/>
-  <text class="mono" x="142" y="558" text-anchor="middle" fill="#13213A" font-size="46" font-weight="760">46</text>
-  <text class="mono" x="142" y="596" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.1">PROJECT COMMITS</text>
+  <text class="mono" x="142" y="558" text-anchor="middle" fill="#13213A" font-size="46" font-weight="760">50</text>
+  <text class="mono" x="142" y="596" text-anchor="middle" fill="#475569" font-size="13" letter-spacing=".8">PROJECT COMMITS</text>
   <circle class="metric-pulse delay-1" cx="142" cy="625" r="6" fill="none" stroke="#0891B2" stroke-width="2"/>
   <rect x="258" y="445" width="204" height="210" rx="22" fill="#FFFFFF" fill-opacity=".70" stroke="#D7E0EC"/>
   <line x1="286" y1="478" x2="434" y2="478" stroke="#D7E0EC" stroke-linecap="round"/>
   <circle class="metric-runner-mobile delay-2" cx="288" cy="478" r="4" fill="#7C3AED"/>
   <text class="mono" x="360" y="558" text-anchor="middle" fill="#13213A" font-size="46" font-weight="760">23</text>
-  <text class="mono" x="360" y="596" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.1">PULL REQUESTS</text>
+  <text class="mono" x="360" y="596" text-anchor="middle" fill="#475569" font-size="13" letter-spacing=".8">PULL REQUESTS</text>
   <circle class="metric-pulse delay-2" cx="360" cy="625" r="6" fill="none" stroke="#7C3AED" stroke-width="2"/>
   <rect x="476" y="445" width="204" height="210" rx="22" fill="#FFFFFF" fill-opacity=".70" stroke="#D7E0EC"/>
   <line x1="504" y1="478" x2="652" y2="478" stroke="#D7E0EC" stroke-linecap="round"/>
   <circle class="metric-runner-mobile delay-3" cx="506" cy="478" r="4" fill="#D97706"/>
   <text class="mono" x="578" y="558" text-anchor="middle" fill="#13213A" font-size="46" font-weight="760">6</text>
-  <text class="mono" x="578" y="596" text-anchor="middle" fill="#475569" font-size="9.5" letter-spacing="1.1">PUBLIC REPOS</text>
+  <text class="mono" x="578" y="596" text-anchor="middle" fill="#475569" font-size="13" letter-spacing=".8">PUBLIC REPOS</text>
   <circle class="metric-pulse delay-3" cx="578" cy="625" r="6" fill="none" stroke="#D97706" stroke-width="2"/>
-  <text x="680" y="730" text-anchor="end" fill="#64748B" font-size="9.5">CLICK FOR UPDATE HISTORY / SOURCE LINKS BELOW</text>
+  <text x="680" y="730" text-anchor="end" fill="#5B6B82" font-size="11.5">CLICK FOR UPDATE HISTORY / SOURCE LINKS BELOW</text>
 </svg>
