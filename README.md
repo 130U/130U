@@ -50,7 +50,7 @@ The days, hours, minutes, and starting seconds are calculated from GitHub's publ
     <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/signals-mobile-light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/signals-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/signals-light.svg">
-    <img src="assets/generated/signals-light.svg" alt="Large animated GitHub Linguist code-proportion map across four selected public repositories and an evidence-node research orbit" width="100%">
+    <img src="assets/generated/signals-light.svg" alt="Large GitHub Linguist code-proportion map across four selected public repositories, with a brief evidence scan and an evidence-node research orbit" width="100%">
   </picture>
   </a>
 </div>
