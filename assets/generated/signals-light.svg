@@ -24,12 +24,12 @@
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F9FAFC"/><stop offset="1" stop-color="#EEF3FA"/></linearGradient>
     <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".92"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
-    <clipPath id="barclip0"><rect x="205" y="113" width="109.2" height="18" rx="9"/></clipPath>
-    <clipPath id="barclip1"><rect x="205" y="167" width="82.7" height="18" rx="9"/></clipPath>
-    <clipPath id="barclip2"><rect x="205" y="221" width="76.2" height="18" rx="9"/></clipPath>
-    <clipPath id="barclip3"><rect x="205" y="275" width="66.9" height="18" rx="9"/></clipPath>
-    <clipPath id="barclip4"><rect x="205" y="329" width="28.3" height="18" rx="9"/></clipPath>
-    <clipPath id="barclip5"><rect x="205" y="383" width="17.3" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip0"><rect x="205" y="113" width="108.9" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip1"><rect x="205" y="167" width="85.8" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip2"><rect x="205" y="221" width="75.9" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip3"><rect x="205" y="275" width="65.7" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip4"><rect x="205" y="329" width="27.0" height="18" rx="9"/></clipPath>
+    <clipPath id="barclip5"><rect x="205" y="383" width="17.2" height="18" rx="9"/></clipPath>
   </defs>
   <rect x="1" y="1" width="1198" height="518" rx="28" fill="url(#bg)" stroke="#D7E0EC"/>
   <circle cx="1138" cy="470" r="210" fill="#7C3AED" opacity=".025"/>
@@ -40,32 +40,32 @@
   <line x1="646" y1="38" x2="646" y2="472" stroke="#D7E0EC"/>
   <text x="54" y="128" fill="#13213A" font-size="15" font-weight="650">TypeScript</text>
   <rect x="205" y="113" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-0" x="205" y="113" width="109.2" height="18" rx="9" fill="#2563EB"/>
+  <rect class="bar-flow delay-0" x="205" y="113" width="108.9" height="18" rx="9" fill="#2563EB"/>
   <rect class="bar-scan delay-0" x="205" y="113" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip0)"/>
-  <text class="mono" x="610" y="128" text-anchor="end" fill="#475569" font-size="11.5">28.6%</text>
+  <text class="mono" x="610" y="128" text-anchor="end" fill="#475569" font-size="11.5">28.5%</text>
   <text x="54" y="182" fill="#13213A" font-size="15" font-weight="650">JavaScript</text>
   <rect x="205" y="167" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-1" x="205" y="167" width="82.7" height="18" rx="9" fill="#0891B2"/>
+  <rect class="bar-flow delay-1" x="205" y="167" width="85.8" height="18" rx="9" fill="#0891B2"/>
   <rect class="bar-scan delay-1" x="205" y="167" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip1)"/>
-  <text class="mono" x="610" y="182" text-anchor="end" fill="#475569" font-size="11.5">21.6%</text>
+  <text class="mono" x="610" y="182" text-anchor="end" fill="#475569" font-size="11.5">22.5%</text>
   <text x="54" y="236" fill="#13213A" font-size="15" font-weight="650">Python</text>
   <rect x="205" y="221" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-2" x="205" y="221" width="76.2" height="18" rx="9" fill="#7C3AED"/>
+  <rect class="bar-flow delay-2" x="205" y="221" width="75.9" height="18" rx="9" fill="#7C3AED"/>
   <rect class="bar-scan delay-2" x="205" y="221" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip2)"/>
-  <text class="mono" x="610" y="236" text-anchor="end" fill="#475569" font-size="11.5">20.0%</text>
+  <text class="mono" x="610" y="236" text-anchor="end" fill="#475569" font-size="11.5">19.9%</text>
   <text x="54" y="290" fill="#13213A" font-size="15" font-weight="650">HTML</text>
   <rect x="205" y="275" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-3" x="205" y="275" width="66.9" height="18" rx="9" fill="#D97706"/>
+  <rect class="bar-flow delay-3" x="205" y="275" width="65.7" height="18" rx="9" fill="#D97706"/>
   <rect class="bar-scan delay-3" x="205" y="275" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip3)"/>
-  <text class="mono" x="610" y="290" text-anchor="end" fill="#475569" font-size="11.5">17.5%</text>
+  <text class="mono" x="610" y="290" text-anchor="end" fill="#475569" font-size="11.5">17.2%</text>
   <text x="54" y="344" fill="#13213A" font-size="15" font-weight="650">CSS</text>
   <rect x="205" y="329" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-0" x="205" y="329" width="28.3" height="18" rx="9" fill="#0F8A65"/>
+  <rect class="bar-flow delay-0" x="205" y="329" width="27.0" height="18" rx="9" fill="#0F8A65"/>
   <rect class="bar-scan delay-0" x="205" y="329" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip4)"/>
-  <text class="mono" x="610" y="344" text-anchor="end" fill="#475569" font-size="11.5">7.4%</text>
+  <text class="mono" x="610" y="344" text-anchor="end" fill="#475569" font-size="11.5">7.1%</text>
   <text x="54" y="398" fill="#13213A" font-size="15" font-weight="650">PowerShell</text>
   <rect x="205" y="383" width="382" height="18" rx="9" fill="#D7E0EC" opacity=".55"/>
-  <rect class="bar-flow delay-1" x="205" y="383" width="17.3" height="18" rx="9" fill="#5B6B82"/>
+  <rect class="bar-flow delay-1" x="205" y="383" width="17.2" height="18" rx="9" fill="#5B6B82"/>
   <rect class="bar-scan delay-1" x="205" y="383" width="76" height="18" fill="url(#scan)" clip-path="url(#barclip5)"/>
   <text class="mono" x="610" y="398" text-anchor="end" fill="#475569" font-size="11.5">4.5%</text>
   <circle cx="950.0" cy="280.0" r="50" fill="none" stroke="#D7E0EC" stroke-width="1"/>
