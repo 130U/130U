@@ -33,11 +33,11 @@
   <text x="680" y="46" text-anchor="end" fill="#5B6B82" font-size="12">DAILY DATA / LIVE SECONDS</text>
   <rect x="40" y="70" width="640" height="340" rx="26" fill="#FFFFFF" fill-opacity=".76" stroke="#2563EB" stroke-opacity=".26"/>
   <text x="72" y="110" fill="#475569" font-size="14" font-weight="700" letter-spacing="1.4">ACCOUNT AGE / LAST SYNC</text>
-  <text x="648" y="110" text-anchor="end" fill="#5B6B82" font-size="12">19 SEP / 04:38 UTC</text>
+  <text x="648" y="110" text-anchor="end" fill="#5B6B82" font-size="12">20 SEP / 04:54 UTC</text>
   <line x1="72" y1="130" x2="648" y2="130" stroke="#D7E0EC"/>
-  <text class="mono" x="110" y="245" text-anchor="middle" fill="#13213A" font-size="68" font-weight="780" letter-spacing="-3">60</text>
+  <text class="mono" x="110" y="245" text-anchor="middle" fill="#13213A" font-size="68" font-weight="780" letter-spacing="-3">61</text>
   <text class="mono" x="275" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">13</text>
-  <text class="mono" x="425" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">24</text>
+  <text class="mono" x="425" y="240" text-anchor="middle" fill="#13213A" font-size="50" font-weight="760" letter-spacing="-2">40</text>
   <text x="193" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>
   <text x="350" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>
   <text x="506" y="232" text-anchor="middle" fill="#D7E0EC" font-size="30">:</text>

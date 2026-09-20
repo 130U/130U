@@ -35,11 +35,11 @@
   <text x="1146" y="48" text-anchor="end" fill="#5B6B82" font-size="11">DAILY-SYNCED DATA / LIVE 60-SECOND PULSE</text>
   <rect x="54" y="76" width="720" height="310" rx="28" fill="#FFFFFF" fill-opacity=".78" stroke="#2563EB" stroke-opacity=".26" filter="url(#softShadow)"/>
   <text x="86" y="116" fill="#475569" font-size="12" font-weight="700" letter-spacing="1.8">ACCOUNT AGE / LAST SYNC</text>
-  <text x="742" y="116" text-anchor="end" fill="#5B6B82" font-size="10.5">19 SEP 2026 / 04:38 UTC</text>
+  <text x="742" y="116" text-anchor="end" fill="#5B6B82" font-size="10.5">20 SEP 2026 / 04:54 UTC</text>
   <line x1="86" y1="136" x2="742" y2="136" stroke="#D7E0EC"/>
-  <text class="mono" x="142" y="233" text-anchor="middle" fill="#13213A" font-size="82" font-weight="780" letter-spacing="-3">60</text>
+  <text class="mono" x="142" y="233" text-anchor="middle" fill="#13213A" font-size="82" font-weight="780" letter-spacing="-3">61</text>
   <text class="mono" x="318" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">13</text>
-  <text class="mono" x="482" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">24</text>
+  <text class="mono" x="482" y="227" text-anchor="middle" fill="#13213A" font-size="58" font-weight="760" letter-spacing="-2">40</text>
   <text x="230" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
   <text x="400" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
   <text x="566" y="219" text-anchor="middle" fill="#D7E0EC" font-size="34">:</text>
