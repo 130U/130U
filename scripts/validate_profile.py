@@ -75,7 +75,7 @@ def validate_readme() -> None:
         fail("Low-signal star telemetry must remain omitted")
     if "20 July 2026 at 23:13 Beijing time" not in text:
         fail("README must preserve the stable, human-readable account creation date")
-    if "four repositories listed above" not in text:
+    if "across Agents' Last Exam, Research Portfolio, BaZi Context Agent, and Info Collector." not in text:
         fail("README must disclose the selected-repository telemetry scope")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
