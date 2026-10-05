@@ -65,11 +65,11 @@ The through-line is simple: turn ambiguous technical questions into evidence tha
 
 | System | What it demonstrates |
 | --- | --- |
-| [Agents' Last Exam](https://github.com/130U/agents-last-exam) | An evidence-led architecture for producing, evaluating, and governing private agent benchmarks. |
+| [Certified Asian Option Valuation](https://github.com/130U/certified-valuation-arithmetic-asian-options) | A theory-led framework that certifies pricing implementation error for arithmetic Asian options under a specified Heston model. |
+| [Agent Evaluation Methodology](https://github.com/130U/agent-evaluation-methodology) | Research on agent evaluation integrity, behavior attribution, and feedback admission for policy optimization. |
 | [Research Portfolio](https://github.com/130U/reserach-portfolio-since2026) | Deep research on vision-language-action models, world models, and emerging embodied-AI systems. |
 | [BaZi Context Agent](https://github.com/130U/bazi-context-agent) | A local-first prototype that separates deterministic reasoning, user-controlled context, and AI-assisted interpretation. |
 | [Info Collector](https://github.com/130U/info-collector-2026) | A research workflow that turns public reading into structured, traceable, reusable knowledge. |
-| [Certified Asian Option Valuation](https://github.com/130U/certified-valuation-arithmetic-asian-options) | A theory-led framework that certifies pricing implementation error for arithmetic Asian options under a specified Heston model. |
 
 ## Current questions
 
@@ -79,5 +79,5 @@ The through-line is simple: turn ambiguous technical questions into evidence tha
 - Where do world models, VLA systems, and agentic workflows meaningfully converge?
 
 <div align="center">
-  <sub>On GitHub since 20 July 2026 at 23:13 Beijing time.<br>Project commits and pull requests use GitHub's author-search surface across Agents' Last Exam, Research Portfolio, BaZi Context Agent, and Info Collector. Code proportions use GitHub Linguist bytes across the same scope. The research orbit maps visible work; it is not a performance score.</sub>
+  <sub>On GitHub since 20 July 2026 at 23:13 Beijing time.<br>Project commits and pull requests use GitHub's author-search surface across Agent Evaluation Methodology, Research Portfolio, BaZi Context Agent, and Info Collector. Code proportions use GitHub Linguist bytes across the same scope. The research orbit maps visible work; it is not a performance score.</sub>
 </div>
