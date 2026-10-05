@@ -73,7 +73,7 @@
   <path d="M 360.0 720.0 L 208.5 613.9 A 185.0 185.0 0 0 1 511.5 613.9 Z" fill="#2563EB" fill-opacity=".12" stroke="#2563EB" stroke-opacity=".55"/>
   <circle class="node-pulse delay-0" cx="360.0" cy="636.0" r="8" fill="#2563EB" stroke="#FFFFFF" stroke-width="2.5"/>
   <text x="360" y="515" text-anchor="middle" fill="#13213A" font-size="15" font-weight="700">Agent Systems &amp; Evaluation</text>
-  <text class="mono" x="360" y="536" text-anchor="middle" fill="#475569" font-size="12">1 BENCHMARK SYSTEM</text>
+  <text class="mono" x="360" y="536" text-anchor="middle" fill="#475569" font-size="12">1 EVALUATION STUDY</text>
   <path d="M 360.0 720.0 L 527.7 641.8 A 185.0 185.0 0 0 1 376.1 904.3 Z" fill="#0891B2" fill-opacity=".12" stroke="#0891B2" stroke-opacity=".55"/>
   <circle class="node-pulse delay-1" cx="440.7" cy="743.2" r="8" fill="#0891B2" stroke="#FFFFFF" stroke-width="2.5"/>
   <circle class="node-pulse delay-2" cx="463.9" cy="780.0" r="8" fill="#0891B2" stroke="#FFFFFF" stroke-width="2.5"/>
