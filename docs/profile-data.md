@@ -1,15 +1,11 @@
-# Profile activity data
+# GitHub contribution data
 
-The profile activity panel is a dated snapshot, refreshed by the daily GitHub Actions workflow. It displays public development activity.
+The profile displays one measure: **GitHub contributions in the last year**, using the total shown on the [public GitHub contribution calendar](https://github.com/users/130U/contributions).
 
-- **Engineering commits:** commits returned by each selected repository's GitHub commits endpoint with `author=130U`, using the repository's default branch.
-- **Pull requests:** pull requests opened by `130U` in the selected repositories, including open and closed requests.
-- **Public repositories:** the account's public repository count from the GitHub user API.
+The generator reads GitHub's displayed total and checks it against the sum of the daily contribution counts. This follows GitHub's profile contribution rules; it is not a repository-scoped commit count. The calendar's intensity levels are retained in the saved data for verification, but no additional calendar is displayed in the README.
 
-The engineering scope is `agent-evaluation-methodology`, `reserach-portfolio-since2026`, `bazi-context-agent`, and `info-collector-2026`, as listed in `profile.config.json`. The two mathematical-finance repositories are presented separately from these activity counts.
+The daily workflow refreshes both the SVG and the verified data saved in profile.config.json. If the public calendar cannot be fetched or validated, the generator retains that saved data and its original collection date. The panel labels this as **Saved snapshot**.
 
-GitHub search links below the panel open the broader account activity. They are navigation links rather than the source of the panel's scoped totals.
+The assets provide static desktop, mobile, light, and dark variants. The generator uses Python's standard library, requires no repository token, and makes no changes to GitHub's native contribution graph.
 
-If GitHub's public API is unavailable, the generator uses the saved values in `profile.config.json`. The panel labels this as **Saved snapshot** and displays the saved collection date, rather than the rendering date. GitHub may cache README images, so the dated snapshot and [workflow history](https://github.com/130U/130U/actions/workflows/update-profile.yml) provide the update context.
-
-The visual assets are static SVGs with separate desktop, mobile, light, and dark variants. The generator uses Python's standard library and does not send a repository token to public telemetry endpoints.
+[GitHub contribution reference](https://docs.github.com/en/account-and-profile/reference/profile-contributions-reference)

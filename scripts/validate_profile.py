@@ -7,7 +7,7 @@ import json
 import re
 import sys
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 from generate_profile import PALETTES
@@ -18,22 +18,19 @@ README = ROOT / "README.md"
 CONFIG = ROOT / "profile.config.json"
 GENERATED = ROOT / "assets" / "generated"
 EXPECTED_ASSETS = {
-    "hero-light-v2.svg",
-    "hero-dark-v2.svg",
-    "hero-mobile-light-v2.svg",
-    "hero-mobile-dark-v2.svg",
-    "telemetry-light-v2.svg",
-    "telemetry-dark-v2.svg",
-    "telemetry-mobile-light-v2.svg",
-    "telemetry-mobile-dark-v2.svg",
+    "hero-light-v3.svg",
+    "hero-dark-v3.svg",
+    "hero-mobile-light-v3.svg",
+    "hero-mobile-dark-v3.svg",
+    "telemetry-light-v3.svg",
+    "telemetry-dark-v3.svg",
+    "telemetry-mobile-light-v3.svg",
+    "telemetry-mobile-dark-v3.svg",
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
-EXPECTED_PROJECT_REPOSITORIES = (
-    "bazi-context-agent",
-    "info-collector-2026",
-    "reserach-portfolio-since2026",
-    "agent-evaluation-methodology",
+RETIRED_METRIC_LABELS = (
+    "engineering commits", "project commits", "pull requests", "public repositories", "public repos",
 )
 EXPECTED_ACADEMIC_REPOSITORIES = (
     "certified-valuation-arithmetic-asian-options",
@@ -55,7 +52,7 @@ def validate_readme() -> None:
     text = README.read_text(encoding="utf-8")
     if re.search(r"[\u3400-\u9fff\uf900-\ufaff]", text):
         fail("README must remain English-only; CJK characters were found")
-    if "assets/generated/hero-light-v2.svg" not in text:
+    if "assets/generated/hero-light-v3.svg" not in text:
         fail("README is missing the light hero fallback")
     references = re.findall(r"/main/assets/generated/([\w-]+\.svg)", text)
     if len(references) != 8 or set(references) != EXPECTED_ASSETS:
@@ -66,31 +63,26 @@ def validate_readme() -> None:
         fail("README must provide two desktop/mobile theme-aware picture blocks")
     if text.count("(max-width: 767px)") != 4 or "(max-width: 600px)" in text:
         fail("README must use the tested 767px mobile asset breakpoint")
-    required_interactions = (
-        "actions/workflows/update-profile.yml",
-        "type=commits",
-        "github.com/pulls",
-        "tab=repositories",
-    )
-    if any(target not in text for target in required_interactions):
-        fail("README is missing one or more real navigation interactions")
+    if '#artificial-intelligence-and-engineering' not in text:
+        fail("README must link its main navigation to Artificial Intelligence and Engineering")
     if "Stars" in text or "STARS" in text:
         fail("Low-signal star telemetry must remain omitted")
     retired_copy = (
         "How the live clock works", "account age", "selected systems",
         "#selected-systems", "evidence before spectacle", "current questions",
+        "Engineering & Applied AI", "GitHub Activity", *RETIRED_METRIC_LABELS,
     )
     if any(marker.casefold() in text.casefold() for marker in retired_copy):
         fail("README contains retired clock or profile positioning copy")
-    headings = ("Mathematical Finance", "Engineering & Applied AI", "GitHub Activity")
+    headings = ("Artificial Intelligence and Engineering", "Mathematical Finance", "GitHub Contributions")
     heading_matches = [re.search(rf"^## {re.escape(heading)}\s*$", text, re.M) for heading in headings]
     if any(match is None for match in heading_matches):
-        fail("README is missing a required research, engineering, or activity section")
+        fail("README is missing a required AI, mathematical finance, or contribution section")
     positions = [match.start() for match in heading_matches if match is not None]
     if positions != sorted(positions):
-        fail("README must lead with mathematical finance, then engineering, then activity")
-    academic = text[positions[0]:positions[1]]
-    engineering = text[positions[1]:positions[2]]
+        fail("README must lead with AI and engineering, then mathematical finance, then contributions")
+    engineering = text[positions[0]:positions[1]]
+    academic = text[positions[1]:positions[2]]
     for section, repositories in (
         (academic, EXPECTED_ACADEMIC_REPOSITORIES),
         (engineering, EXPECTED_ENGINEERING_DISPLAY_ORDER),
@@ -101,11 +93,9 @@ def validate_readme() -> None:
         link_positions = [section.index(link) for link in links]
         if link_positions != sorted(link_positions):
             fail("README project ordering changed unexpectedly")
-    activity = text[positions[2]:]
-    if len(re.findall(r"^## ", activity, re.M)) != 1:
-        fail("GitHub Activity must remain the final major README section")
-    if not re.search(r"four engineering (?:repositories|projects)", activity, re.I):
-        fail("README must disclose the four-engineering-repository telemetry scope")
+    contributions = text[positions[2]:]
+    if len(re.findall(r"^## ", contributions, re.M)) != 1:
+        fail("GitHub Contributions must remain the final major README section")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
             fail(f"README references forbidden personal-site scope: {forbidden}")
@@ -124,8 +114,52 @@ def validate_config() -> None:
         fail("Fallback snapshot_updated_at must identify its timezone")
     if snapshot > datetime.now(snapshot.tzinfo):
         fail("Fallback snapshot_updated_at must not claim a future data collection time")
-    if tuple(data["language_source_repositories"]) != EXPECTED_PROJECT_REPOSITORIES:
-        fail("Telemetry must remain confined to the four selected project repositories")
+    retired_fields = (
+        "language_source_repositories", "account_created_at", "fallback_languages", "fallback_metrics",
+    )
+    if any(field in data for field in retired_fields):
+        fail("Configuration must not retain repository-scoped telemetry or account-age fields")
+    contributions = data.get("fallback_contributions")
+    if not isinstance(contributions, dict):
+        fail("Configuration must provide a fallback_contributions object")
+    total = contributions.get("total")
+    days = contributions.get("days")
+    if type(total) is not int or total < 0:
+        fail("Fallback contribution total must be a nonnegative integer")
+    if not isinstance(days, list):
+        fail("Fallback contribution days must be a list")
+
+    def calendar_date(value: object, label: str) -> date:
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            fail(f"{label} must use YYYY-MM-DD")
+        try:
+            return date.fromisoformat(value)
+        except ValueError:
+            fail(f"{label} is not a valid calendar date")
+
+    range_start = calendar_date(contributions.get("range_start"), "Fallback range_start")
+    range_end = calendar_date(contributions.get("range_end"), "Fallback range_end")
+    if range_start > range_end:
+        fail("Fallback contribution range_start must not follow range_end")
+    seen_dates: set[date] = set()
+    daily_total = 0
+    for day in days:
+        if not isinstance(day, dict):
+            fail("Every fallback contribution day must be an object")
+        day_date = calendar_date(day.get("date"), "Fallback contribution date")
+        if day_date in seen_dates:
+            fail("Fallback contribution dates must be unique")
+        if not range_start <= day_date <= range_end:
+            fail("Fallback contribution date lies outside its declared range")
+        count, level = day.get("count"), day.get("level")
+        if type(count) is not int or count < 0:
+            fail("Fallback daily contribution count must be a nonnegative integer")
+        if type(level) is not int or not 0 <= level <= 4:
+            fail("Fallback contribution level must be an integer from 0 to 4")
+        seen_dates.add(day_date)
+        daily_total += count
+    if daily_total != total:
+        fail("Fallback contribution total must equal the sum of daily counts")
     serialized = json.dumps(data, ensure_ascii=False)
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in serialized.casefold():
@@ -145,6 +179,8 @@ def validate_svg(path: Path) -> None:
     forbidden_markers = ("seconds-frame", "seconds-hand", "account age", "chronograph", "orbiter-", "bar-scan", "research-sweep")
     if any(marker in lowered for marker in forbidden_markers):
         fail(f"{path.name} contains retired clock or signal content")
+    if any(marker in lowered for marker in RETIRED_METRIC_LABELS):
+        fail(f"{path.name} contains a retired repository-scoped telemetry metric")
     if "-mobile-" in path.name:
         font_sizes = [float(value) for value in re.findall(r'font-size="(\d+(?:\.\d+)?)"', text)]
         if font_sizes and min(font_sizes) < 11.5:
@@ -159,6 +195,22 @@ def validate_svg(path: Path) -> None:
         fail(f"{path.name} root element is not SVG")
     if root.attrib.get("role") != "img" or not root.attrib.get("viewBox"):
         fail(f"{path.name} lacks image role or viewBox")
+    if path.name.startswith("telemetry-"):
+        if "contributions" not in " ".join(root.itertext()).casefold():
+            fail(f"{path.name} must display GitHub Contributions")
+        numeric_text = [
+            element for element in root.iter()
+            if element.tag.rsplit("}", 1)[-1] == "text"
+            and re.fullmatch(r"\d+(?:,\d{3})*", "".join(element.itertext()).strip())
+        ]
+        if len(numeric_text) != 1:
+            fail(f"{path.name} must display exactly one contribution total")
+        rectangles = [element for element in root.iter() if element.tag.rsplit("}", 1)[-1] == "rect"]
+        if len(rectangles) >= 28 or any(
+            "data-date" in element.attrib or "data-level" in element.attrib
+            for element in rectangles
+        ):
+            fail(f"{path.name} must not replace GitHub's native contribution calendar")
     for element in root.iter():
         if element.tag.rsplit("}", 1)[-1].casefold() in {
             "script", "foreignobject", "animate", "animatetransform", "animatemotion", "set", "mpath",
@@ -192,12 +244,12 @@ def validate_workflow() -> None:
     if "[skip ci]" in workflow:
         fail("Telemetry commits must rely on bounded paths instead of a skip-ci marker")
     required_output_controls = (
-        "git diff --quiet -- assets/generated",
-        "git add assets/generated",
+        "git diff --quiet -- assets/generated profile.config.json",
+        "git add assets/generated profile.config.json",
         "git push",
     )
     if any(control not in workflow for control in required_output_controls):
-        fail("Telemetry workflow must update generated assets on main and skip unchanged output")
+        fail("Telemetry workflow must save verified snapshot data and assets on main, skipping unchanged output")
     if "profile-assets" in workflow or "_profile-assets" in workflow:
         fail("Telemetry workflow must not depend on the retired asset branch")
 
@@ -226,6 +278,17 @@ def validate_palette_contrast() -> None:
         for background in backgrounds:
             if contrast_ratio(palette["blue"], palette[background]) < 3:
                 fail(f"{theme} blue accent does not reach 3:1 against {background}")
+        for path in GENERATED.glob(f"*-{theme}-v3.svg"):
+            root = ET.parse(path).getroot()
+            blue_text = any(
+                element.tag.rsplit("}", 1)[-1] == "text"
+                and element.attrib.get("fill", "").casefold() == palette["blue"].casefold()
+                for element in root.iter()
+            )
+            if blue_text:
+                for background in backgrounds:
+                    if contrast_ratio(palette["blue"], palette[background]) < 4.5:
+                        fail(f"{theme} blue text does not reach 4.5:1 against {background}")
 
 
 def validate_repository_boundary() -> None:
@@ -254,7 +317,7 @@ def main() -> None:
     validate_palette_contrast()
     validate_workflow()
     validate_repository_boundary()
-    print("Profile validation passed: research-led English copy, eight static safe SVGs, scoped workflow, forbidden repositories untouched.")
+    print("Profile validation passed: AI-first English copy, eight static safe SVGs, contribution data, scoped workflow, forbidden repositories untouched.")
 
 
 if __name__ == "__main__":

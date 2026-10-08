@@ -1,4 +1,4 @@
-name: Update profile telemetry
+name: Update profile contributions
 
 on:
   push:
@@ -43,15 +43,15 @@ jobs:
       - name: Validate profile
         run: python scripts/validate_profile.py
 
-      - name: Commit changed telemetry
+      - name: Commit updated contributions
         shell: bash
         run: |
-          if git diff --quiet -- assets/generated; then
-            echo "Profile telemetry is already current."
+          if git diff --quiet -- assets/generated profile.config.json; then
+            echo "Profile contributions are already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/generated
-          git commit -m "chore: refresh public profile telemetry"
+          git add assets/generated profile.config.json
+          git commit -m "chore: refresh GitHub contributions"
           git push
