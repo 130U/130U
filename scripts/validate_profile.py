@@ -18,14 +18,14 @@ README = ROOT / "README.md"
 CONFIG = ROOT / "profile.config.json"
 GENERATED = ROOT / "assets" / "generated"
 EXPECTED_ASSETS = {
-    "hero-light.svg",
-    "hero-dark.svg",
-    "hero-mobile-light.svg",
-    "hero-mobile-dark.svg",
-    "telemetry-light.svg",
-    "telemetry-dark.svg",
-    "telemetry-mobile-light.svg",
-    "telemetry-mobile-dark.svg",
+    "hero-light-v2.svg",
+    "hero-dark-v2.svg",
+    "hero-mobile-light-v2.svg",
+    "hero-mobile-dark-v2.svg",
+    "telemetry-light-v2.svg",
+    "telemetry-dark-v2.svg",
+    "telemetry-mobile-light-v2.svg",
+    "telemetry-mobile-dark-v2.svg",
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
@@ -55,7 +55,7 @@ def validate_readme() -> None:
     text = README.read_text(encoding="utf-8")
     if re.search(r"[\u3400-\u9fff\uf900-\ufaff]", text):
         fail("README must remain English-only; CJK characters were found")
-    if "assets/generated/hero-light.svg" not in text:
+    if "assets/generated/hero-light-v2.svg" not in text:
         fail("README is missing the light hero fallback")
     references = re.findall(r"/main/assets/generated/([\w-]+\.svg)", text)
     if len(references) != 8 or set(references) != EXPECTED_ASSETS:

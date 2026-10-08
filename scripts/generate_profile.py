@@ -230,8 +230,8 @@ def build_assets(config: dict, data: dict, generated_at: datetime) -> dict[str, 
     for theme in ('light', 'dark'):
         for mobile in (False, True):
             variant = f'mobile-{theme}' if mobile else theme
-            assets[f'hero-{variant}.svg'] = hero_svg(config, theme, mobile=mobile)
-            assets[f'telemetry-{variant}.svg'] = telemetry_svg(config, data, theme, generated_at, mobile=mobile)
+            assets[f'hero-{variant}-v2.svg'] = hero_svg(config, theme, mobile=mobile)
+            assets[f'telemetry-{variant}-v2.svg'] = telemetry_svg(config, data, theme, generated_at, mobile=mobile)
     return assets
 
 

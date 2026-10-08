@@ -1,10 +1,10 @@
 <div align="center">
   <picture>
-    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-dark.svg?v=20261008">
-    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-light.svg?v=20261008">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-dark.svg?v=20261008">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-light.svg?v=20261008">
-    <img src="assets/generated/hero-light.svg?v=20261008" alt="130U — Mathematical finance and intelligent systems. Research in certified option valuation; engineering for agent evaluation and research tools." width="100%">
+    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-dark-v2.svg">
+    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-light-v2.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-dark-v2.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-light-v2.svg">
+    <img src="assets/generated/hero-light-v2.svg" alt="130U — Mathematical finance and intelligent systems. Research in certified option valuation; engineering for agent evaluation and research tools." width="100%">
   </picture>
 </div>
 
@@ -43,11 +43,11 @@ Deterministic error certificates for rough Heston pricing, propagating fractiona
 
 <div align="center">
   <picture>
-    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-dark.svg?v=20261008">
-    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-light.svg?v=20261008">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-dark.svg?v=20261008">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-light.svg?v=20261008">
-    <img src="assets/generated/telemetry-light.svg?v=20261008" alt="GitHub activity snapshot: author-attributed commits and pull requests across the four engineering projects above, plus the account's public repository count." width="100%">
+    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-dark-v2.svg">
+    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-light-v2.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-dark-v2.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-light-v2.svg">
+    <img src="assets/generated/telemetry-light-v2.svg" alt="GitHub activity snapshot: author-attributed commits and pull requests across the four engineering projects above, plus the account's public repository count." width="100%">
   </picture>
 </div>
 
