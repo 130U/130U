@@ -122,6 +122,18 @@ def parse_contributions(html: str) -> dict:
     return parser.result()
 
 
+def contributions_last_30_days(data: dict) -> dict:
+    """Sum 30 calendar dates, including the latest date in GitHub's calendar."""
+    end = date.fromisoformat(data["range_end"])
+    start = end - timedelta(days=29)
+    days = [day for day in data["days"] if start.isoformat() <= day["date"] <= end.isoformat()]
+    expected_dates = {(start + timedelta(days=index)).isoformat() for index in range(30)}
+    if len(days) != 30 or {day["date"] for day in days} != expected_dates:
+        raise ValueError("Contribution calendar does not cover the complete 30-day window")
+    return {"total": sum(day["count"] for day in days),
+            "range_start": start.isoformat(), "range_end": end.isoformat()}
+
+
 def collect_live_data(config: dict) -> dict:
     username = urllib.parse.quote(config["username"], safe="")
     request = urllib.request.Request(
@@ -142,7 +154,9 @@ def resolve_profile_data(config: dict, live: bool) -> dict:
     if not live:
         return collect_snapshot_data(config)
     try:
-        return collect_live_data(config)
+        data = collect_live_data(config)
+        contributions_last_30_days(data)
+        return data
     except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError, KeyError) as error:
         reason = f"HTTP {error.code}" if isinstance(error, urllib.error.HTTPError) else error.__class__.__name__
         print(f"GitHub contribution calendar unavailable ({reason}); using the verified saved snapshot.", file=sys.stderr)
@@ -211,21 +225,23 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime,
     timestamp = data["snapshot_at"] if saved else generated_at.isoformat()
     timestamp_label = parse_utc(timestamp).strftime("%d %b %Y UTC")
     snapshot = ("Saved snapshot" if saved else "Updated") + " · " + timestamp_label
+    recent = contributions_last_30_days(data)
     parts = [svg_start(width, height, "130U — GitHub contributions",
-                       f'{data["total"]:,} GitHub contributions in the last year. {snapshot}.'),
+                       f'{recent["total"]:,} GitHub contributions in the last 30 days '
+                       f'({recent["range_start"]} through {recent["range_end"]}, inclusive). {snapshot}.'),
              f'<rect width="{width}" height="{height}" rx="16" fill="{p["bg_a"]}"/>']
     if mobile:
         parts.extend([
-            text(40, 100, f'{data["total"]:,}', 80, p["ink"], weight=650, tracking=-2),
+            text(40, 100, f'{recent["total"]:,}', 80, p["ink"], weight=650, tracking=-2),
             text(40, 151, "GitHub contributions", 32, p["ink"], weight=500),
-            text(40, 190, "In the last year", 25, p["muted"]),
+            text(40, 190, "Last 30 days", 25, p["muted"]),
             text(40, 233, snapshot, 20, p["faint"]),
         ])
     else:
         parts.extend([
-            text(48, 110, f'{data["total"]:,}', 82, p["ink"], weight=650, tracking=-2),
+            text(48, 110, f'{recent["total"]:,}', 82, p["ink"], weight=650, tracking=-2),
             text(330, 83, "GitHub contributions", 32, p["ink"], weight=500),
-            text(330, 119, "In the last year", 23, p["muted"]),
+            text(330, 119, "Last 30 days", 23, p["muted"]),
             text(1152, 156, snapshot, 17, p["faint"], anchor="end"),
         ])
     parts.append("</svg>\n")
@@ -238,7 +254,7 @@ def build_assets(config: dict, data: dict, generated_at: datetime) -> dict[str, 
         for mobile in (False, True):
             variant = f"mobile-{theme}" if mobile else theme
             assets[f"hero-{variant}-v3.svg"] = hero_svg(config, theme, mobile=mobile)
-            assets[f"telemetry-{variant}-v3.svg"] = telemetry_svg(config, data, theme, generated_at, mobile=mobile)
+            assets[f"telemetry-{variant}-v4.svg"] = telemetry_svg(config, data, theme, generated_at, mobile=mobile)
     return assets
 
 
@@ -265,7 +281,10 @@ def main() -> None:
     generated_at = datetime.now(timezone.utc)
     save_live_snapshot(config, data, generated_at)
     write_assets(config, data, generated_at)
-    print(f'Generated eight static SVG assets from {data["source"]}: {data["total"]:,} contributions.')
+    recent = contributions_last_30_days(data)
+    print(f'Generated eight static SVG assets from {data["source"]}: '
+          f'{recent["total"]:,} contributions in the last 30 days '
+          f'({recent["range_start"]} through {recent["range_end"]}).')
 
 
 if __name__ == "__main__":

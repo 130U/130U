@@ -22,10 +22,10 @@ EXPECTED_ASSETS = {
     "hero-dark-v3.svg",
     "hero-mobile-light-v3.svg",
     "hero-mobile-dark-v3.svg",
-    "telemetry-light-v3.svg",
-    "telemetry-dark-v3.svg",
-    "telemetry-mobile-light-v3.svg",
-    "telemetry-mobile-dark-v3.svg",
+    "telemetry-light-v4.svg",
+    "telemetry-dark-v4.svg",
+    "telemetry-mobile-light-v4.svg",
+    "telemetry-mobile-dark-v4.svg",
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
@@ -160,6 +160,10 @@ def validate_config() -> None:
         daily_total += count
     if daily_total != total:
         fail("Fallback contribution total must equal the sum of daily counts")
+    if len(seen_dates) < 30:
+        fail("Fallback contribution calendar must contain at least thirty days")
+    if len(seen_dates) != (range_end - range_start).days + 1:
+        fail("Fallback contribution calendar must cover every day in its declared range")
     serialized = json.dumps(data, ensure_ascii=False)
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in serialized.casefold():
@@ -198,6 +202,14 @@ def validate_svg(path: Path) -> None:
     if path.name.startswith("telemetry-"):
         if "contributions" not in " ".join(root.itertext()).casefold():
             fail(f"{path.name} must display GitHub Contributions")
+        visible_text = " ".join(
+            "".join(element.itertext()) for element in root.iter()
+            if element.tag.rsplit("}", 1)[-1] == "text"
+        ).casefold()
+        if not re.search(r"\blast\s+30\s+days\b", visible_text):
+            fail(f"{path.name} must label the displayed contribution total as Last 30 days")
+        if re.search(r"\blast\s+year\b", visible_text):
+            fail(f"{path.name} must not display the retired annual contribution period")
         numeric_text = [
             element for element in root.iter()
             if element.tag.rsplit("}", 1)[-1] == "text"
@@ -278,7 +290,7 @@ def validate_palette_contrast() -> None:
         for background in backgrounds:
             if contrast_ratio(palette["blue"], palette[background]) < 3:
                 fail(f"{theme} blue accent does not reach 3:1 against {background}")
-        for path in GENERATED.glob(f"*-{theme}-v3.svg"):
+        for path in GENERATED.glob(f"*-{theme}-v*.svg"):
             root = ET.parse(path).getroot()
             blue_text = any(
                 element.tag.rsplit("}", 1)[-1] == "text"

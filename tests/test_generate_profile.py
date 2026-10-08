@@ -8,7 +8,7 @@ import tempfile
 import unittest
 import urllib.error
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -45,11 +45,38 @@ EXPECTED_CONTRIBUTIONS = {
 GENERATED_AT = datetime(2026, 10, 8, 12, 0, tzinfo=timezone.utc)
 
 
+def dated_contributions(start: str, end: str, counts: dict[str, int]) -> dict:
+    first, last = date.fromisoformat(start), date.fromisoformat(end)
+    days = []
+    for index in range((last - first).days + 1):
+        day_date = (first + timedelta(days=index)).isoformat()
+        count = counts.get(day_date, 0)
+        days.append({"date": day_date, "count": count, "level": 1 if count else 0})
+    return {"total": sum(day["count"] for day in days), "days": days,
+            "range_start": start, "range_end": end}
+
+
+def calendar_html(data: dict) -> str:
+    parts = [f'<h2 id="js-contribution-activity-description">{data["total"]:,} contributions in the last year</h2>']
+    for index, day in enumerate(data["days"]):
+        cell_id = f"contribution-day-component-{index}-0"
+        parts.append(f'<td id="{cell_id}" data-date="{day["date"]}" data-level="{day["level"]}"></td>')
+        count = day["count"]
+        label = "No contributions" if count == 0 else f'{count:,} contribution' + ("s" if count != 1 else "")
+        parts.append(f'<tool-tip for="{cell_id}">{label} on {day["date"]}.</tool-tip>')
+    return "\n".join(parts)
+
+
+FULL_CONTRIBUTIONS = dated_contributions(
+    "2026-09-03", "2026-10-03", {"2026-09-03": 99, "2026-09-04": 2, "2026-10-03": 3}
+)
+
+
 def snapshot_config() -> dict:
     return {
         "username": "130U",
-        "fallback_contributions": EXPECTED_CONTRIBUTIONS,
-        "snapshot_updated_at": "2026-10-01T12:00:00Z",
+        "fallback_contributions": json.loads(json.dumps(FULL_CONTRIBUTIONS)),
+        "snapshot_updated_at": "2026-10-03T12:00:00Z",
     }
 
 
@@ -119,9 +146,81 @@ class ContributionCalendarTests(unittest.TestCase):
                 generate_profile.parse_contributions(html)
 
 
+class ContributionWindowTests(unittest.TestCase):
+    def test_thirty_day_cutoff_excludes_positive_thirty_first_day(self) -> None:
+        data = dated_contributions(
+            "2026-10-01", "2026-10-31", {"2026-10-01": 99, "2026-10-02": 2, "2026-10-31": 3}
+        )
+        self.assertEqual(generate_profile.contributions_last_30_days(data), {
+            "total": 5, "range_start": "2026-10-02", "range_end": "2026-10-31",
+        })
+        self.assertEqual(data["total"], 104)
+
+    def test_midmonth_and_year_and_leap_day_boundaries(self) -> None:
+        cases = (
+            ("midmonth", "2026-09-08", "2026-09-09", "2026-10-08", {"2026-09-09": 2, "2026-10-08": 3}, 5),
+            ("January", "2026-12-06", "2026-12-07", "2027-01-05", {"2026-12-07": 4, "2027-01-05": 5}, 9),
+            ("leap February", "2024-01-31", "2024-02-01", "2024-03-01",
+             {"2024-02-01": 2, "2024-02-29": 7, "2024-03-01": 3}, 12),
+            ("ordinary February", "2026-01-30", "2026-01-31", "2026-03-01",
+             {"2026-01-31": 2, "2026-02-28": 7, "2026-03-01": 3}, 12),
+        )
+        for label, outside, start, end, counts, total in cases:
+            with self.subTest(boundary=label):
+                data = dated_contributions(outside, end, {outside: 99, **counts})
+                self.assertEqual(generate_profile.contributions_last_30_days(data), {
+                    "total": total, "range_start": start, "range_end": end,
+                })
+
+    def test_zero_contribution_days_count_toward_complete_coverage(self) -> None:
+        data = dated_contributions("2026-10-02", "2026-10-31", {})
+        self.assertEqual(generate_profile.contributions_last_30_days(data), {
+            "total": 0, "range_start": "2026-10-02", "range_end": "2026-10-31",
+        })
+
+    def test_missing_recent_zero_count_day_is_rejected(self) -> None:
+        for missing in ("2026-10-02", "2026-10-15", "2026-10-31"):
+            with self.subTest(missing=missing):
+                data = dated_contributions("2026-10-02", "2026-10-31", {})
+                data["days"] = [day for day in data["days"] if day["date"] != missing]
+                with self.assertRaisesRegex(ValueError, "complete 30-day window"):
+                    generate_profile.contributions_last_30_days(data)
+
+    def test_duplicate_recent_dates_are_rejected_even_with_thirty_records(self) -> None:
+        for preserves_length in (False, True):
+            with self.subTest(preserves_length=preserves_length):
+                data = dated_contributions("2026-10-02", "2026-10-31", {})
+                duplicate = dict(data["days"][0])
+                if preserves_length:
+                    data["days"][15] = duplicate
+                else:
+                    data["days"].append(duplicate)
+                with self.assertRaisesRegex(ValueError, "complete 30-day window"):
+                    generate_profile.contributions_last_30_days(data)
+
+    def test_stale_saved_window_uses_calendar_end_instead_of_regeneration_date(self) -> None:
+        config = snapshot_config()
+        data = generate_profile.collect_snapshot_data(config)
+        self.assertEqual(generate_profile.contributions_last_30_days(data), {
+            "total": 5, "range_start": "2026-09-04", "range_end": "2026-10-03",
+        })
+        for theme in ("light", "dark"):
+            for mobile in (False, True):
+                with self.subTest(theme=theme, mobile=mobile):
+                    svg = generate_profile.telemetry_svg(config, data, theme, GENERATED_AT, mobile=mobile)
+                    root = ET.fromstring(svg)
+                    ns = {"svg": "http://www.w3.org/2000/svg"}
+                    self.assertEqual(root.find("svg:text", ns).text, "5")
+                    description = root.find("svg:desc", ns).text
+                    self.assertIn("2026-09-04 through 2026-10-03", description)
+                    self.assertIn("Saved snapshot", description)
+                    self.assertIn("03 Oct 2026 UTC", description)
+                    self.assertNotIn("08 Oct 2026 UTC", description)
+
+
 class GenerateProfileTests(unittest.TestCase):
     def test_public_calendar_request_omits_token_and_requests_english(self) -> None:
-        response = io.BytesIO(CALENDAR_HTML.encode("utf-8"))
+        response = io.BytesIO(calendar_html(FULL_CONTRIBUTIONS).encode("utf-8"))
         with patch.dict(os.environ, {"GITHUB_TOKEN": "not-a-real-token"}), patch.object(
             generate_profile.urllib.request, "urlopen", return_value=response
         ) as urlopen:
@@ -134,7 +233,7 @@ class GenerateProfileTests(unittest.TestCase):
         self.assertEqual(request.get_header("Accept-language"), "en-US")
         self.assertEqual(urlopen.call_args.kwargs["timeout"], 30)
         self.assertEqual(data["source"], generate_profile.LIVE_SOURCE)
-        self.assertEqual({key: data[key] for key in EXPECTED_CONTRIBUTIONS}, EXPECTED_CONTRIBUTIONS)
+        self.assertEqual({key: data[key] for key in FULL_CONTRIBUTIONS}, FULL_CONTRIBUTIONS)
 
     def test_unavailable_calendar_falls_back_without_changing_collection_time(self) -> None:
         config = snapshot_config()
@@ -150,7 +249,7 @@ class GenerateProfileTests(unittest.TestCase):
                 data = generate_profile.resolve_profile_data(config, live=True)
             self.assertEqual(data["source"], "verified local snapshot")
             self.assertEqual(data["snapshot_at"], config["snapshot_updated_at"])
-            self.assertEqual(data["total"], EXPECTED_CONTRIBUTIONS["total"])
+            self.assertEqual(data["total"], FULL_CONTRIBUTIONS["total"])
 
     def test_malformed_public_calendar_falls_back_to_verified_saved_data(self) -> None:
         response = io.BytesIO(CALENDAR_HTML.replace("3 contributions in", "4 contributions in").encode("utf-8"))
@@ -161,11 +260,23 @@ class GenerateProfileTests(unittest.TestCase):
             data = generate_profile.resolve_profile_data(config, live=True)
         self.assertEqual(data["source"], "verified local snapshot")
         self.assertEqual(data["snapshot_at"], config["snapshot_updated_at"])
-        self.assertEqual(data["days"], EXPECTED_CONTRIBUTIONS["days"])
+        self.assertEqual(data["days"], FULL_CONTRIBUTIONS["days"])
+
+    def test_incomplete_recent_calendar_falls_back_to_verified_saved_data(self) -> None:
+        response = io.BytesIO(CALENDAR_HTML.encode("utf-8"))
+        config = snapshot_config()
+        with patch.object(generate_profile.urllib.request, "urlopen", return_value=response), patch(
+            "sys.stderr", new_callable=io.StringIO
+        ):
+            data = generate_profile.resolve_profile_data(config, live=True)
+        self.assertEqual(data["source"], "verified local snapshot")
+        self.assertEqual(data["snapshot_at"], config["snapshot_updated_at"])
+        self.assertEqual(data["days"], FULL_CONTRIBUTIONS["days"])
+        self.assertEqual(generate_profile.contributions_last_30_days(data)["total"], 5)
 
     def test_main_saves_successfully_verified_live_snapshot(self) -> None:
         config = snapshot_config()
-        live = {**EXPECTED_CONTRIBUTIONS, "source": generate_profile.LIVE_SOURCE}
+        live = {**FULL_CONTRIBUTIONS, "source": generate_profile.LIVE_SOURCE}
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
             path = Path(directory) / "profile.config.json"
             path.write_text(json.dumps(config) + "\n", encoding="utf-8")
@@ -179,7 +290,7 @@ class GenerateProfileTests(unittest.TestCase):
                 clock.now.return_value = GENERATED_AT
                 generate_profile.main()
             saved = json.loads(path.read_text(encoding="utf-8"))
-        self.assertEqual(saved["fallback_contributions"], EXPECTED_CONTRIBUTIONS)
+        self.assertEqual(saved["fallback_contributions"], FULL_CONTRIBUTIONS)
         self.assertEqual(saved["snapshot_updated_at"], "2026-10-08T12:00:00Z")
         write_assets.assert_called_once()
         self.assertEqual(write_assets.call_args.args[1], live)
