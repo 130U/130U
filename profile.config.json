@@ -1,16 +1,16 @@
 {
   "username": "130U",
   "identity": {
-    "eyebrow": "SYSTEMS RESEARCH",
-    "headline": "Researching intelligent systems.",
-    "subheadline": "Building evidence that holds.",
-    "descriptor": "AGENTIC AI  /  EVALUATION  /  RESEARCH SYSTEMS"
+    "eyebrow": "130U / RESEARCH & ENGINEERING",
+    "headline": "Mathematical finance.",
+    "subheadline": "Intelligent systems.",
+    "descriptor": "Certified valuation, agent evaluation, and research tools."
   },
   "account_created_at": "2026-07-20T15:13:55Z",
   "fallback_metrics": {
-    "public_commits": 43,
-    "pull_requests": 21,
-    "public_repositories": 6
+    "public_commits": 54,
+    "pull_requests": 25,
+    "public_repositories": 8
   },
   "language_source_repositories": [
     "bazi-context-agent",
@@ -19,25 +19,13 @@
     "agent-evaluation-methodology"
   ],
   "fallback_languages": {
-    "TypeScript": 421615,
-    "JavaScript": 313500,
-    "HTML": 308094,
-    "Python": 289699,
-    "CSS": 143773,
-    "PowerShell": 66804,
+    "TypeScript": 422364,
+    "JavaScript": 332774,
+    "CSS": 104679,
+    "HTML": 254954,
+    "Python": 1294598,
+    "PowerShell": 64432,
     "Shell": 5702
   },
-  "focus_sectors": [
-    {"label": "Agent Systems & Evaluation", "evidence": "1 evaluation study", "nodes": 1},
-    {"label": "Embodied Intelligence", "evidence": "3 research studies", "nodes": 3},
-    {"label": "Context & Knowledge Systems", "evidence": "2 working systems", "nodes": 2}
-  ],
-  "hero_signals": [
-    "Agentic AI",
-    "Evaluation",
-    "Research Ops",
-    "Embodied AI",
-    "Product Systems",
-    "Evidence Design"
-  ]
+  "snapshot_updated_at": "2026-10-08T12:42:42.259034Z"
 }

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import generate_profile  # noqa: E402
+import validate_profile  # noqa: E402
 
 
 class GenerateProfileTests(unittest.TestCase):
@@ -103,7 +104,7 @@ class GenerateProfileTests(unittest.TestCase):
         self.assertEqual(data["source"], "verified local snapshot")
         self.assertEqual(data["public_commits"], 43)
 
-    def test_snapshot_generation_writes_twelve_valid_svg_assets(self) -> None:
+    def test_snapshot_generation_writes_eight_static_safe_svg_assets(self) -> None:
         config = generate_profile.load_config()
         data = generate_profile.collect_snapshot_data(config)
         generated_at = datetime(2026, 8, 26, 12, 0, tzinfo=timezone.utc)
@@ -115,10 +116,11 @@ class GenerateProfileTests(unittest.TestCase):
             assets = sorted(Path(directory).glob("*.svg"))
             for asset in assets:
                 ET.parse(asset)
+                validate_profile.validate_svg(asset)
 
-        self.assertEqual(len(assets), 12)
+        self.assertEqual({asset.name for asset in assets}, validate_profile.EXPECTED_ASSETS)
 
-    def test_asset_build_is_deterministic_and_styles_are_family_scoped(self) -> None:
+    def test_asset_build_is_deterministic_and_static(self) -> None:
         config = generate_profile.load_config()
         data = generate_profile.collect_snapshot_data(config)
         generated_at = datetime(2026, 8, 26, 12, 0, tzinfo=timezone.utc)
@@ -127,20 +129,51 @@ class GenerateProfileTests(unittest.TestCase):
         second = generate_profile.build_assets(config, data, generated_at)
 
         self.assertEqual(first, second)
-        self.assertEqual(len(first), 12)
+        self.assertEqual(len(first), 8)
         for name, svg in first.items():
-            if name.startswith("telemetry-"):
-                self.assertIn("infinite", svg)
-                self.assertNotIn("bar-scan", svg)
-                self.assertNotIn("orbiter-", svg)
-            else:
-                self.assertNotIn("infinite", svg)
-            if name.startswith("hero-"):
-                self.assertNotIn("seconds-frame", svg)
-                self.assertNotIn("bar-scan", svg)
-            if name.startswith("signals-"):
-                self.assertNotIn("seconds-frame", svg)
-                self.assertNotIn("metric-runner", svg)
+            self.assertNotIn("infinite", svg)
+            self.assertNotIn("@keyframes", svg)
+            self.assertNotIn("animation:", svg)
+            self.assertNotIn("seconds-frame", svg)
+            self.assertNotIn("ACCOUNT AGE", svg)
+            self.assertFalse(name.startswith("signals-"))
+
+    def test_fallback_metrics_keep_their_collection_date_when_assets_are_regenerated(self) -> None:
+        config = generate_profile.load_config()
+        config["snapshot_updated_at"] = "2026-10-01T12:00:00Z"
+        failure = urllib.error.URLError("offline")
+        with patch.object(generate_profile, "collect_live_data", side_effect=failure):
+            data = generate_profile.resolve_profile_data(config, live=True)
+
+        self.assertEqual(data["source"], "verified local snapshot")
+        self.assertEqual(data.get("snapshot_at"), config["snapshot_updated_at"])
+        regenerated_at = datetime(2026, 10, 8, 12, 0, tzinfo=timezone.utc)
+        assets = generate_profile.build_assets(config, data, regenerated_at)
+        old_date_patterns = (
+            "01 OCT 2026", "OCT 01, 2026", "OCT 1, 2026", "2026-10-01", "1 OCT 2026",
+        )
+        generated_date_patterns = ("08 OCT 2026", "OCT 08, 2026", "OCT 8, 2026", "2026-10-08", "8 OCT 2026")
+        for name, svg in assets.items():
+            if not name.startswith("telemetry-"):
+                continue
+            visible_text = " ".join(ET.fromstring(svg).itertext()).upper()
+            self.assertTrue(any(date in visible_text for date in old_date_patterns), name)
+            self.assertFalse(any(date in visible_text for date in generated_date_patterns), name)
+            self.assertIn("SNAPSHOT", visible_text)
+
+    def test_profile_presents_both_mathematical_finance_projects_before_engineering(self) -> None:
+        validate_profile.validate_readme()
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        first, second = validate_profile.EXPECTED_ACADEMIC_REPOSITORIES
+        swapped = readme.replace(first, "TEMP_ACADEMIC_REPOSITORY").replace(second, first).replace(
+            "TEMP_ACADEMIC_REPOSITORY", second
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "README.md"
+            path.write_text(swapped, encoding="utf-8")
+            with patch.object(validate_profile, "README", path):
+                with self.assertRaisesRegex(AssertionError, "project ordering"):
+                    validate_profile.validate_readme()
 
 
 if __name__ == "__main__":

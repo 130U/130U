@@ -7,6 +7,7 @@ import json
 import re
 import sys
 import xml.etree.ElementTree as ET
+from datetime import datetime
 from pathlib import Path
 
 from generate_profile import PALETTES
@@ -25,10 +26,6 @@ EXPECTED_ASSETS = {
     "telemetry-dark.svg",
     "telemetry-mobile-light.svg",
     "telemetry-mobile-dark.svg",
-    "signals-light.svg",
-    "signals-dark.svg",
-    "signals-mobile-light.svg",
-    "signals-mobile-dark.svg",
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
@@ -37,6 +34,16 @@ EXPECTED_PROJECT_REPOSITORIES = (
     "info-collector-2026",
     "reserach-portfolio-since2026",
     "agent-evaluation-methodology",
+)
+EXPECTED_ACADEMIC_REPOSITORIES = (
+    "certified-valuation-arithmetic-asian-options",
+    "certified-rough-heston-valuation",
+)
+EXPECTED_ENGINEERING_DISPLAY_ORDER = (
+    "agent-evaluation-methodology",
+    "reserach-portfolio-since2026",
+    "bazi-context-agent",
+    "info-collector-2026",
 )
 
 
@@ -50,33 +57,55 @@ def validate_readme() -> None:
         fail("README must remain English-only; CJK characters were found")
     if "assets/generated/hero-light.svg" not in text:
         fail("README is missing the light hero fallback")
-    if text.count("/main/assets/generated/") != 12:
-        fail("README must load twelve desktop/mobile theme assets from main")
+    references = re.findall(r"/main/assets/generated/([\w-]+\.svg)", text)
+    if len(references) != 8 or set(references) != EXPECTED_ASSETS:
+        fail("README must load exactly eight desktop/mobile theme assets from main")
     if "/profile-assets/" in text:
         fail("README must not depend on the retired profile-assets branch")
-    if text.count("<picture>") != 3 or text.count("prefers-color-scheme: dark") != 6:
-        fail("README must provide three desktop/mobile theme-aware picture blocks")
-    if text.count("(max-width: 767px)") != 6 or "(max-width: 600px)" in text:
+    if text.count("<picture>") != 2 or text.count("prefers-color-scheme: dark") != 4:
+        fail("README must provide two desktop/mobile theme-aware picture blocks")
+    if text.count("(max-width: 767px)") != 4 or "(max-width: 600px)" in text:
         fail("README must use the tested 767px mobile asset breakpoint")
-    if text.count("<details>") < 1 or "How the live clock works" not in text:
-        fail("README must provide a genuine GitHub-native expandable interaction")
     required_interactions = (
         "actions/workflows/update-profile.yml",
         "type=commits",
         "github.com/pulls",
         "tab=repositories",
-        "#selected-systems",
     )
     if any(target not in text for target in required_interactions):
         fail("README is missing one or more real navigation interactions")
-    if "not a wall-clock service" not in text:
-        fail("README must disclose the GitHub clock precision boundary")
     if "Stars" in text or "STARS" in text:
         fail("Low-signal star telemetry must remain omitted")
-    if "20 July 2026 at 23:13 Beijing time" not in text:
-        fail("README must preserve the stable, human-readable account creation date")
-    if "across Agent Evaluation Methodology, Research Portfolio, BaZi Context Agent, and Info Collector." not in text:
-        fail("README must disclose the selected-repository telemetry scope")
+    retired_copy = (
+        "How the live clock works", "account age", "selected systems",
+        "#selected-systems", "evidence before spectacle", "current questions",
+    )
+    if any(marker.casefold() in text.casefold() for marker in retired_copy):
+        fail("README contains retired clock or profile positioning copy")
+    headings = ("Mathematical Finance", "Engineering & Applied AI", "GitHub Activity")
+    heading_matches = [re.search(rf"^## {re.escape(heading)}\s*$", text, re.M) for heading in headings]
+    if any(match is None for match in heading_matches):
+        fail("README is missing a required research, engineering, or activity section")
+    positions = [match.start() for match in heading_matches if match is not None]
+    if positions != sorted(positions):
+        fail("README must lead with mathematical finance, then engineering, then activity")
+    academic = text[positions[0]:positions[1]]
+    engineering = text[positions[1]:positions[2]]
+    for section, repositories in (
+        (academic, EXPECTED_ACADEMIC_REPOSITORIES),
+        (engineering, EXPECTED_ENGINEERING_DISPLAY_ORDER),
+    ):
+        links = [f"https://github.com/130U/{repository}" for repository in repositories]
+        if any(link not in section for link in links):
+            fail("README is missing a required project in its designated section")
+        link_positions = [section.index(link) for link in links]
+        if link_positions != sorted(link_positions):
+            fail("README project ordering changed unexpectedly")
+    activity = text[positions[2]:]
+    if len(re.findall(r"^## ", activity, re.M)) != 1:
+        fail("GitHub Activity must remain the final major README section")
+    if not re.search(r"four engineering (?:repositories|projects)", activity, re.I):
+        fail("README must disclose the four-engineering-repository telemetry scope")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
             fail(f"README references forbidden personal-site scope: {forbidden}")
@@ -86,8 +115,15 @@ def validate_config() -> None:
     data = json.loads(CONFIG.read_text(encoding="utf-8"))
     if data["username"] != "130U":
         fail("Profile repository must target exactly 130U")
-    if data["account_created_at"] != "2026-07-20T15:13:55Z":
-        fail("Authoritative account creation timestamp changed unexpectedly")
+    snapshot_at = data.get("snapshot_updated_at")
+    try:
+        snapshot = datetime.fromisoformat(snapshot_at.replace("Z", "+00:00"))
+    except (AttributeError, TypeError, ValueError):
+        fail("Fallback metrics require a valid snapshot_updated_at timestamp")
+    if snapshot.tzinfo is None or snapshot.utcoffset() is None:
+        fail("Fallback snapshot_updated_at must identify its timezone")
+    if snapshot > datetime.now(snapshot.tzinfo):
+        fail("Fallback snapshot_updated_at must not claim a future data collection time")
     if tuple(data["language_source_repositories"]) != EXPECTED_PROJECT_REPOSITORIES:
         fail("Telemetry must remain confined to the four selected project repositories")
     serialized = json.dumps(data, ensure_ascii=False)
@@ -102,31 +138,13 @@ def validate_svg(path: Path) -> None:
     for marker in FORBIDDEN_SVG_MARKERS:
         if marker.casefold() in lowered:
             fail(f"{path.name} contains forbidden SVG marker: {marker}")
-    if "prefers-reduced-motion: reduce" not in text:
-        fail(f"{path.name} lacks a reduced-motion fallback")
-    if "animation: none !important" not in lowered:
-        fail(f"{path.name} lacks an explicit reduced-motion animation override")
-    durations = [float(value) for value in re.findall(r"(?<![\w.])(\d+(?:\.\d+)?)s\b", text)]
-    if path.name.startswith("telemetry-"):
-        required_clock_markers = ("seconds-frame", "secondsSweep", "60s", "ACCOUNT AGE")
-        if any(marker not in text for marker in required_clock_markers):
-            fail(f"{path.name} lacks the live chronograph contract")
-        if "infinite" not in lowered or (durations and max(durations) > 60):
-            fail(f"{path.name} must limit continuous motion to the sixty-second chronograph")
-        forbidden_markers = ("orbiter-", "bar-scan", "research-sweep")
-    elif path.name.startswith("hero-"):
-        if "infinite" in lowered or (durations and max(durations) > 5):
-            fail(f"{path.name} ambient motion must settle within five seconds")
-        forbidden_markers = ("seconds-frame", "bar-scan", "metric-runner")
-    elif path.name.startswith("signals-"):
-        required_signal_motion = ("bar-scan", "research-sweep")
-        if any(marker not in text for marker in required_signal_motion):
-            fail(f"{path.name} lacks visible signal scanning motion")
-        if "infinite" in lowered or (durations and max(durations) > 5):
-            fail(f"{path.name} ambient motion must settle within five seconds")
-        forbidden_markers = ("seconds-frame", "orbiter-", "metric-runner")
-    if any(marker in text for marker in forbidden_markers):
-        fail(f"{path.name} embeds styles from another visual family")
+    if re.search(r"\banimation(?:-[\w-]+)?\s*:|@(?:-\w+-)?keyframes\b|@font-face\b|@import\b", lowered):
+        fail(f"{path.name} must remain static and use locally available fonts")
+    if re.search(r"url\(\s*['\"]?(?:https?:|//|data:|file:)", lowered):
+        fail(f"{path.name} contains an external or embedded CSS asset")
+    forbidden_markers = ("seconds-frame", "seconds-hand", "account age", "chronograph", "orbiter-", "bar-scan", "research-sweep")
+    if any(marker in lowered for marker in forbidden_markers):
+        fail(f"{path.name} contains retired clock or signal content")
     if "-mobile-" in path.name:
         font_sizes = [float(value) for value in re.findall(r'font-size="(\d+(?:\.\d+)?)"', text)]
         if font_sizes and min(font_sizes) < 11.5:
@@ -142,11 +160,16 @@ def validate_svg(path: Path) -> None:
     if root.attrib.get("role") != "img" or not root.attrib.get("viewBox"):
         fail(f"{path.name} lacks image role or viewBox")
     for element in root.iter():
-        if element.tag.rsplit("}", 1)[-1] == "script":
-            fail(f"{path.name} contains a script element")
+        if element.tag.rsplit("}", 1)[-1].casefold() in {
+            "script", "foreignobject", "animate", "animatetransform", "animatemotion", "set", "mpath",
+        }:
+            fail(f"{path.name} contains an active or non-static SVG element")
         for attribute, value in element.attrib.items():
-            if attribute.rsplit("}", 1)[-1] in {"href", "src"} and re.match(r"https?://", value, re.I):
-                fail(f"{path.name} contains an external asset reference")
+            attribute_name = attribute.rsplit("}", 1)[-1].casefold()
+            if attribute_name.startswith("on"):
+                fail(f"{path.name} contains an event handler")
+            if attribute_name in {"href", "src"} and not value.startswith("#"):
+                fail(f"{path.name} contains a non-local asset reference")
 
 
 def validate_workflow() -> None:
@@ -200,9 +223,9 @@ def validate_palette_contrast() -> None:
             for background in backgrounds:
                 if contrast_ratio(palette[role], palette[background]) < 4.5:
                     fail(f"{theme} {role} text does not reach 4.5:1 against {background}")
-        for role in ("blue", "cyan", "violet", "amber", "green"):
-            if contrast_ratio(palette[role], palette["surface"]) < 3:
-                fail(f"{theme} {role} chart mark does not reach 3:1 against its surface")
+        for background in backgrounds:
+            if contrast_ratio(palette["blue"], palette[background]) < 3:
+                fail(f"{theme} blue accent does not reach 3:1 against {background}")
 
 
 def validate_repository_boundary() -> None:
@@ -225,13 +248,13 @@ def main() -> None:
     validate_config()
     actual = {path.name for path in GENERATED.glob("*.svg")}
     if actual != EXPECTED_ASSETS:
-        fail(f"Expected twelve generated assets, found: {sorted(actual)}")
+        fail(f"Expected eight generated assets, found: {sorted(actual)}")
     for path in sorted(GENERATED.glob("*.svg")):
         validate_svg(path)
     validate_palette_contrast()
     validate_workflow()
     validate_repository_boundary()
-    print("Profile validation passed: English copy, twelve safe SVGs, scoped workflow, forbidden repositories untouched.")
+    print("Profile validation passed: research-led English copy, eight static safe SVGs, scoped workflow, forbidden repositories untouched.")
 
 
 if __name__ == "__main__":
