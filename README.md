@@ -36,21 +36,17 @@ My projects combine mathematical research with working software. The links below
 
 ### Certified Valuation of Arithmetic Asian Options
 
-Arithmetic averaging makes the option payoff difficult to handle analytically. I develop a weighted remainder from a Gaussian factor shared across observation dates, then connect it to validated transforms for the original projected Euler scheme.
+I develop a mathematical framework for certifying discretization error in arithmetic Asian valuation. Its core is a weighted payoff-remainder bound derived from a Gaussian factor shared across observation dates. This connects the payoff’s nonsmooth structure to computable moment bounds, which I combine with validated transforms for the original projected Euler scheme under Heston stochastic volatility.
 
-This produces a complete discretization-error certificate below **0.011025 price units** for the paper's one-year Heston Asian call spread. A separate deterministic-variance coupling example reduces the nonlinear remainder width by **99.4%**.
-
-The contribution brings the payoff's nonsmooth structure and the actual numerical implementation into one monetary error budget, making the accuracy of the reported valuation a mathematical claim that can be checked.
+In the paper’s one-year Heston Asian call-spread example with twelve monthly fixings, the framework establishes a complete discretization-error bound below **0.011025 price units**. The contribution connects payoff analysis, stochastic dynamics and validated computation to give a rigorous monetary guarantee for the discrete valuation.
 
 [Paper](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md) · [Research repository](https://github.com/130U/certified-valuation-arithmetic-asian-options) · [Results](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/EVIDENCE.md)
 
 ### Certified Joint Pricing Errors in Rough Heston
 
-Prices at different strikes share the same Fourier transform. I preserve that dependence in the error calculation and propagate a continuous fractional Riccati residual into a joint certificate for the actual pricing output.
+I establish a deterministic framework for joint pricing-error certification in rough Heston. A finite-history theorem carries continuous fractional Riccati residuals into the pricing exponent, while a joint error set preserves the Fourier perturbations shared across strikes. Together, these results provide rigorous bounds for spreads and portfolio valuations sharing the same model and maturity.
 
-For the paper's quarter-year 4400–4500 call spread, the shared-error method reduces the complete upper bound from **0.252393939 to 0.233318843 index points**. It certifies a **0.25-point budget** that a matched marginal calculation leaves unresolved.
-
-The work connects fractional dynamics to portfolio-level accuracy decisions. It shows why the geometry of shared numerical errors matters when a pricing method must meet an explicit tolerance.
+For the paper’s quarter-year **4400–4500 call spread**, the framework certifies the stored numerical output with a complete error upper bound of **0.233318843 index points**, meeting a **0.25-point accuracy budget**. The certificate includes quadrature, omitted frequencies, the infinite tail and arithmetic, connecting fractional dynamics to a checkable guarantee for the valuation.
 
 [Paper](https://github.com/130U/certified-rough-heston-valuation/blob/main/ARTICLE.md) · [Research repository](https://github.com/130U/certified-rough-heston-valuation) · [Results](https://github.com/130U/certified-rough-heston-valuation/blob/main/EVIDENCE.md)
 
