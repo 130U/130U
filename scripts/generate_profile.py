@@ -32,6 +32,17 @@ PALETTES = {
     },
 }
 
+TELEMETRY_PALETTES = {
+    "light": {
+        "background": "#FFF1F5", "number": "#BE185D", "title": "#831843",
+        "description": "#9D3562", "timestamp": "#945269",
+    },
+    "dark": {
+        "background": "#291A24", "number": "#F9A8D4", "title": "#FCE7F3",
+        "description": "#E3A8C2", "timestamp": "#CCA0B4",
+    },
+}
+
 
 def load_config() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
@@ -219,7 +230,7 @@ def hero_svg(config: dict, theme: str, *, mobile: bool = False) -> str:
 
 def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime,
                   *, mobile: bool = False) -> str:
-    p = PALETTES[theme]
+    p = TELEMETRY_PALETTES[theme]
     width, height = (640, 260) if mobile else (1200, 180)
     saved = data["source"] != LIVE_SOURCE
     timestamp = data["snapshot_at"] if saved else generated_at.isoformat()
@@ -229,20 +240,20 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime,
     parts = [svg_start(width, height, "130U — GitHub contributions",
                        f'{recent["total"]:,} GitHub contributions in the last 30 days '
                        f'({recent["range_start"]} through {recent["range_end"]}, inclusive). {snapshot}.'),
-             f'<rect width="{width}" height="{height}" rx="16" fill="{p["bg_a"]}"/>']
+             f'<rect width="{width}" height="{height}" rx="16" fill="{p["background"]}"/>']
     if mobile:
         parts.extend([
-            text(40, 100, f'{recent["total"]:,}', 80, p["ink"], weight=650, tracking=-2),
-            text(40, 151, "GitHub contributions", 32, p["ink"], weight=500),
-            text(40, 190, "Last 30 days", 25, p["muted"]),
-            text(40, 233, snapshot, 20, p["faint"]),
+            text(40, 100, f'{recent["total"]:,}', 80, p["number"], weight=650, tracking=-2),
+            text(40, 151, "GitHub contributions", 32, p["title"], weight=500),
+            text(40, 190, "Last 30 days", 25, p["description"]),
+            text(40, 233, snapshot, 20, p["timestamp"]),
         ])
     else:
         parts.extend([
-            text(48, 110, f'{recent["total"]:,}', 82, p["ink"], weight=650, tracking=-2),
-            text(330, 83, "GitHub contributions", 32, p["ink"], weight=500),
-            text(330, 119, "Last 30 days", 23, p["muted"]),
-            text(1152, 156, snapshot, 17, p["faint"], anchor="end"),
+            text(48, 110, f'{recent["total"]:,}', 82, p["number"], weight=650, tracking=-2),
+            text(330, 83, "GitHub contributions", 32, p["title"], weight=500),
+            text(330, 119, "Last 30 days", 23, p["description"]),
+            text(1152, 156, snapshot, 17, p["timestamp"], anchor="end"),
         ])
     parts.append("</svg>\n")
     return "\n".join(parts)

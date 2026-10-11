@@ -6,9 +6,9 @@
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
   </style>
 
-<rect width="640" height="260" rx="16" fill="#F6F7F9"/>
-<text x="40" y="100" font-size="80" fill="#1D1D1F" font-weight="650" letter-spacing="-2" text-anchor="start">113</text>
-<text x="40" y="151" font-size="32" fill="#1D1D1F" font-weight="500" letter-spacing="0" text-anchor="start">GitHub contributions</text>
-<text x="40" y="190" font-size="25" fill="#505056" font-weight="400" letter-spacing="0" text-anchor="start">Last 30 days</text>
-<text x="40" y="233" font-size="20" fill="#626269" font-weight="400" letter-spacing="0" text-anchor="start">Updated · 11 Oct 2026 UTC</text>
+<rect width="640" height="260" rx="16" fill="#FFF1F5"/>
+<text x="40" y="100" font-size="80" fill="#BE185D" font-weight="650" letter-spacing="-2" text-anchor="start">113</text>
+<text x="40" y="151" font-size="32" fill="#831843" font-weight="500" letter-spacing="0" text-anchor="start">GitHub contributions</text>
+<text x="40" y="190" font-size="25" fill="#9D3562" font-weight="400" letter-spacing="0" text-anchor="start">Last 30 days</text>
+<text x="40" y="233" font-size="20" fill="#945269" font-weight="400" letter-spacing="0" text-anchor="start">Updated · 11 Oct 2026 UTC</text>
 </svg>

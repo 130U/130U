@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from datetime import date, datetime
 from pathlib import Path
 
-from generate_profile import PALETTES
+from generate_profile import PALETTES, TELEMETRY_PALETTES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -281,6 +281,10 @@ def contrast_ratio(first: str, second: str) -> float:
 
 
 def validate_palette_contrast() -> None:
+    for theme, palette in TELEMETRY_PALETTES.items():
+        for role in ("number", "title", "description", "timestamp"):
+            if contrast_ratio(palette[role], palette["background"]) < 4.5:
+                fail(f"{theme} contribution {role} text does not reach 4.5:1 against its background")
     for theme, palette in PALETTES.items():
         backgrounds = ("bg_a", "bg_b", "surface", "surface_2")
         for role in ("ink", "muted", "faint"):
