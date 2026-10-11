@@ -12,9 +12,9 @@
   </picture>
 </div>
 
-I develop mathematical methods and working systems that connect an idea to a result: deterministic pricing-error certificates, intervention-aware agent evaluation, language-model training infrastructure, and research tools with inspectable outputs.
+I study how numerical errors affect option prices and how evaluation feedback should guide changes to AI agents. I also build software for financial text analysis and personal research, and write about robotics and technology adoption.
 
-My work combines **proof, implementation, and quantitative verification**. The projects below show the method, the result, and the artifacts behind it.
+My projects combine mathematical research with working software. The links below lead to the papers, implementations, and results.
 
 <p align="center">
   <a href="#artificial-intelligence-and-engineering">Artificial Intelligence and Engineering</a>
@@ -24,31 +24,35 @@ My work combines **proof, implementation, and quantitative verification**. The p
 
 ## Artificial Intelligence and Engineering
 
-| Project | Contribution and results |
+| Project | Contribution |
 | --- | --- |
-| [Agent Evaluation Methodology](https://github.com/130U/agent-evaluation-methodology) | **ICFA — Intervention-Constrained Feedback Admission:** connects evaluation feedback to action-time evidence, action origin, and the component an optimizer can change. Recorded integrity controls retain **120 valid cases** and identify **440 predefined structural faults**; **36 initialization checks** isolate framework-generated behavior. |
-| [Research Portfolio](https://github.com/130U/reserach-portfolio-since2026) | Equation-led robotics analysis and technology landscape research, published in Chinese and English with source registries, company dossiers, claim ledgers, and a ten-page world-model research presentation. |
-| [BaZi Context Agent](https://github.com/130U/bazi-context-agent) | A deterministic interpretation engine with birth-hour candidate comparison, isolated user context, structured report generation, and **four evaluation modes**. A public browser experience connects the research pipeline to an interactive product. |
-| [Info Collector](https://github.com/130U/info-collector-2026) | An integrated reading workflow: Chrome capture → Chinese translation and summaries → searchable reading desk → Markdown archive → weekly review. |
-| [130U-FinLLM](https://github.com/130U/130U-FinLLM) | A financial stance training stack built around a **24.26M-parameter decoder specification**, self-trained BPE, staged training, full-state recovery, and calibration. Saved preparation artifacts contain **5.32M training tokens** with **10,686 candidate headlines excluded before tokenizer training**. |
+| [Agent Evaluation Methodology](https://github.com/130U/agent-evaluation-methodology) | **ICFA**, a method for deciding which evaluation feedback belongs in an agent's prompt update. It connects the diagnosis to what the agent knew, who produced the behavior, and what the optimizer can change. |
+| [Research Portfolio](https://github.com/130U/reserach-portfolio-since2026) | Technical analysis of robotics and world models: how language becomes continuous robot action, what different model architectures learn, and what their delivery models mean for adoption. |
+| [BaZi Context Agent](https://github.com/130U/bazi-context-agent) | An interactive interpretation system that compares uncertain birth-hour candidates, fixes a working selection, and introduces personal context through a separate reporting layer. |
+| [Info Collector](https://github.com/130U/info-collector-2026) | A reading application that turns saved webpages into translations, summaries, and a searchable local library, with a weekly review of what was read. |
+| [130U-FinLLM](https://github.com/130U/130U-FinLLM) | A training system for a compact financial language model, built around a **24.26M-parameter architecture**. Its objective is stance toward a specific asset, with training, recovery, and calibration integrated into the project. |
 
 ## Mathematical Finance
 
 ### Certified Valuation of Arithmetic Asian Options
 
-A weighted payoff-remainder argument built from a common Gaussian factor, connected to validated transforms for the original projected Euler scheme. The framework combines payoff conversion, projection, inversion, infinite tails, branch control, and outward rounding into a complete pricing-error budget.
+Arithmetic averaging makes the option payoff difficult to handle analytically. I develop a weighted remainder from a Gaussian factor shared across observation dates, then connect it to validated transforms for the original projected Euler scheme.
 
-**Result:** a deterministic absolute discretization-error bound below **0.011025 price units** for the paper's one-year, twelve-fixing Heston Asian call spread. A separate deterministic-variance coupling example reduces the nonlinear remainder width by approximately **99.4%**.
+This produces a complete discretization-error certificate below **0.011025 price units** for the paper's one-year Heston Asian call spread. A separate deterministic-variance coupling example reduces the nonlinear remainder width by **99.4%**.
 
-[Paper](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md) · [Code](https://github.com/130U/certified-valuation-arithmetic-asian-options) · [Certificates](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/EVIDENCE.md)
+The contribution brings the payoff's nonsmooth structure and the actual numerical implementation into one monetary error budget, making the accuracy of the reported valuation a mathematical claim that can be checked.
+
+[Paper](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md) · [Research repository](https://github.com/130U/certified-valuation-arithmetic-asian-options) · [Results](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/EVIDENCE.md)
 
 ### Certified Joint Pricing Errors in Rough Heston
 
-A continuous fractional Riccati residual-to-price proof chain that preserves the Fourier errors shared across strikes. It produces joint output-error sets for prices, portfolio directions, and finite parameter-candidate comparisons.
+Prices at different strikes share the same Fourier transform. I preserve that dependence in the error calculation and propagate a continuous fractional Riccati residual into a joint certificate for the actual pricing output.
 
-**Result:** for the paper's quarter-year 4400–4500 spread, shared-error aggregation tightens the complete bound from **0.252393939 to 0.233318843 index points**, resolving a **0.25-point error budget**. The published study includes **28 portfolio directions**, **five parameter candidates**, and **27 numerical banks**.
+For the paper's quarter-year 4400–4500 call spread, the shared-error method reduces the complete upper bound from **0.252393939 to 0.233318843 index points**. It certifies a **0.25-point budget** that a matched marginal calculation leaves unresolved.
 
-[Paper](https://github.com/130U/certified-rough-heston-valuation/blob/main/ARTICLE.md) · [Code](https://github.com/130U/certified-rough-heston-valuation) · [Exact ledgers](https://github.com/130U/certified-rough-heston-valuation/blob/main/EVIDENCE.md)
+The work connects fractional dynamics to portfolio-level accuracy decisions. It shows why the geometry of shared numerical errors matters when a pricing method must meet an explicit tolerance.
+
+[Paper](https://github.com/130U/certified-rough-heston-valuation/blob/main/ARTICLE.md) · [Research repository](https://github.com/130U/certified-rough-heston-valuation) · [Results](https://github.com/130U/certified-rough-heston-valuation/blob/main/EVIDENCE.md)
 
 ## GitHub Contributions
 
