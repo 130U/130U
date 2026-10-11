@@ -7,7 +7,7 @@
     "descriptor": "Agent evaluation, applied AI, and research tools."
   },
   "fallback_contributions": {
-    "total": 296,
+    "total": 305,
     "days": [
       {
         "date": "2025-10-12",
@@ -1456,12 +1456,12 @@
       },
       {
         "date": "2026-07-28",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
         "date": "2026-07-29",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
@@ -1491,7 +1491,7 @@
       },
       {
         "date": "2026-08-04",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
@@ -1516,7 +1516,7 @@
       },
       {
         "date": "2026-08-09",
-        "level": 3,
+        "level": 2,
         "count": 12
       },
       {
@@ -1566,7 +1566,7 @@
       },
       {
         "date": "2026-08-19",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
@@ -1591,7 +1591,7 @@
       },
       {
         "date": "2026-08-24",
-        "level": 3,
+        "level": 2,
         "count": 12
       },
       {
@@ -1706,7 +1706,7 @@
       },
       {
         "date": "2026-09-16",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
@@ -1811,7 +1811,7 @@
       },
       {
         "date": "2026-10-07",
-        "level": 3,
+        "level": 2,
         "count": 12
       },
       {
@@ -1821,22 +1821,22 @@
       },
       {
         "date": "2026-10-09",
-        "level": 2,
+        "level": 1,
         "count": 6
       },
       {
         "date": "2026-10-10",
-        "level": 3,
+        "level": 2,
         "count": 12
       },
       {
         "date": "2026-10-11",
         "level": 4,
-        "count": 16
+        "count": 25
       }
     ],
     "range_start": "2025-10-12",
     "range_end": "2026-10-11"
   },
-  "snapshot_updated_at": "2026-10-11T07:08:03.792742Z"
+  "snapshot_updated_at": "2026-10-11T13:59:34.803100Z"
 }
