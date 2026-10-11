@@ -7,7 +7,7 @@
     "descriptor": "Agent evaluation, applied AI, and research tools."
   },
   "fallback_contributions": {
-    "total": 305,
+    "total": 307,
     "days": [
       {
         "date": "2025-10-12",
@@ -1816,7 +1816,7 @@
       },
       {
         "date": "2026-10-08",
-        "level": 4,
+        "level": 3,
         "count": 20
       },
       {
@@ -1832,11 +1832,11 @@
       {
         "date": "2026-10-11",
         "level": 4,
-        "count": 25
+        "count": 27
       }
     ],
     "range_start": "2025-10-12",
     "range_end": "2026-10-11"
   },
-  "snapshot_updated_at": "2026-10-11T13:59:34.803100Z"
+  "snapshot_updated_at": "2026-10-11T15:12:07.465396Z"
 }
