@@ -38,7 +38,7 @@ My work combines **proof, implementation, and quantitative verification**. The p
 
 A weighted payoff-remainder argument built from a common Gaussian factor, connected to validated transforms for the original projected Euler scheme. The framework combines payoff conversion, projection, inversion, infinite tails, branch control, and outward rounding into a complete pricing-error budget.
 
-**Result:** a deterministic absolute discretization-error bound below **0.011025 price units** for the paper's one-year, twelve-fixing Heston Asian call spread. A separate deterministic-variance coupling example reduces the nonlinear certificate width by approximately **99.4%**.
+**Result:** a deterministic absolute discretization-error bound below **0.011025 price units** for the paper's one-year, twelve-fixing Heston Asian call spread. A separate deterministic-variance coupling example reduces the nonlinear remainder width by approximately **99.4%**.
 
 [Paper](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md) · [Code](https://github.com/130U/certified-valuation-arithmetic-asian-options) · [Certificates](https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/EVIDENCE.md)
 
