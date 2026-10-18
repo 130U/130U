@@ -10,41 +10,6 @@
     "total": 315,
     "days": [
       {
-        "date": "2025-10-12",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-13",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-14",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-15",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-16",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-17",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-10-18",
-        "level": 0,
-        "count": 0
-      },
-      {
         "date": "2025-10-19",
         "level": 0,
         "count": 0
@@ -1863,10 +1828,15 @@
         "date": "2026-10-17",
         "level": 0,
         "count": 0
+      },
+      {
+        "date": "2026-10-18",
+        "level": 0,
+        "count": 0
       }
     ],
-    "range_start": "2025-10-12",
-    "range_end": "2026-10-17"
+    "range_start": "2025-10-19",
+    "range_end": "2026-10-18"
   },
-  "snapshot_updated_at": "2026-10-17T04:27:22.675305Z"
+  "snapshot_updated_at": "2026-10-18T04:35:12.936473Z"
 }
