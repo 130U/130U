@@ -1838,10 +1838,15 @@
         "date": "2026-10-19",
         "level": 0,
         "count": 0
+      },
+      {
+        "date": "2026-10-20",
+        "level": 0,
+        "count": 0
       }
     ],
     "range_start": "2025-10-19",
-    "range_end": "2026-10-19"
+    "range_end": "2026-10-20"
   },
-  "snapshot_updated_at": "2026-10-19T04:41:54.997696Z"
+  "snapshot_updated_at": "2026-10-20T04:51:37.607359Z"
 }
