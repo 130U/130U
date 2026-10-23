@@ -1853,10 +1853,15 @@
         "date": "2026-10-22",
         "level": 0,
         "count": 0
+      },
+      {
+        "date": "2026-10-23",
+        "level": 0,
+        "count": 0
       }
     ],
     "range_start": "2025-10-19",
-    "range_end": "2026-10-22"
+    "range_end": "2026-10-23"
   },
-  "snapshot_updated_at": "2026-10-22T04:47:37.958039Z"
+  "snapshot_updated_at": "2026-10-23T04:50:25.482463Z"
 }
