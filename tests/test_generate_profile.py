@@ -420,9 +420,11 @@ class GenerateProfileTests(unittest.TestCase):
     def test_profile_leads_with_ai_and_retains_three_finance_projects(self) -> None:
         validate_profile.validate_readme()
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        headings = ("AI Engineering", "Finance")
-        positions = [readme.index("## " + heading) for heading in headings]
+        anchors = ("ai-engineering", "finance")
+        positions = [readme.index(f'<a id="{anchor}"></a>') for anchor in anchors]
         self.assertEqual(positions, sorted(positions))
+        self.assertEqual(len(re.findall(r"<table\b", readme)), 2)
+        self.assertEqual(len(re.findall(r"<h3\b", readme)), 8)
         first, second, third = validate_profile.EXPECTED_ACADEMIC_REPOSITORIES
         self.assertIn(f"https://github.com/130U/{third}", readme[positions[1]:])
         swapped = readme.replace(first, "TEMP_ACADEMIC_REPOSITORY").replace(second, first).replace(
@@ -436,11 +438,13 @@ class GenerateProfileTests(unittest.TestCase):
 
     def test_readme_rejects_extra_sections_and_absorbed_activity_footer(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        without_marker = readme.replace("<!-- PROFILE_ACTIVITY -->", "")
+        sheet_end = without_marker.rindex("</td></tr></table>")
+        absorbed_footer = without_marker[:sheet_end] + "<!-- PROFILE_ACTIVITY -->\n" + without_marker[sheet_end:]
         cases = (
-            (readme + "\n## Another section\n", "exactly two major sections"),
-            (readme.replace("<!-- PROFILE_ACTIVITY -->", ""), "activity footer"),
-            (readme.replace("<!-- PROFILE_ACTIVITY -->", "<!-- PROFILE_ACTIVITY -->\n### More work\n"),
-             "separate footer"),
+            (readme + "\n<table><tr><td>Another sheet</td></tr></table>\n", "exactly two nonnested"),
+            (without_marker, "activity footer"),
+            (absorbed_footer, "activity footer"),
         )
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
             path = Path(directory) / "README.md"
@@ -452,12 +456,12 @@ class GenerateProfileTests(unittest.TestCase):
 
     def test_every_project_requires_an_individual_heading(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        changed = re.sub(r"^### ([^\n]+)$", r"**\1**", readme, count=1, flags=re.M)
+        changed = re.sub(r"<h3>(.*?)</h3>", r"<p><strong>\1</strong></p>", readme, count=1, flags=re.S)
         self.assertNotEqual(changed, readme)
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
             path = Path(directory) / "README.md"
             path.write_text(changed, encoding="utf-8")
-            with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "third-level heading"):
+            with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "project headings"):
                 validate_profile.validate_readme()
 
 

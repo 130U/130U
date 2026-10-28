@@ -7,7 +7,9 @@ import json
 import re
 import sys
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from datetime import date, datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
 from generate_profile import PALETTES, TELEMETRY_PALETTES
@@ -17,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 CONFIG = ROOT / "profile.config.json"
 GENERATED = ROOT / "assets" / "generated"
+LAYOUT = ROOT / "assets" / "layout"
 EXPECTED_ASSETS = {
     "hero-light-v5.svg",
     "hero-dark-v5.svg",
@@ -26,6 +29,17 @@ EXPECTED_ASSETS = {
     "telemetry-dark-v5.svg",
     "telemetry-mobile-light-v5.svg",
     "telemetry-mobile-dark-v5.svg",
+}
+EXPECTED_LAYOUT_BUTTONS = {
+    f"{name}-v1.svg" for name in (
+        "button-paper", "button-repository", "button-results", "button-model",
+        "button-training", "button-analysis", "nav-ai", "nav-finance",
+    )
+}
+EXPECTED_LAYOUT_ASSETS = EXPECTED_LAYOUT_BUTTONS | {
+    f"sheet-{section}-{variant}-v1.svg"
+    for section in ("ai", "finance")
+    for variant in ("light", "dark", "mobile-light", "mobile-dark")
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
@@ -50,23 +64,97 @@ def fail(message: str) -> None:
     raise AssertionError(message)
 
 
+@dataclass
+class ReadmeElement:
+    tag: str
+    attrs: dict[str, str | None]
+    start: int
+    parent: ReadmeElement | None
+    end: int = 0
+
+
+class ReadmeParser(HTMLParser):
+    """Read the authored HTML without guessing structure from Markdown regexes."""
+
+    VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
+                 "link", "meta", "param", "source", "track", "wbr"}
+
+    def __init__(self, source: str) -> None:
+        super().__init__(convert_charrefs=True)
+        self.line_offsets = [0]
+        for match in re.finditer("\n", source):
+            self.line_offsets.append(match.end())
+        self.elements: list[ReadmeElement] = []
+        self.stack: list[ReadmeElement] = []
+
+    def absolute_offset(self) -> int:
+        line, column = self.getpos()
+        return self.line_offsets[line - 1] + column
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        element = ReadmeElement(tag, dict(attrs), self.absolute_offset(), self.stack[-1] if self.stack else None)
+        self.elements.append(element)
+        if tag in self.VOID_TAGS:
+            element.end = element.start + len(self.get_starttag_text())
+        else:
+            self.stack.append(element)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in self.VOID_TAGS:
+            fail(f"README must not close the void HTML element {tag}")
+        if not self.stack or self.stack[-1].tag != tag:
+            fail(f"README contains unbalanced HTML at </{tag}>")
+        self.stack.pop().end = self.absolute_offset() + len(tag) + 3
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.handle_starttag(tag, attrs)
+        if tag not in self.VOID_TAGS:
+            self.stack.pop().end = self.absolute_offset() + len(self.get_starttag_text())
+
+
+def is_within(element: ReadmeElement, container: ReadmeElement) -> bool:
+    parent = element.parent
+    while parent is not None:
+        if parent is container:
+            return True
+        parent = parent.parent
+    return False
+
+
+def validate_picture(picture: ReadmeElement, elements: list[ReadmeElement],
+                     directory: str, stem: str, version: str) -> None:
+    sources = [element for element in elements if element.tag == "source" and element.parent is picture]
+    if directory == "layout":
+        variants = [
+            ("(prefers-color-scheme: dark) and (max-width: 767px)", "mobile-dark"),
+            ("(max-width: 767px)", "mobile-light"),
+            ("(prefers-color-scheme: dark)", "dark"),
+        ]
+    else:
+        variants = [
+            (f"(max-width: 767px) and (prefers-color-scheme: {theme})", f"mobile-{theme}")
+            for theme in ("dark", "light")
+        ] + [(f"(prefers-color-scheme: {theme})", theme) for theme in ("dark", "light")]
+    expected = [(media, f"https://raw.githubusercontent.com/130U/130U/main/assets/{directory}/{stem}-{variant}-{version}.svg")
+                for media, variant in variants]
+    actual = [(source.attrs.get("media"), source.attrs.get("srcset")) for source in sources]
+    if actual != expected:
+        fail(f"README {stem} picture must provide ordered desktop/mobile theme sources from main at the 767px breakpoint")
+    images = [element for element in elements if element.tag == "img" and element.parent is picture]
+    fallback = f"assets/{directory}/{stem}-light-{version}.svg"
+    if len(images) != 1 or images[0].attrs.get("src") != fallback or not images[0].attrs.get("alt"):
+        fail(f"README {stem} picture must provide its local light fallback and accessible alt text")
+
+
 def validate_readme() -> None:
     text = README.read_text(encoding="utf-8")
     if re.search(r"[\u3400-\u9fff\uf900-\ufaff]", text):
         fail("README must remain English-only; CJK characters were found")
-    if "assets/generated/hero-light-v5.svg" not in text:
-        fail("README is missing the light hero fallback")
     references = re.findall(r"/main/assets/generated/([\w-]+\.svg)", text)
     if len(references) != 8 or set(references) != EXPECTED_ASSETS:
         fail("README must load exactly eight desktop/mobile theme assets from main")
     if "/profile-assets/" in text:
         fail("README must not depend on the retired profile-assets branch")
-    if text.count("<picture>") != 2 or text.count("prefers-color-scheme: dark") != 4:
-        fail("README must provide two desktop/mobile theme-aware picture blocks")
-    if text.count("(max-width: 767px)") != 4 or "(max-width: 600px)" in text:
-        fail("README must use the tested 767px mobile asset breakpoint")
-    if any(anchor not in text for anchor in ("#ai-engineering", "#finance")):
-        fail("README must link its main navigation to AI Engineering and Finance")
     if "Stars" in text or "STARS" in text:
         fail("Low-signal star telemetry must remain omitted")
     retired_copy = (
@@ -76,39 +164,82 @@ def validate_readme() -> None:
     )
     if any(marker.casefold() in text.casefold() for marker in retired_copy):
         fail("README contains retired clock or profile positioning copy")
-    heading_matches = list(re.finditer(r"^## ([^\n]+)$", text, re.M))
-    if [match.group(1).strip() for match in heading_matches] != ["AI Engineering", "Finance"]:
-        fail("README must contain exactly two major sections: AI Engineering, then Finance")
-    positions = [match.start() for match in heading_matches]
+    parser = ReadmeParser(text)
+    parser.feed(text)
+    parser.close()
+    if parser.stack:
+        fail("README contains unclosed HTML elements")
+    elements = parser.elements
+    tables = [element for element in elements if element.tag == "table"]
+    pictures = [element for element in elements if element.tag == "picture"]
+    headings = [element for element in elements if element.tag == "h3"]
+    if len(tables) != 2 or any(is_within(table, other) for table in tables for other in tables if table is not other):
+        fail("README must contain exactly two nonnested project sheets: AI Engineering, then Finance")
+    if len(pictures) != 4:
+        fail("README must provide hero, two sheet headers, and activity picture blocks")
+    if re.search(r"^#{2,3} ", text, re.M) or any(element.tag == "h2" for element in elements):
+        fail("README section headers must live in the two sheets, with native HTML project headings")
+    if len(headings) != 8 or any(not any(is_within(heading, table) for table in tables) for heading in headings):
+        fail("README must retain five AI and three Finance project headings inside the sheets")
     activity_marker = "<!-- PROFILE_ACTIVITY -->"
-    if text.count(activity_marker) != 1 or text.index(activity_marker) <= positions[1]:
+    if text.count(activity_marker) != 1 or text.index(activity_marker) <= tables[1].end:
         fail("README must place one activity footer after the Finance projects")
     activity_position = text.index(activity_marker)
-    engineering = text[positions[0]:positions[1]]
-    academic = text[positions[1]:activity_position]
-    for section, repositories in (
-        (academic, EXPECTED_ACADEMIC_REPOSITORIES),
-        (engineering, EXPECTED_ENGINEERING_DISPLAY_ORDER),
-    ):
-        links = [f"https://github.com/130U/{repository}" for repository in repositories]
-        if any(link not in section for link in links):
-            fail("README is missing a required project in its designated section")
-        link_positions = [section.index(link) for link in links]
-        if link_positions != sorted(link_positions):
-            fail("README project ordering changed unexpectedly")
-        project_headings = list(re.finditer(r"^### [^\n]+$", section, re.M))
-        if len(project_headings) != len(repositories):
-            fail("README must give every project its own third-level heading")
-        for index, link in enumerate(links):
-            start = project_headings[index].start()
-            end = project_headings[index + 1].start() if index + 1 < len(project_headings) else len(section)
-            if link not in section[start:end]:
-                fail("README project ordering must match its third-level headings")
-    contributions = text[activity_position:]
-    if re.search(r"^#{2,3} ", contributions, re.M) or contributions.count("<picture>") != 1:
-        fail("Activity must remain a separate footer with one picture and no project or major heading")
-    if "assets/generated/telemetry-light-v5.svg" not in contributions:
-        fail("README activity footer is missing the light telemetry fallback")
+    if pictures[0].end >= tables[0].start or pictures[-1].start <= activity_position:
+        fail("README hero must precede the sheets and activity must remain a separate footer")
+    validate_picture(pictures[0], elements, "generated", "hero", "v5")
+    validate_picture(pictures[-1], elements, "generated", "telemetry", "v5")
+    buttons = []
+    allowed_images = {f"assets/generated/{name}" for name in EXPECTED_ASSETS} | {
+        f"assets/layout/{name}" for name in EXPECTED_LAYOUT_ASSETS
+    }
+    for image in (element for element in elements if element.tag == "img"):
+        source = image.attrs.get("src", "")
+        if source not in allowed_images or not image.attrs.get("alt"):
+            fail("README images must use approved local assets and accessible alt text")
+        if source.removeprefix("assets/layout/") in EXPECTED_LAYOUT_BUTTONS:
+            if image.parent is None or image.parent.tag != "a" or not image.parent.attrs.get("href"):
+                fail("README buttons must be images inside working links")
+            buttons.append(image)
+        elif image.parent is None or image.parent.tag != "picture":
+            fail("README theme-aware image fallbacks must remain inside their picture blocks")
+    for index, (table, anchor, stem, repositories) in enumerate(zip(
+        tables, ("ai-engineering", "finance"), ("sheet-ai", "sheet-finance"),
+        (EXPECTED_ENGINEERING_DISPLAY_ORDER, EXPECTED_ACADEMIC_REPOSITORIES),
+    )):
+        descendants = [element for element in elements if is_within(element, table)]
+        rows = [element for element in descendants if element.tag == "tr"]
+        cells = [element for element in descendants if element.tag == "td"]
+        if len(rows) != 1 or len(cells) != 1 or cells[0].parent is not rows[0] or any(element.tag == "th" for element in descendants):
+            fail("Each README sheet must contain exactly one table row and one cell")
+        anchors = [element for element in elements if element.tag == "a" and element.attrs.get("id") == anchor]
+        lower_bound = tables[index - 1].end if index else pictures[0].end
+        if len(anchors) != 1 or not lower_bound <= anchors[0].start < anchors[0].end <= table.start:
+            fail(f"README requires a unique {anchor} anchor before its sheet")
+        header_pictures = [element for element in descendants if element.tag == "picture"]
+        project_headings = [element for element in descendants if element.tag == "h3"]
+        if len(header_pictures) != 1 or len(project_headings) != len(repositories):
+            fail("README must give every project its own third-level heading below its sheet header")
+        if any(not is_within(heading, cells[0]) for heading in project_headings):
+            fail("README project headings must remain inside their sheet's single cell")
+        if header_pictures[0].end >= project_headings[0].start or not is_within(header_pictures[0], cells[0]):
+            fail("README sheet header must begin its single cell before the projects")
+        validate_picture(header_pictures[0], elements, "layout", stem, "v1")
+        for project_index, repository in enumerate(repositories):
+            heading = project_headings[project_index]
+            end = project_headings[project_index + 1].start if project_index + 1 < len(project_headings) else table.end
+            project_buttons = [button for button in buttons if heading.end <= button.start < end]
+            if not project_buttons:
+                fail("README is missing a project link button in its designated section")
+            link = f"https://github.com/130U/{repository}"
+            for button in project_buttons:
+                target = button.parent.attrs["href"]
+                if target != link and not target.startswith(link + "/"):
+                    fail("README project ordering or button destination changed unexpectedly")
+    for asset, anchor in (("nav-ai-v1.svg", "#ai-engineering"), ("nav-finance-v1.svg", "#finance")):
+        navigation = [button for button in buttons if button.attrs["src"] == f"assets/layout/{asset}"]
+        if len(navigation) != 1 or navigation[0].parent.attrs.get("href") != anchor or navigation[0].start >= tables[0].start:
+            fail("README navigation buttons must link once to each sheet before the projects")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
             fail(f"README references forbidden personal-site scope: {forbidden}")
@@ -353,10 +484,15 @@ def main() -> None:
         fail(f"Expected eight generated assets, found: {sorted(actual)}")
     for path in sorted(GENERATED.glob("*.svg")):
         validate_svg(path)
+    layout_assets = {path.name for path in LAYOUT.glob("*.svg")}
+    if layout_assets != EXPECTED_LAYOUT_ASSETS:
+        fail(f"Expected sixteen static layout assets, found: {sorted(layout_assets)}")
+    for path in sorted(LAYOUT.glob("*.svg")):
+        validate_svg(path)
     validate_palette_contrast()
     validate_workflow()
     validate_repository_boundary()
-    print("Profile validation passed: AI-first English copy, eight static safe SVGs, contribution data, scoped workflow, forbidden repositories untouched.")
+    print("Profile validation passed: two project sheets, eight generated and sixteen layout SVGs, contribution data, scoped workflow, forbidden repositories untouched.")
 
 
 if __name__ == "__main__":
