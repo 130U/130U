@@ -31,13 +31,13 @@ EXPECTED_ASSETS = {
     "telemetry-mobile-dark-v5.svg",
 }
 EXPECTED_LAYOUT_BUTTONS = {
-    f"{name}-v1.svg" for name in (
+    f"{name}-v2.svg" for name in (
         "button-paper", "button-repository", "button-results", "button-model",
         "button-training", "button-analysis", "nav-ai", "nav-finance",
     )
 }
 EXPECTED_LAYOUT_ASSETS = EXPECTED_LAYOUT_BUTTONS | {
-    f"sheet-{section}-{variant}-v1.svg"
+    f"sheet-{section}-{variant}-v2.svg"
     for section in ("ai", "finance")
     for variant in ("light", "dark", "mobile-light", "mobile-dark")
 }
@@ -224,7 +224,7 @@ def validate_readme() -> None:
             fail("README project headings must remain inside their sheet's single cell")
         if header_pictures[0].end >= project_headings[0].start or not is_within(header_pictures[0], cells[0]):
             fail("README sheet header must begin its single cell before the projects")
-        validate_picture(header_pictures[0], elements, "layout", stem, "v1")
+        validate_picture(header_pictures[0], elements, "layout", stem, "v2")
         for project_index, repository in enumerate(repositories):
             heading = project_headings[project_index]
             end = project_headings[project_index + 1].start if project_index + 1 < len(project_headings) else table.end
@@ -236,7 +236,7 @@ def validate_readme() -> None:
                 target = button.parent.attrs["href"]
                 if target != link and not target.startswith(link + "/"):
                     fail("README project ordering or button destination changed unexpectedly")
-    for asset, anchor in (("nav-ai-v1.svg", "#ai-engineering"), ("nav-finance-v1.svg", "#finance")):
+    for asset, anchor in (("nav-ai-v2.svg", "#user-content-ai-engineering"), ("nav-finance-v2.svg", "#user-content-finance")):
         navigation = [button for button in buttons if button.attrs["src"] == f"assets/layout/{asset}"]
         if len(navigation) != 1 or navigation[0].parent.attrs.get("href") != anchor or navigation[0].start >= tables[0].start:
             fail("README navigation buttons must link once to each sheet before the projects")
