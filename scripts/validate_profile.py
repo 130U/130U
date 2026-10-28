@@ -18,14 +18,14 @@ README = ROOT / "README.md"
 CONFIG = ROOT / "profile.config.json"
 GENERATED = ROOT / "assets" / "generated"
 EXPECTED_ASSETS = {
-    "hero-light-v3.svg",
-    "hero-dark-v3.svg",
-    "hero-mobile-light-v3.svg",
-    "hero-mobile-dark-v3.svg",
-    "telemetry-light-v4.svg",
-    "telemetry-dark-v4.svg",
-    "telemetry-mobile-light-v4.svg",
-    "telemetry-mobile-dark-v4.svg",
+    "hero-light-v5.svg",
+    "hero-dark-v5.svg",
+    "hero-mobile-light-v5.svg",
+    "hero-mobile-dark-v5.svg",
+    "telemetry-light-v5.svg",
+    "telemetry-dark-v5.svg",
+    "telemetry-mobile-light-v5.svg",
+    "telemetry-mobile-dark-v5.svg",
 }
 FORBIDDEN_SCOPE = ("130U.github.io", "theodoreoy.com")
 FORBIDDEN_SVG_MARKERS = ("<script", "javascript:", "data:text/html", "vinimlo", "galaxy-profile")
@@ -35,9 +35,11 @@ RETIRED_METRIC_LABELS = (
 EXPECTED_ACADEMIC_REPOSITORIES = (
     "certified-valuation-arithmetic-asian-options",
     "certified-rough-heston-valuation",
+    "mathematical-finance-project",
 )
 EXPECTED_ENGINEERING_DISPLAY_ORDER = (
     "agent-evaluation-methodology",
+    "130U-FinLLM",
     "reserach-portfolio-since2026",
     "bazi-context-agent",
     "info-collector-2026",
@@ -52,7 +54,7 @@ def validate_readme() -> None:
     text = README.read_text(encoding="utf-8")
     if re.search(r"[\u3400-\u9fff\uf900-\ufaff]", text):
         fail("README must remain English-only; CJK characters were found")
-    if "assets/generated/hero-light-v3.svg" not in text:
+    if "assets/generated/hero-light-v5.svg" not in text:
         fail("README is missing the light hero fallback")
     references = re.findall(r"/main/assets/generated/([\w-]+\.svg)", text)
     if len(references) != 8 or set(references) != EXPECTED_ASSETS:
@@ -63,8 +65,8 @@ def validate_readme() -> None:
         fail("README must provide two desktop/mobile theme-aware picture blocks")
     if text.count("(max-width: 767px)") != 4 or "(max-width: 600px)" in text:
         fail("README must use the tested 767px mobile asset breakpoint")
-    if '#artificial-intelligence-and-engineering' not in text:
-        fail("README must link its main navigation to Artificial Intelligence and Engineering")
+    if any(anchor not in text for anchor in ("#ai-engineering", "#finance")):
+        fail("README must link its main navigation to AI Engineering and Finance")
     if "Stars" in text or "STARS" in text:
         fail("Low-signal star telemetry must remain omitted")
     retired_copy = (
@@ -74,15 +76,16 @@ def validate_readme() -> None:
     )
     if any(marker.casefold() in text.casefold() for marker in retired_copy):
         fail("README contains retired clock or profile positioning copy")
-    headings = ("Artificial Intelligence and Engineering", "Mathematical Finance", "GitHub Contributions")
-    heading_matches = [re.search(rf"^## {re.escape(heading)}\s*$", text, re.M) for heading in headings]
-    if any(match is None for match in heading_matches):
-        fail("README is missing a required AI, mathematical finance, or contribution section")
-    positions = [match.start() for match in heading_matches if match is not None]
-    if positions != sorted(positions):
-        fail("README must lead with AI and engineering, then mathematical finance, then contributions")
+    heading_matches = list(re.finditer(r"^## ([^\n]+)$", text, re.M))
+    if [match.group(1).strip() for match in heading_matches] != ["AI Engineering", "Finance"]:
+        fail("README must contain exactly two major sections: AI Engineering, then Finance")
+    positions = [match.start() for match in heading_matches]
+    activity_marker = "<!-- PROFILE_ACTIVITY -->"
+    if text.count(activity_marker) != 1 or text.index(activity_marker) <= positions[1]:
+        fail("README must place one activity footer after the Finance projects")
+    activity_position = text.index(activity_marker)
     engineering = text[positions[0]:positions[1]]
-    academic = text[positions[1]:positions[2]]
+    academic = text[positions[1]:activity_position]
     for section, repositories in (
         (academic, EXPECTED_ACADEMIC_REPOSITORIES),
         (engineering, EXPECTED_ENGINEERING_DISPLAY_ORDER),
@@ -93,9 +96,19 @@ def validate_readme() -> None:
         link_positions = [section.index(link) for link in links]
         if link_positions != sorted(link_positions):
             fail("README project ordering changed unexpectedly")
-    contributions = text[positions[2]:]
-    if len(re.findall(r"^## ", contributions, re.M)) != 1:
-        fail("GitHub Contributions must remain the final major README section")
+        project_headings = list(re.finditer(r"^### [^\n]+$", section, re.M))
+        if len(project_headings) != len(repositories):
+            fail("README must give every project its own third-level heading")
+        for index, link in enumerate(links):
+            start = project_headings[index].start()
+            end = project_headings[index + 1].start() if index + 1 < len(project_headings) else len(section)
+            if link not in section[start:end]:
+                fail("README project ordering must match its third-level headings")
+    contributions = text[activity_position:]
+    if re.search(r"^#{2,3} ", contributions, re.M) or contributions.count("<picture>") != 1:
+        fail("Activity must remain a separate footer with one picture and no project or major heading")
+    if "assets/generated/telemetry-light-v5.svg" not in contributions:
+        fail("README activity footer is missing the light telemetry fallback")
     for forbidden in FORBIDDEN_SCOPE:
         if forbidden.casefold() in text.casefold():
             fail(f"README references forbidden personal-site scope: {forbidden}")
@@ -217,6 +230,16 @@ def validate_svg(path: Path) -> None:
         ]
         if len(numeric_text) != 1:
             fail(f"{path.name} must display exactly one contribution total")
+        sparklines = [element for element in root.iter() if element.attrib.get("id") == "contribution-sparkline"]
+        if len(sparklines) != 1:
+            fail(f"{path.name} must display exactly one contribution sparkline")
+        sparkline = sparklines[0]
+        if sparkline.tag.rsplit("}", 1)[-1] != "path" or sparkline.attrib.get("fill") != "none":
+            fail(f"{path.name} contribution sparkline must be an unfilled path")
+        coordinate = r"-?(?:\d+(?:\.\d*)?|\.\d+)"
+        point = rf"{coordinate}[\s,]+{coordinate}"
+        if not re.fullmatch(rf"\s*M\s*{point}(?:\s*L\s*{point}){{29}}\s*", sparkline.attrib.get("d", "")):
+            fail(f"{path.name} contribution sparkline must show exactly thirty daily points")
         rectangles = [element for element in root.iter() if element.tag.rsplit("}", 1)[-1] == "rect"]
         if len(rectangles) >= 28 or any(
             "data-date" in element.attrib or "data-level" in element.attrib

@@ -3,6 +3,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -210,12 +211,80 @@ class ContributionWindowTests(unittest.TestCase):
                     svg = generate_profile.telemetry_svg(config, data, theme, GENERATED_AT, mobile=mobile)
                     root = ET.fromstring(svg)
                     ns = {"svg": "http://www.w3.org/2000/svg"}
-                    self.assertEqual(root.find("svg:text", ns).text, "5")
+                    numeric_text = [
+                        element.text for element in root.findall("svg:text", ns)
+                        if re.fullmatch(r"\d+(?:,\d{3})*", element.text or "")
+                    ]
+                    self.assertEqual(numeric_text, ["5"])
                     description = root.find("svg:desc", ns).text
                     self.assertIn("2026-09-04 through 2026-10-03", description)
                     self.assertIn("Saved snapshot", description)
                     self.assertIn("03 Oct 2026 UTC", description)
                     self.assertNotIn("08 Oct 2026 UTC", description)
+
+
+class ContributionSparklineTests(unittest.TestCase):
+    def test_daily_trace_uses_chronological_window_and_actual_count_scale(self) -> None:
+        data = dated_contributions("2026-10-01", "2026-10-31", {
+            "2026-10-01": 999, "2026-10-02": 2, "2026-10-16": 8, "2026-10-31": 3,
+        })
+        data["days"].reverse()
+        points = generate_profile.contribution_sparkline_points(data, x=10, y=5, width=290, height=100)
+        self.assertEqual(len(points), 30)
+        self.assertEqual(points[0], (10, 80))
+        self.assertEqual(points[14], (150, 5))
+        self.assertEqual(points[-1], (300, 67.5))
+        self.assertEqual(points[1], (20, 105))
+        self.assertEqual([point[0] for point in points], list(range(10, 301, 10)))
+        self.assertEqual(generate_profile.contributions_last_30_days(data)["total"], 13)
+
+    def test_zero_window_has_thirty_points_at_zero_baseline(self) -> None:
+        data = dated_contributions("2026-10-02", "2026-10-31", {})
+        points = generate_profile.contribution_sparkline_points(data, x=0, y=10, width=290, height=50)
+        self.assertEqual(len(points), 30)
+        self.assertEqual(points[0], (0, 60))
+        self.assertEqual(points[-1], (290, 60))
+        self.assertTrue(all(point[1] == 60 for point in points))
+
+    def test_incomplete_duplicate_and_invalid_count_windows_are_rejected(self) -> None:
+        missing = dated_contributions("2026-10-02", "2026-10-31", {})
+        missing["days"].pop(10)
+        duplicate = dated_contributions("2026-10-02", "2026-10-31", {})
+        duplicate["days"][10] = duplicate["days"][0].copy()
+        invalid = []
+        for count in (-1, True, 1.5, "2"):
+            data = dated_contributions("2026-10-02", "2026-10-31", {})
+            data["days"][10]["count"] = count
+            invalid.append(data)
+        for data in (missing, duplicate, *invalid):
+            with self.subTest(days=data["days"]), self.assertRaises(ValueError):
+                generate_profile.contribution_sparkline_points(data, x=0, y=0, width=290, height=50)
+
+    def test_nonpositive_plot_dimensions_are_rejected(self) -> None:
+        data = dated_contributions("2026-10-02", "2026-10-31", {})
+        for width, height in ((0, 10), (-10, 10), (10, 0), (10, -10)):
+            with self.subTest(width=width, height=height), self.assertRaises(ValueError):
+                generate_profile.contribution_sparkline_points(data, x=0, y=0, width=width, height=height)
+
+    def test_rendered_trace_places_the_observed_spike_on_its_calendar_day(self) -> None:
+        data = {**dated_contributions("2026-10-02", "2026-10-31", {"2026-10-16": 8}),
+                "source": generate_profile.LIVE_SOURCE}
+        for theme in ("light", "dark"):
+            for mobile in (False, True):
+                with self.subTest(theme=theme, mobile=mobile):
+                    root = ET.fromstring(generate_profile.telemetry_svg(
+                        snapshot_config(), data, theme, GENERATED_AT, mobile=mobile,
+                    ))
+                    path = next(element for element in root.iter()
+                                if element.attrib.get("id") == "contribution-sparkline")
+                    values = [float(number) for number in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", path.attrib["d"])]
+                    self.assertEqual(len(values), 60)
+                    xs, ys = values[::2], values[1::2]
+                    self.assertEqual(xs, sorted(xs))
+                    self.assertEqual(len(set(xs)), 30)
+                    self.assertEqual(ys.index(min(ys)), 14)
+                    self.assertLess(ys[14], ys[0])
+                    self.assertTrue(all(y == ys[0] for index, y in enumerate(ys) if index != 14))
 
 
 class GenerateProfileTests(unittest.TestCase):
@@ -348,13 +417,14 @@ class GenerateProfileTests(unittest.TestCase):
                 self.assertIn("01 OCT 2026 UTC", visible)
                 self.assertNotIn("08 OCT 2026 UTC", visible)
 
-    def test_profile_leads_with_ai_and_retains_both_mathematical_finance_projects(self) -> None:
+    def test_profile_leads_with_ai_and_retains_three_finance_projects(self) -> None:
         validate_profile.validate_readme()
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        headings = ("Artificial Intelligence and Engineering", "Mathematical Finance", "GitHub Contributions")
+        headings = ("AI Engineering", "Finance")
         positions = [readme.index("## " + heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
-        first, second = validate_profile.EXPECTED_ACADEMIC_REPOSITORIES
+        first, second, third = validate_profile.EXPECTED_ACADEMIC_REPOSITORIES
+        self.assertIn(f"https://github.com/130U/{third}", readme[positions[1]:])
         swapped = readme.replace(first, "TEMP_ACADEMIC_REPOSITORY").replace(second, first).replace(
             "TEMP_ACADEMIC_REPOSITORY", second
         )
@@ -362,6 +432,32 @@ class GenerateProfileTests(unittest.TestCase):
             path = Path(directory) / "README.md"
             path.write_text(swapped, encoding="utf-8")
             with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "project ordering"):
+                validate_profile.validate_readme()
+
+    def test_readme_rejects_extra_sections_and_absorbed_activity_footer(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        cases = (
+            (readme + "\n## Another section\n", "exactly two major sections"),
+            (readme.replace("<!-- PROFILE_ACTIVITY -->", ""), "activity footer"),
+            (readme.replace("<!-- PROFILE_ACTIVITY -->", "<!-- PROFILE_ACTIVITY -->\n### More work\n"),
+             "separate footer"),
+        )
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
+            path = Path(directory) / "README.md"
+            for changed, message in cases:
+                with self.subTest(message=message):
+                    path.write_text(changed, encoding="utf-8")
+                    with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, message):
+                        validate_profile.validate_readme()
+
+    def test_every_project_requires_an_individual_heading(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        changed = re.sub(r"^### ([^\n]+)$", r"**\1**", readme, count=1, flags=re.M)
+        self.assertNotEqual(changed, readme)
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
+            path = Path(directory) / "README.md"
+            path.write_text(changed, encoding="utf-8")
+            with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "third-level heading"):
                 validate_profile.validate_readme()
 
 

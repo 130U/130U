@@ -1,36 +1,24 @@
-# Theodore Ouyang
+<picture>
+  <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-dark-v5.svg">
+  <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-light-v5.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-dark-v5.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-light-v5.svg">
+  <img src="assets/generated/hero-light-v5.svg" alt="Theodore Ouyang — AI Engineering & Finance. Models, agents, and mathematical research." width="100%">
+</picture>
 
-**AI research, software engineering, and mathematical finance.**
+I build AI systems and develop mathematical methods for financial decisions. My work spans agent evaluation, financial language modeling, certified option valuation, and dependence stress.
 
-<div align="center">
-  <picture>
-    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-dark-v3.svg">
-    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-light-v3.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-dark-v3.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-light-v3.svg">
-    <img src="assets/generated/hero-light-v3.svg" alt="130U — Artificial Intelligence and Engineering. Agent evaluation, applied AI, and research tools; earlier research in mathematical finance." width="100%">
-  </picture>
-</div>
+[01 / AI Engineering](#ai-engineering) &nbsp;&nbsp; [02 / Finance](#finance)
 
-I study how numerical errors affect option prices and how evaluation feedback should guide changes to AI agents. I also build software for financial text analysis and personal research, and write about robotics and technology adoption.
+## AI Engineering
 
-My projects combine mathematical research with working software. The links below lead to the papers, implementations, and results.
+<sub>01 / Models, agents, and research tools</sub>
 
-<p align="center">
-  <a href="#artificial-intelligence-and-engineering">Artificial Intelligence and Engineering</a>
-  &nbsp;&middot;&nbsp;
-  <a href="#mathematical-finance">Mathematical Finance</a>
-</p>
+### Agent Evaluation Methodology
 
-## Artificial Intelligence and Engineering
+I develop **ICFA**, a method for deciding which evaluation feedback belongs in an agent's prompt update. It connects the diagnosis to what the agent knew, who produced the behavior, and what the optimizer can change.
 
-| Project | Contribution |
-| --- | --- |
-| [Agent Evaluation Methodology](https://github.com/130U/agent-evaluation-methodology) | **ICFA**, a method for deciding which evaluation feedback belongs in an agent's prompt update. It connects the diagnosis to what the agent knew, who produced the behavior, and what the optimizer can change. |
-| [Research Portfolio](https://github.com/130U/reserach-portfolio-since2026) | Technical analysis of robotics and world models: how language becomes continuous robot action, what different model architectures learn, and what their delivery models mean for adoption. |
-| [BaZi Context Agent](https://github.com/130U/bazi-context-agent) | An interactive interpretation system that compares uncertain birth-hour candidates, fixes a working selection, and introduces personal context through a separate reporting layer. |
-| [Info Collector](https://github.com/130U/info-collector-2026) | A reading application that turns saved webpages into translations, summaries, and a searchable local library, with a weekly review of what was read. |
-| [130U-FinLLM](https://github.com/130U/130U-FinLLM) | A native PyTorch system for training a **24.26M-parameter financial language model from random initialization**, with asset-specific stance supervision, corpus preparation, recoverable training, and calibrated evaluation. |
+[Research and implementation](https://github.com/130U/agent-evaluation-methodology)
 
 ### 130U-FinLLM: Financial Language Modeling from Scratch
 
@@ -40,7 +28,27 @@ The pipeline prepared **42.47 million additional training tokens**, with seed an
 
 [Research repository](https://github.com/130U/130U-FinLLM) · [Model specification](https://github.com/130U/130U-FinLLM/blob/main/docs/MODEL_CARD.md) · [Training and validation](https://github.com/130U/130U-FinLLM/blob/main/docs/STATUS.md)
 
-## Mathematical Finance
+### Research Portfolio
+
+Technical analysis of robotics and world models: how language becomes continuous robot action, what different model architectures learn, and what their delivery models mean for adoption.
+
+[Research and analysis](https://github.com/130U/reserach-portfolio-since2026)
+
+### BaZi Context Agent
+
+An interactive interpretation system that compares uncertain birth-hour candidates, fixes a working selection, and introduces personal context through a separate reporting layer.
+
+[Project and implementation](https://github.com/130U/bazi-context-agent)
+
+### Info Collector
+
+A reading application that turns saved webpages into translations, summaries, and a searchable local library, with a weekly review of what was read.
+
+[Project and implementation](https://github.com/130U/info-collector-2026)
+
+## Finance
+
+<sub>02 / Mathematical research in valuation and risk</sub>
 
 ### Certified Valuation of Arithmetic Asian Options
 
@@ -66,16 +74,16 @@ In the independent uniform benchmark with median Expected Shortfall, equal expos
 
 [Paper](https://github.com/130U/mathematical-finance-project/blob/main/paper/paper.pdf) · [Research repository](https://github.com/130U/mathematical-finance-project) · [Results](https://github.com/130U/mathematical-finance-project/blob/main/docs/results.md)
 
-## GitHub Contributions
+<!-- PROFILE_ACTIVITY -->
 
-<div align="center">
-  <picture>
-    <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-dark-v4.svg?v=pink-20261011">
-    <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-light-v4.svg?v=pink-20261011">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-dark-v4.svg?v=pink-20261011">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-light-v4.svg?v=pink-20261011">
-    <img src="assets/generated/telemetry-light-v4.svg?v=pink-20261011" alt="GitHub contributions in the last 30 days, sourced from the public GitHub profile and refreshed daily." width="100%">
-  </picture>
-</div>
+---
 
-<sub>Updated daily from GitHub's public contribution calendar. [Update history](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>
+<picture>
+  <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-dark-v5.svg">
+  <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-light-v5.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-dark-v5.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-light-v5.svg">
+  <img src="assets/generated/telemetry-light-v5.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace. Updated from the public GitHub calendar." width="100%">
+</picture>
+
+<sub>[Activity updates](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>

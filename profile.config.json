@@ -1,10 +1,12 @@
 {
   "username": "130U",
   "identity": {
-    "eyebrow": "130U / RESEARCH & ENGINEERING",
-    "headline": "Artificial Intelligence",
-    "subheadline": "& Engineering.",
-    "descriptor": "Agent evaluation, applied AI, and research tools."
+    "name": "Theodore Ouyang",
+    "areas": [
+      "AI Engineering",
+      "Finance"
+    ],
+    "descriptor": "Models, agents, and mathematical research."
   },
   "fallback_contributions": {
     "total": 352,
