@@ -9,43 +9,8 @@
     "descriptor": "Models, agents, and mathematical research."
   },
   "fallback_contributions": {
-    "total": 437,
+    "total": 461,
     "days": [
-      {
-        "date": "2025-11-02",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-03",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-04",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-05",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-06",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-07",
-        "level": 0,
-        "count": 0
-      },
-      {
-        "date": "2025-11-08",
-        "level": 0,
-        "count": 0
-      },
       {
         "date": "2025-11-09",
         "level": 0,
@@ -1863,12 +1828,17 @@
       },
       {
         "date": "2026-11-07",
+        "level": 3,
+        "count": 24
+      },
+      {
+        "date": "2026-11-08",
         "level": 0,
         "count": 0
       }
     ],
-    "range_start": "2025-11-02",
-    "range_end": "2026-11-07"
+    "range_start": "2025-11-09",
+    "range_end": "2026-11-08"
   },
-  "snapshot_updated_at": "2026-11-07T05:58:46.793006Z"
+  "snapshot_updated_at": "2026-11-08T06:01:45.351241Z"
 }
