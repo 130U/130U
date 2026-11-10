@@ -54,7 +54,7 @@ EXPECTED_ACADEMIC_REPOSITORIES = (
 EXPECTED_ENGINEERING_DISPLAY_ORDER = (
     "agent-evaluation-methodology",
     "130U-FinLLM",
-    "reserach-portfolio-since2026",
+    "research-portfolio-since2026",
     "bazi-context-agent",
     "info-collector-2026",
 )

@@ -6,7 +6,7 @@
   <img src="assets/generated/hero-light-v5.svg" alt="Theodore Ouyang — AI Engineering & Finance. Models, agents, and mathematical research." width="100%">
 </picture>
 
-I build AI systems and develop mathematical methods for financial decisions.
+I make high-stakes conclusions verifiable in finance and AI.
 
 <p>
 <a href="#user-content-ai-engineering"><img src="assets/layout/nav-ai-v2.svg" width="168" height="38" alt="01 / AI Engineering"></a>
@@ -48,7 +48,7 @@ I build AI systems and develop mathematical methods for financial decisions.
 
 <h3><sub>03</sub> &nbsp; Research Portfolio</h3>
 <p>Technical analysis of robotics and world models: how language becomes continuous robot action, what architectures learn, and what delivery models mean for adoption.</p>
-<p><a href="https://github.com/130U/reserach-portfolio-since2026"><img src="assets/layout/button-analysis-v2.svg" width="96" height="32" alt="Analysis — Research Portfolio"></a></p>
+<p><a href="https://github.com/130U/research-portfolio-since2026"><img src="assets/layout/button-analysis-v2.svg" width="96" height="32" alt="Analysis — Research Portfolio"></a></p>
 
 <hr>
 
