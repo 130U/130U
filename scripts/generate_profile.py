@@ -17,7 +17,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = ROOT / "profile.config.json"
+CONFIG_PATH = ROOT / "config" / "profile.json"
 OUTPUT_DIR = ROOT / "assets" / "generated"
 LIVE_SOURCE = "GitHub public contribution calendar"
 

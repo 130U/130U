@@ -17,7 +17,7 @@ from generate_profile import PALETTES, TELEMETRY_PALETTES
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
-CONFIG = ROOT / "profile.config.json"
+CONFIG = ROOT / "config" / "profile.json"
 GENERATED = ROOT / "assets" / "generated"
 LAYOUT = ROOT / "assets" / "layout"
 EXPECTED_ASSETS = {
@@ -49,7 +49,7 @@ RETIRED_METRIC_LABELS = (
 EXPECTED_ACADEMIC_REPOSITORIES = (
     "certified-valuation-arithmetic-asian-options",
     "certified-rough-heston-valuation",
-    "mathematical-finance-project",
+    "Critical-Dependence-Stress",
 )
 EXPECTED_ENGINEERING_DISPLAY_ORDER = (
     "agent-evaluation-methodology",
@@ -410,8 +410,8 @@ def validate_workflow() -> None:
     if "[skip ci]" in workflow:
         fail("Telemetry commits must rely on bounded paths instead of a skip-ci marker")
     required_output_controls = (
-        "git diff --quiet -- assets/generated profile.config.json",
-        "git add assets/generated profile.config.json",
+        "git diff --quiet -- assets/generated config/profile.json",
+        "git add assets/generated config/profile.json",
         "git push",
     )
     if any(control not in workflow for control in required_output_controls):

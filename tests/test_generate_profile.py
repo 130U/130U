@@ -347,7 +347,7 @@ class GenerateProfileTests(unittest.TestCase):
         config = snapshot_config()
         live = {**FULL_CONTRIBUTIONS, "source": generate_profile.LIVE_SOURCE}
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
-            path = Path(directory) / "profile.config.json"
+            path = Path(directory) / "profile.json"
             path.write_text(json.dumps(config) + "\n", encoding="utf-8")
             with patch.object(generate_profile, "CONFIG_PATH", path), patch.object(
                 generate_profile, "collect_live_data", return_value=live
@@ -367,7 +367,7 @@ class GenerateProfileTests(unittest.TestCase):
     def test_main_does_not_overwrite_snapshot_after_public_calendar_failure(self) -> None:
         config = snapshot_config()
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
-            path = Path(directory) / "profile.config.json"
+            path = Path(directory) / "profile.json"
             original = json.dumps(config, indent=2) + "\n"
             path.write_text(original, encoding="utf-8", newline="\n")
             original_bytes = path.read_bytes()

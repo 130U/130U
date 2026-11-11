@@ -81,7 +81,7 @@ I make high-stakes conclusions verifiable in finance and AI.
 <p>I connect payoff analysis, stochastic dynamics, and validated computation to certify discretization error. A shared Gaussian factor yields a weighted payoff-remainder bound. The paper’s one-year Heston Asian call spread with twelve monthly fixings has a complete discretization-error bound below <strong>0.011025 price units</strong>.</p>
 <p><a href="https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Arithmetic Asian Options"></a>
 <a href="https://github.com/130U/certified-valuation-arithmetic-asian-options"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Arithmetic Asian Options"></a>
-<a href="https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Arithmetic Asian Options"></a></p>
+<a href="https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Arithmetic Asian Options"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
@@ -95,7 +95,7 @@ I make high-stakes conclusions verifiable in finance and AI.
 <p>I establish joint pricing-error bounds that retain Fourier perturbations shared across strikes, using a finite-history theorem for fractional Riccati residuals. For the paper’s quarter-year 4400–4500 call spread, the stored output has a complete error upper bound of <strong>0.233318843 index points</strong>, meeting a <strong>0.25-point budget</strong>.</p>
 <p><a href="https://github.com/130U/certified-rough-heston-valuation/blob/main/ARTICLE.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Joint Pricing Errors in Rough Heston"></a>
 <a href="https://github.com/130U/certified-rough-heston-valuation"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Joint Pricing Errors in Rough Heston"></a>
-<a href="https://github.com/130U/certified-rough-heston-valuation/blob/main/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Joint Pricing Errors in Rough Heston"></a></p>
+<a href="https://github.com/130U/certified-rough-heston-valuation/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Joint Pricing Errors in Rough Heston"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
@@ -107,9 +107,9 @@ I make high-stakes conclusions verifiable in finance and AI.
 
 <h3><sub>03</sub> &nbsp; Critical Dependence Stress</h3>
 <p>For small reallocations in an exchangeable box model, I derive a <strong>common quadratic law</strong> for the dependence-stress budgets that erase or reverse diversification gains under fixed marginals. In the independent uniform benchmark with median Expected Shortfall, equal exposures, and transport weights (1, 1, 2), the critical coefficient is <strong>at least 30% above</strong> the tangent prediction.</p>
-<p><a href="https://github.com/130U/mathematical-finance-project/blob/main/paper/paper.pdf"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/mathematical-finance-project"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/mathematical-finance-project/blob/main/docs/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Critical Dependence Stress"></a></p>
+<p><a href="https://github.com/130U/Critical-Dependence-Stress/blob/main/paper/paper.pdf"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Critical Dependence Stress"></a>
+<a href="https://github.com/130U/Critical-Dependence-Stress"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Critical Dependence Stress"></a>
+<a href="https://github.com/130U/Critical-Dependence-Stress/blob/main/docs/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Critical Dependence Stress"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
