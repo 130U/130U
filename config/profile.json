@@ -9,7 +9,7 @@
     "descriptor": "Models, agents, and mathematical research."
   },
   "fallback_contributions": {
-    "total": 650,
+    "total": 751,
     "days": [
       {
         "date": "2025-11-16",
@@ -1313,7 +1313,7 @@
       },
       {
         "date": "2026-08-03",
-        "level": 3,
+        "level": 2,
         "count": 23
       },
       {
@@ -1343,12 +1343,12 @@
       },
       {
         "date": "2026-08-09",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
         "date": "2026-08-10",
-        "level": 4,
+        "level": 3,
         "count": 38
       },
       {
@@ -1418,7 +1418,7 @@
       },
       {
         "date": "2026-08-24",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
@@ -1628,7 +1628,7 @@
       },
       {
         "date": "2026-10-05",
-        "level": 2,
+        "level": 1,
         "count": 14
       },
       {
@@ -1638,7 +1638,7 @@
       },
       {
         "date": "2026-10-07",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
@@ -1653,12 +1653,12 @@
       },
       {
         "date": "2026-10-10",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
         "date": "2026-10-11",
-        "level": 3,
+        "level": 2,
         "count": 32
       },
       {
@@ -1733,7 +1733,7 @@
       },
       {
         "date": "2026-10-26",
-        "level": 3,
+        "level": 2,
         "count": 30
       },
       {
@@ -1743,7 +1743,7 @@
       },
       {
         "date": "2026-10-28",
-        "level": 3,
+        "level": 2,
         "count": 24
       },
       {
@@ -1753,7 +1753,7 @@
       },
       {
         "date": "2026-10-30",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
@@ -1783,42 +1783,42 @@
       },
       {
         "date": "2026-11-05",
-        "level": 2,
+        "level": 1,
         "count": 16
       },
       {
         "date": "2026-11-06",
-        "level": 2,
+        "level": 1,
         "count": 18
       },
       {
         "date": "2026-11-07",
-        "level": 3,
+        "level": 2,
         "count": 24
       },
       {
         "date": "2026-11-08",
-        "level": 3,
+        "level": 2,
         "count": 27
       },
       {
         "date": "2026-11-09",
-        "level": 4,
+        "level": 3,
         "count": 43
       },
       {
         "date": "2026-11-10",
-        "level": 4,
+        "level": 2,
         "count": 37
       },
       {
         "date": "2026-11-11",
-        "level": 2,
+        "level": 1,
         "count": 12
       },
       {
         "date": "2026-11-12",
-        "level": 3,
+        "level": 2,
         "count": 27
       },
       {
@@ -1828,7 +1828,7 @@
       },
       {
         "date": "2026-11-14",
-        "level": 3,
+        "level": 2,
         "count": 31
       },
       {
@@ -1838,17 +1838,22 @@
       },
       {
         "date": "2026-11-16",
-        "level": 0,
-        "count": 0
+        "level": 2,
+        "count": 26
       },
       {
         "date": "2026-11-17",
+        "level": 4,
+        "count": 75
+      },
+      {
+        "date": "2026-11-18",
         "level": 0,
         "count": 0
       }
     ],
     "range_start": "2025-11-16",
-    "range_end": "2026-11-17"
+    "range_end": "2026-11-18"
   },
-  "snapshot_updated_at": "2026-11-17T07:55:31.244081Z"
+  "snapshot_updated_at": "2026-11-18T07:29:33.027547Z"
 }
