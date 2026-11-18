@@ -45,8 +45,6 @@ BUTTONS = {
     "button-paper": ("Paper", 72, True),
     "button-repository": ("Repository", 100, False),
     "button-results": ("Results", 80, False),
-    "button-model": ("Model", 76, False),
-    "button-training": ("Training", 80, False),
     "button-analysis": ("Analysis", 96, False),
     "nav-ai": ("01 / AI Engineering", 168, True),
     "nav-finance": ("02 / Finance", 120, False),
@@ -76,7 +74,7 @@ def main() -> None:
                     sheet_header(kind, theme, mobile), encoding="utf-8", newline="\n")
     for name, (label, width, primary) in BUTTONS.items():
         (OUTPUT / f"{name}-v2.svg").write_text(button(label, width, primary), encoding="utf-8", newline="\n")
-    print("Generated 2 responsive sheet headers and 8 navigation controls.")
+    print("Generated 2 responsive sheet headers and 6 navigation controls.")
 
 
 if __name__ == "__main__":

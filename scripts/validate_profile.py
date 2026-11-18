@@ -32,8 +32,8 @@ EXPECTED_ASSETS = {
 }
 EXPECTED_LAYOUT_BUTTONS = {
     f"{name}-v2.svg" for name in (
-        "button-paper", "button-repository", "button-results", "button-model",
-        "button-training", "button-analysis", "nav-ai", "nav-finance",
+        "button-paper", "button-repository", "button-results",
+        "button-analysis", "nav-ai", "nav-finance",
     )
 }
 EXPECTED_LAYOUT_ASSETS = EXPECTED_LAYOUT_BUTTONS | {
@@ -47,16 +47,16 @@ RETIRED_METRIC_LABELS = (
     "engineering commits", "project commits", "pull requests", "public repositories", "public repos",
 )
 EXPECTED_ACADEMIC_REPOSITORIES = (
-    "certified-valuation-arithmetic-asian-options",
-    "certified-rough-heston-valuation",
-    "Critical-Dependence-Stress",
+    "RESEARCH-Certified-Valuation-Arithmetic-Asian-Options",
+    "RESEARCH-Certified-Rough-Heston-Valuation",
+    "RESEARCH-Critical-Dependence-Stress",
 )
 EXPECTED_ENGINEERING_DISPLAY_ORDER = (
-    "agent-evaluation-methodology",
-    "130U-FinLLM",
-    "research-portfolio-since2026",
-    "bazi-context-agent",
-    "info-collector-2026",
+    "RESEARCH-Agent-Evaluation-Methodology",
+    "RESEARCH-Financial-Large-Language-Model",
+    "ENGINEERING-World-Model-Series",
+    "ENGINEERING-BaZi-Context-Agent",
+    "ENGINEERING-Info-Collector-2026",
 )
 
 
@@ -486,13 +486,13 @@ def main() -> None:
         validate_svg(path)
     layout_assets = {path.name for path in LAYOUT.glob("*.svg")}
     if layout_assets != EXPECTED_LAYOUT_ASSETS:
-        fail(f"Expected sixteen static layout assets, found: {sorted(layout_assets)}")
+        fail(f"Expected fourteen static layout assets, found: {sorted(layout_assets)}")
     for path in sorted(LAYOUT.glob("*.svg")):
         validate_svg(path)
     validate_palette_contrast()
     validate_workflow()
     validate_repository_boundary()
-    print("Profile validation passed: two project sheets, eight generated and sixteen layout SVGs, contribution data, scoped workflow, forbidden repositories untouched.")
+    print("Profile validation passed: two project sheets, eight generated and fourteen layout SVGs, contribution data, scoped workflow, forbidden repositories untouched.")
 
 
 if __name__ == "__main__":

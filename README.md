@@ -26,41 +26,43 @@ I make high-stakes conclusions verifiable in finance and AI.
 </picture>
 
 <h3><sub>01</sub> &nbsp; Agent Evaluation Methodology</h3>
-<p>I develop <strong>ICFA</strong>, a method for deciding which evaluation feedback belongs in an agent’s prompt update. It connects the diagnosis to what the agent knew, who produced the behavior, and what the optimizer can change.</p>
-<p><a href="https://github.com/130U/agent-evaluation-methodology"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Agent Evaluation Methodology"></a></p>
+<p>I built <strong>ICFA</strong>, four gates between evaluation feedback and a prompt optimizer. A diagnosis is admitted when its record is complete, the behavior it criticizes lies within reach of the edit, and the evidence at the moment of action supports it. In 1,824 published runs of a widely used benchmark, every conversation opens with a sentence the framework wrote, and the gates route that critique to the component that can act on it.</p>
+<p><a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology/blob/main/manuscript/intervention-constrained-feedback-admission.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Agent Evaluation Methodology"></a>
+<a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Agent Evaluation Methodology"></a>
+<a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology/blob/main/reproduce/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Agent Evaluation Methodology"></a></p>
 
 <hr>
 
-<h3><sub>02</sub> &nbsp; 130U-FinLLM</h3>
-<p><strong>24.26M parameters · 42.47M additional training tokens prepared</strong></p>
-<p>I built a native PyTorch system for asset-specific financial language modeling from random initialization, with a self-trained tokenizer, complete checkpoint recovery, and separate data partitions for selection, calibration, and testing. <em>Financial stance accuracy remains unevaluated.</em></p>
-<p><a href="https://github.com/130U/130U-FinLLM"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — 130U-FinLLM"></a>
-<a href="https://github.com/130U/130U-FinLLM/blob/main/docs/MODEL_CARD.md"><img src="assets/layout/button-model-v2.svg" width="76" height="32" alt="Model card — 130U-FinLLM"></a>
-<a href="https://github.com/130U/130U-FinLLM/blob/main/docs/STATUS.md"><img src="assets/layout/button-training-v2.svg" width="80" height="32" alt="Training — 130U-FinLLM"></a></p>
+<h3><sub>02</sub> &nbsp; Financial Large Language Model</h3>
+<p><strong>Judgment relations · four permissions for every edit · one objective at any split</strong></p>
+<p>I built a financial language model around a judgment relation: who holds which view of what, on which evidence, as of when. Semantic permissions state what the output may and must do under every edit of a text, and a training contract keeps one objective however an update is executed. The public 24M-parameter Trial is trained from random initialization on one Tesla T4.</p>
+<p><a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model/blob/main/manuscript/semantic-permissions-and-objective-preserving-scaling.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Financial Large Language Model"></a>
+<a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Financial Large Language Model"></a>
+<a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model/blob/main/reproduce/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Financial Large Language Model"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
-<p>I built <strong>130U-FinLLM</strong>, a native PyTorch training and evaluation system for financial language modeling from random initialization. Its <strong>24.26M-parameter decoder</strong> and self-trained 8K tokenizer address a precise problem: identifying bearish, neutral, or bullish stance toward a specified asset. I implemented corpus preparation, pretraining, supervised fine-tuning, and preference-training experiments, with separate data partitions for model selection, probability calibration, review thresholds, and final testing.</p>
-<p>The pipeline prepared <strong>42.47 million additional training tokens</strong>, with seed and candidate evaluation documents excluded. Training recovery restores the optimizer, scheduler, random state, and corpus position; calibration artifacts remain tied to their checkpoint and tokenizer. This brings data engineering, model training, and evaluation into a working research system. The public records document pretraining progress; financial stance accuracy has not yet been evaluated.</p>
+<p>A sentiment label compresses a change in a fact, the author's attitude and an action into one word. I supervise a judgment relation in its place and state, for every edit and every task axis, what the model's output may and must do. A consistency term on a pair that keeps its label moves both predictions off their calibrated values by up to <strong>half the gap</strong> between the two true posteriors; a one-sided response term on log-odds costs a calibrated model nothing at any margin up to 1.39 nats.</p>
+<p>Under the training contract the gradient of one update is the same from four ranks of two microbatches as from a single batch, to about <strong>10⁻⁶</strong>, and projecting only the supervised positions leaves the loss unchanged with a logits tensor <strong>2,048 times smaller</strong>. The Trial reaches a macro-F1 of <strong>0.6549</strong> against a TF-IDF baseline's 0.6087, and all 179 figures in the article are recomputed by the repository's code.</p>
 </details>
 
 <hr>
 
-<h3><sub>03</sub> &nbsp; Research Portfolio</h3>
-<p>Technical analysis of robotics and world models: how language becomes continuous robot action, what architectures learn, and what delivery models mean for adoption.</p>
-<p><a href="https://github.com/130U/research-portfolio-since2026"><img src="assets/layout/button-analysis-v2.svg" width="96" height="32" alt="Analysis — Research Portfolio"></a></p>
+<h3><sub>03</sub> &nbsp; World Model Series</h3>
+<p>Three studies of robot learning and world models: where future prediction enters a robot model, how π₀ turns semantics into continuous action, and how world models outside China are delivered and sold.</p>
+<p><a href="https://github.com/130U/ENGINEERING-World-Model-Series"><img src="assets/layout/button-analysis-v2.svg" width="96" height="32" alt="Analysis — World Model Series"></a></p>
 
 <hr>
 
 <h3><sub>04</sub> &nbsp; BaZi Context Agent</h3>
 <p>An interactive interpretation system that compares uncertain birth-hour candidates, fixes a working selection, and introduces personal context through a separate reporting layer.</p>
-<p><a href="https://github.com/130U/bazi-context-agent"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — BaZi Context Agent"></a></p>
+<p><a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — BaZi Context Agent"></a></p>
 
 <hr>
 
 <h3><sub>05</sub> &nbsp; Info Collector</h3>
 <p>A reading application that turns saved webpages into translations, summaries, and a searchable local library, with a weekly review of what was read.</p>
-<p><a href="https://github.com/130U/info-collector-2026"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Info Collector"></a></p>
+<p><a href="https://github.com/130U/ENGINEERING-Info-Collector-2026"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Info Collector"></a></p>
 
 </td></tr></table>
 
@@ -78,24 +80,24 @@ I make high-stakes conclusions verifiable in finance and AI.
 </picture>
 
 <h3><sub>01</sub> &nbsp; Arithmetic Asian Options</h3>
-<p>I connect payoff analysis, stochastic dynamics, and validated computation to certify discretization error. A shared Gaussian factor yields a weighted payoff-remainder bound. The paper’s one-year Heston Asian call spread with twelve monthly fixings has a complete discretization-error bound below <strong>0.011025 price units</strong>.</p>
-<p><a href="https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/manuscript/report.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Arithmetic Asian Options"></a>
-<a href="https://github.com/130U/certified-valuation-arithmetic-asian-options"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Arithmetic Asian Options"></a>
-<a href="https://github.com/130U/certified-valuation-arithmetic-asian-options/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Arithmetic Asian Options"></a></p>
+<p>I bound the cost of exercising an arithmetic Asian option on its geometric average by a dispersion divided by a level risk. For a calendar-month crude oil option the bound is below a hundredth of a cent per barrel. Under Heston it gives a proved price interval 16 basis points wide for a twelve-fixing 95–110 call spread, with the 768-step Euler price within <strong>0.011025</strong> of the continuous one.</p>
+<p><a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options/blob/main/manuscript/report.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Arithmetic Asian Options"></a>
+<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Arithmetic Asian Options"></a>
+<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Arithmetic Asian Options"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
-<p>I develop a mathematical framework for certifying discretization error in arithmetic Asian valuation. Its core is a weighted payoff-remainder bound derived from a Gaussian factor shared across observation dates. This connects the payoff’s nonsmooth structure to computable moment bounds, which I combine with validated transforms for the original projected Euler scheme under Heston stochastic volatility.</p>
-<p>In the paper’s one-year Heston Asian call-spread example with twelve monthly fixings, the framework establishes a complete discretization-error bound below <strong>0.011025 price units</strong>. The contribution connects payoff analysis, stochastic dynamics and validated computation to give a rigorous monetary guarantee for the discrete valuation.</p>
+<p>Oil, metals and currency hedges pay on an arithmetic average, which has no closed-form law; the geometric average does. Exercising on a scaled geometric average costs the expected overshoot when the two averages fall on opposite sides of the strike. I prove that this cost is at most a dispersion divided by a level risk, for every model with a common Gaussian factor, and derive its cubic law in Black's model.</p>
+<p>For a one-month crude oil average price option, one to twelve months ahead, the closed-form value is proved to be within <strong>0.0023 to 0.0081 cents</strong> of the Black price. Under Heston, the continuous price of the twelve-fixing 95–110 call spread lies in <strong>[6.508371733, 6.518868974]</strong>, with projection, inversion tails, periodization and rounding inside the interval.</p>
 </details>
 
 <hr>
 
 <h3><sub>02</sub> &nbsp; Joint Pricing Errors in Rough Heston</h3>
 <p>I establish joint pricing-error bounds that retain Fourier perturbations shared across strikes, using a finite-history theorem for fractional Riccati residuals. For the paper’s quarter-year 4400–4500 call spread, the stored output has a complete error upper bound of <strong>0.233318843 index points</strong>, meeting a <strong>0.25-point budget</strong>.</p>
-<p><a href="https://github.com/130U/certified-rough-heston-valuation/blob/main/ARTICLE.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Joint Pricing Errors in Rough Heston"></a>
-<a href="https://github.com/130U/certified-rough-heston-valuation"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Joint Pricing Errors in Rough Heston"></a>
-<a href="https://github.com/130U/certified-rough-heston-valuation/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Joint Pricing Errors in Rough Heston"></a></p>
+<p><a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation/blob/main/ARTICLE.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Joint Pricing Errors in Rough Heston"></a>
+<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Joint Pricing Errors in Rough Heston"></a>
+<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Joint Pricing Errors in Rough Heston"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
@@ -107,9 +109,9 @@ I make high-stakes conclusions verifiable in finance and AI.
 
 <h3><sub>03</sub> &nbsp; Critical Dependence Stress</h3>
 <p>For small reallocations in an exchangeable box model, I derive a <strong>common quadratic law</strong> for the dependence-stress budgets that erase or reverse diversification gains under fixed marginals. In the independent uniform benchmark with median Expected Shortfall, equal exposures, and transport weights (1, 1, 2), the critical coefficient is <strong>at least 30% above</strong> the tangent prediction.</p>
-<p><a href="https://github.com/130U/Critical-Dependence-Stress/blob/main/paper/paper.pdf"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/Critical-Dependence-Stress"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/Critical-Dependence-Stress/blob/main/docs/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Critical Dependence Stress"></a></p>
+<p><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress/blob/main/paper/paper.pdf"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Critical Dependence Stress"></a>
+<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Critical Dependence Stress"></a>
+<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress/blob/main/docs/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Critical Dependence Stress"></a></p>
 <details>
 <summary>Method &amp; evidence</summary>
 <br>
