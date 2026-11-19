@@ -8,6 +8,6 @@ The rolling window advances with each daily update. The daily workflow refreshes
 
 The panel is a static image in a desktop and a mobile layout. The generator uses Python's standard library, requires no repository token, and makes no changes to GitHub's native contribution graph.
 
-The page itself is built by scripts/build_readme.py from config/profile.json, which lists the five sections and, for every work, its repository, title, headline question and cover image. scripts/validate_profile.py checks that README.md equals that build.
+The page itself is built by scripts/build_readme.py from config/profile.json, which lists the five sections and, for every work, its repository, title, the bold lead of its README and its cover image. scripts/validate_profile.py checks that README.md equals that build.
 
 [GitHub contribution reference](https://docs.github.com/en/account-and-profile/reference/profile-contributions-reference)

@@ -48,18 +48,18 @@ Ten works in AI evaluation and mathematical finance. Each starts from a question
 <p><b><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals">Critical Dependence Stress for Diversification Gains under Fixed Marginals</a></b><br>How much dependence stress does it take to overturn a diversification gain?</p>
 </td>
 <td width="50%" valign="top">
-<a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston"><img src="assets/covers/rough-heston.webp" alt="Certified Joint Pricing Errors in Rough Heston" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston">Certified Joint Pricing Errors in Rough Heston</a></b><br>When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?</p>
+<a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options"><img src="assets/covers/arithmetic-asian-options.webp" alt="Certified Valuation of Arithmetic Asian Options" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options">Certified Valuation of Arithmetic Asian Options</a></b><br>What does it cost to exercise an average-price option on the geometric average, and how far is a simulated price from the model that was calibrated?</p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options"><img src="assets/covers/arithmetic-asian-options.webp" alt="Certified Valuation of Arithmetic Asian Options" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options">Certified Valuation of Arithmetic Asian Options</a></b><br>What does it cost to exercise an average-price option on the geometric average?</p>
+<a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston"><img src="assets/covers/rough-heston.webp" alt="Certified Joint Pricing Errors in Rough Heston" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston">Certified Joint Pricing Errors in Rough Heston</a></b><br>When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?</p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance"><img src="assets/covers/proxy-tail.webp" alt="Proxy Tail" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance">Proxy Tail</a></b><br>Why did a research line on LLM evaluation in finance close, and how could the same answer be reached at a fraction of the cost?</p>
+<p><b><a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance">Proxy Tail</a></b><br>Why did five stages of careful experiments end without a paper, and how early could each stage have been closed?</p>
 </td>
 </tr>
 </table>
@@ -74,21 +74,21 @@ Three products built end to end, from interface to tests, and a study series on 
 <tr>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/ENGINEERING-Info-Collector-2026"><img src="assets/covers/info-collector.webp" alt="Info Collector" width="100%"></a>
-<p><b><a href="https://github.com/130U/ENGINEERING-Info-Collector-2026">Info Collector</a></b><br>How do the articles you save become a library you actually read?</p>
+<p><b><a href="https://github.com/130U/ENGINEERING-Info-Collector-2026">Info Collector</a></b><br>How does a saved article become part of a library that gets read, when the browser can capture but cannot work, and a model can translate but cannot be trusted?</p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent"><img src="assets/covers/bazi-context-agent.webp" alt="BaZi Context Agent" width="100%"></a>
-<p><b><a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent">BaZi Context Agent</a></b><br>Which hour were you born, and what is happening in your life now? The second answer can never change the first.</p>
+<p><b><a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent">BaZi Context Agent</a></b><br>Which hour was a person born, and what is happening in that life now? I built a system in which the second answer can never change the first.</p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/ENGINEERING-Divination-and-Destiny-Studies"><img src="assets/covers/divination-and-destiny-studies.webp" alt="Divination and Destiny Studies" width="100%"></a>
-<p><b><a href="https://github.com/130U/ENGINEERING-Divination-and-Destiny-Studies">Divination and Destiny Studies</a></b><br>Can a language model read a chart against a life without ever calculating the chart?</p>
+<p><b><a href="https://github.com/130U/ENGINEERING-Divination-and-Destiny-Studies">Divination and Destiny Studies</a></b><br>Can a language model read a person&#x27;s chart against their life without ever calculating the chart, seeing a server, or spending anyone&#x27;s money but theirs?</p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/ENGINEERING-World-Model-Series"><img src="assets/covers/world-model-series.webp" alt="World Model Series" width="100%"></a>
-<p><b><a href="https://github.com/130U/ENGINEERING-World-Model-Series">World Model Series</a></b><br>Where should prediction meet action?</p>
+<p><b><a href="https://github.com/130U/ENGINEERING-World-Model-Series">World Model Series</a></b><br>A world model is valuable because it predicts the future. A robot, and a business, are valuable only when they act in the present. Where should prediction meet action?</p>
 </td>
 </tr>
 </table>
@@ -107,13 +107,13 @@ Four articles from Duke Law School on who may decide under risk: in orbit, in th
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence"><img src="assets/covers/small-states.webp" alt="Small States and the Governance of Strategic Space Dependence" width="100%"></a>
-<p><b><a href="https://github.com/130U/LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence">Small States and the Governance of Strategic Space Dependence</a></b><br>When a small state relies on foreign space infrastructure, what exactly has it given up?</p>
+<p><b><a href="https://github.com/130U/LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence">Small States and the Governance of Strategic Space Dependence</a></b><br>When a small state relies on foreign space infrastructure, what exactly has it given up, and what does it owe its own public before it does so?</p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/LAW-Who-May-Choose-the-Lesser-Risk"><img src="assets/covers/lesser-risk.webp" alt="Who May Choose the Lesser Risk" width="100%"></a>
-<p><b><a href="https://github.com/130U/LAW-Who-May-Choose-the-Lesser-Risk">Who May Choose the Lesser Risk</a></b><br>Who may choose among climate risks for people who cannot escape the resulting climate?</p>
+<p><b><a href="https://github.com/130U/LAW-Who-May-Choose-the-Lesser-Risk">Who May Choose the Lesser Risk</a></b><br>Who may choose among climate risks for people who cannot escape the resulting climate, and how can that choice be withdrawn without catastrophe?</p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/LAW-Mangrove-Restoration-and-the-Limits-of-Compensatory-Mitigation"><img src="assets/covers/mangrove-restoration.webp" alt="Mangrove Restoration and the Limits of Compensatory Mitigation" width="100%"></a>
@@ -130,18 +130,21 @@ Music and landscape, each work built as its own site.
 
 <table>
 <tr>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 <a href="https://github.com/130U/BLOG-Ten-States-of-Water"><img src="assets/covers/ten-states-of-water.webp" alt="Ten States of Water" width="100%"></a>
 <p><b><a href="https://github.com/130U/BLOG-Ten-States-of-Water">Ten States of Water</a></b><br>Ten landscapes of Alaska and Yellowstone, with water in a different state in each.</p>
 </td>
-<td width="33%" valign="top">
-<a href="https://github.com/130U/BLOG-As-If-Returning"><img src="assets/covers/as-if-returning.webp" alt="As If Leaving, As If Returning" width="100%"></a>
-<p><b><a href="https://github.com/130U/BLOG-As-If-Returning">As If Leaving, As If Returning</a></b><br>An essay on a new version of the Der Freischütz fantasy.</p>
-</td>
-<td width="33%" valign="top">
+<td width="50%" valign="top">
 <a href="https://github.com/130U/BLOG-Etude-Sky"><img src="assets/covers/etude-sky.webp" alt="The Étude Sky" width="100%"></a>
-<p><b><a href="https://github.com/130U/BLOG-Etude-Sky">The Étude Sky</a></b><br>Chopin&#x27;s twenty-four études, charted as stars on the circle of fifths.</p>
+<p><b><a href="https://github.com/130U/BLOG-Etude-Sky">The Étude Sky</a></b><br>Chopin&#x27;s twenty-four études, charted as stars on the circle of fifths. Every mark is computed from the music.</p>
 </td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/BLOG-As-If-Returning"><img src="assets/covers/as-if-returning.webp" alt="As If Leaving, As If Returning" width="100%"></a>
+<p><b><a href="https://github.com/130U/BLOG-As-If-Returning">As If Leaving, As If Returning</a></b><br>A new arrangement of the <i>Der Freischütz</i> fantasy, beneath a Song dynasty handscroll that unrolls with the music, with an essay on beauty across time and aesthetics in the age of AI.</p>
+</td>
+<td width="50%"></td>
 </tr>
 </table>
 
@@ -167,8 +170,8 @@ The site that holds the whole record, and this page.
 <!-- PROFILE_ACTIVITY -->
 
 <picture>
-  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-v6.svg">
-  <img src="assets/generated/telemetry-v6.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">
+  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/contributions-mobile.svg">
+  <img src="assets/generated/contributions.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">
 </picture>
 
 <sub>[Activity updates](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>

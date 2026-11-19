@@ -208,7 +208,7 @@ class ContributionWindowTests(unittest.TestCase):
         })
         for mobile in (False, True):
             with self.subTest(mobile=mobile):
-                svg = generate_profile.telemetry_svg(data, GENERATED_AT, mobile=mobile)
+                svg = generate_profile.contributions_svg(data, GENERATED_AT, mobile=mobile)
                 root = ET.fromstring(svg)
                 ns = {"svg": "http://www.w3.org/2000/svg"}
                 numeric_text = [
@@ -271,7 +271,7 @@ class ContributionSparklineTests(unittest.TestCase):
                 "source": generate_profile.LIVE_SOURCE}
         for mobile in (False, True):
             with self.subTest(mobile=mobile):
-                root = ET.fromstring(generate_profile.telemetry_svg(data, GENERATED_AT, mobile=mobile))
+                root = ET.fromstring(generate_profile.contributions_svg(data, GENERATED_AT, mobile=mobile))
                 path = next(element for element in root.iter()
                             if element.attrib.get("id") == "contribution-sparkline")
                 values = [float(number) for number in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", path.attrib["d"])]
@@ -432,13 +432,17 @@ class ReadmeTests(unittest.TestCase):
                     self.assertEqual(readme.count(f'src="assets/covers/{item["cover"]}.webp"'), 1)
                     self.assertTrue((ROOT / "assets" / "covers" / f'{item["cover"]}.webp').is_file())
 
-    def test_three_works_share_one_row_and_other_sections_use_two_columns(self) -> None:
+    def test_every_section_shows_two_cards_a_row_at_one_size(self) -> None:
         for data in self.config["sections"]:
             with self.subTest(section=data["id"]):
                 block = build_readme.section(1, data)
-                rows = block.count("<tr>")
-                expected = 1 if len(data["items"]) == 3 else (len(data["items"]) + 1) // 2
-                self.assertEqual(rows, expected)
+                self.assertEqual(block.count("<tr>"), (len(data["items"]) + 1) // 2)
+                widths = set(re.findall(r'<td width="(\d+)%"', block))
+                self.assertEqual(widths, {"50"})
+
+    def test_card_line_sets_a_work_title_in_italics(self) -> None:
+        line = build_readme.line_html("A new arrangement of the *Der Freischütz* fantasy & more.")
+        self.assertEqual(line, "A new arrangement of the <i>Der Freischütz</i> fantasy &amp; more.")
 
     def test_readme_rejects_hand_edits_reordering_and_a_missing_footer(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

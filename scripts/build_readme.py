@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from html import escape
 from pathlib import Path
 
@@ -12,10 +13,16 @@ CONFIG_PATH = ROOT / "config" / "profile.json"
 README = ROOT / "README.md"
 RAW = "https://raw.githubusercontent.com/130U/130U/main/assets"
 ACTIVITY_MARKER = "<!-- PROFILE_ACTIVITY -->"
+COLUMNS = 2
 
 
 def target(item: dict) -> str:
     return item.get("url") or f'https://github.com/130U/{item["repository"]}'
+
+
+def line_html(line: str) -> str:
+    """The card line as HTML: the README lead's *emphasis* (a work title) in italics."""
+    return re.sub(r"\*([^*]+)\*", r"<i>\1</i>", escape(line))
 
 
 def card(item: dict, width: int) -> str:
@@ -23,19 +30,18 @@ def card(item: dict, width: int) -> str:
     return "\n".join([
         f'<td width="{width}%" valign="top">',
         f'<a href="{link}"><img src="assets/covers/{item["cover"]}.webp" alt="{escape(item["title"], quote=True)}" width="100%"></a>',
-        f'<p><b><a href="{link}">{title}</a></b><br>{escape(item["line"])}</p>',
+        f'<p><b><a href="{link}">{title}</a></b><br>{line_html(item["line"])}</p>',
         "</td>",
     ])
 
 
 def section(number: int, data: dict) -> str:
     items = data["items"]
-    columns = 3 if len(items) == 3 else 2
-    width = 100 // columns
+    width = 100 // COLUMNS
     rows = []
-    for index in range(0, len(items), columns):
-        cells = [card(item, width) for item in items[index:index + columns]]
-        cells.extend([f'<td width="{width}%"></td>'] * (columns - len(cells)))
+    for index in range(0, len(items), COLUMNS):
+        cells = [card(item, width) for item in items[index:index + COLUMNS]]
+        cells.extend([f'<td width="{width}%"></td>'] * (COLUMNS - len(cells)))
         rows.append("<tr>\n" + "\n".join(cells) + "\n</tr>")
     return "\n".join([
         f'<a id="{data["id"]}"></a>',
@@ -73,8 +79,8 @@ def build(config: dict) -> str:
         ACTIVITY_MARKER,
         "",
         "<picture>",
-        f'  <source media="(max-width: 767px)" srcset="{RAW}/generated/telemetry-mobile-v6.svg">',
-        '  <img src="assets/generated/telemetry-v6.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">',
+        f'  <source media="(max-width: 767px)" srcset="{RAW}/generated/contributions-mobile.svg">',
+        '  <img src="assets/generated/contributions.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">',
         "</picture>",
         "",
         "<sub>[Activity updates](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>",

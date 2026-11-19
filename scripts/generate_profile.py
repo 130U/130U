@@ -199,7 +199,7 @@ def contribution_sparkline_points(data: dict, *, x: float, y: float,
             for index, count in enumerate(counts)]
 
 
-def telemetry_svg(data: dict, generated_at: datetime, *, mobile: bool = False) -> str:
+def contributions_svg(data: dict, generated_at: datetime, *, mobile: bool = False) -> str:
     p = PALETTE
     width, height = (640, 292) if mobile else (1200, 170)
     saved = data["source"] != LIVE_SOURCE
@@ -245,8 +245,8 @@ def telemetry_svg(data: dict, generated_at: datetime, *, mobile: bool = False) -
 
 def build_assets(data: dict, generated_at: datetime) -> dict[str, str]:
     return {
-        "telemetry-v6.svg": telemetry_svg(data, generated_at),
-        "telemetry-mobile-v6.svg": telemetry_svg(data, generated_at, mobile=True),
+        "contributions.svg": contributions_svg(data, generated_at),
+        "contributions-mobile.svg": contributions_svg(data, generated_at, mobile=True),
     }
 
 

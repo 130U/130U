@@ -20,7 +20,7 @@ README = ROOT / "README.md"
 CONFIG = ROOT / "config" / "profile.json"
 GENERATED = ROOT / "assets" / "generated"
 COVERS = ROOT / "assets" / "covers"
-EXPECTED_ASSETS = {"telemetry-v6.svg", "telemetry-mobile-v6.svg"}
+EXPECTED_ASSETS = {"contributions.svg", "contributions-mobile.svg"}
 HERO_ASSETS = ("hero.webp", "hero-mobile.webp")
 EXPECTED_SECTIONS = ("research", "engineering", "law", "blog", "me")
 SITE_REPOSITORY = "130U.github.io"
@@ -243,29 +243,31 @@ def validate_svg(path: Path) -> None:
 def validate_workflow() -> None:
     workflow = (ROOT / ".github" / "workflows" / "update-profile.yml").read_text(encoding="utf-8")
     if "contents: write" not in workflow:
-        fail("Telemetry workflow requires scoped contents write permission")
+        fail("Contribution workflow requires scoped contents write permission")
     if "pull-requests: write" in workflow or "issues: write" in workflow:
-        fail("Telemetry workflow requests unnecessary permissions")
+        fail("Contribution workflow requests unnecessary permissions")
+    if re.search(r"uses:\s*[\w.-]+/[\w.-]+@(?![0-9a-f]{40}\b)", workflow):
+        fail("Contribution workflow must pin every action to a full commit SHA")
     required_commands = (
         "python -m unittest discover -s tests -v",
         "scripts/generate_profile.py --live",
         "scripts/validate_profile.py",
     )
     if any(command not in workflow for command in required_commands):
-        fail("Telemetry workflow must test, generate live assets, and validate them")
+        fail("Contribution workflow must test, generate live assets, and validate them")
     if "GITHUB_TOKEN:" in workflow:
-        fail("Public telemetry generation must not receive the repository-scoped GitHub token")
+        fail("Public contribution generation must not receive the repository-scoped GitHub token")
     if "push:" not in workflow or '"tests/**"' not in workflow or '"README.md"' not in workflow:
-        fail("Telemetry workflow must verify README and generator changes pushed to main")
+        fail("Contribution workflow must verify README and generator changes pushed to main")
     if "[skip ci]" in workflow:
-        fail("Telemetry commits must rely on bounded paths instead of a skip-ci marker")
+        fail("Contribution commits must rely on bounded paths instead of a skip-ci marker")
     required_output_controls = (
         "git diff --quiet -- assets/generated config/profile.json",
         "git add assets/generated config/profile.json",
         "git push",
     )
     if any(control not in workflow for control in required_output_controls):
-        fail("Telemetry workflow must save verified snapshot data and assets on main, skipping unchanged output")
+        fail("Contribution workflow must save verified snapshot data and assets on main, skipping unchanged output")
 
 
 def relative_luminance(hex_color: str) -> float:

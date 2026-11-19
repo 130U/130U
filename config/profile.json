@@ -1906,21 +1906,21 @@
           "cover": "critical-dependence-stress"
         },
         {
+          "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
+          "title": "Certified Valuation of Arithmetic Asian Options",
+          "line": "What does it cost to exercise an average-price option on the geometric average, and how far is a simulated price from the model that was calibrated?",
+          "cover": "arithmetic-asian-options"
+        },
+        {
           "repository": "RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston",
           "title": "Certified Joint Pricing Errors in Rough Heston",
           "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
           "cover": "rough-heston"
         },
         {
-          "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
-          "title": "Certified Valuation of Arithmetic Asian Options",
-          "line": "What does it cost to exercise an average-price option on the geometric average?",
-          "cover": "arithmetic-asian-options"
-        },
-        {
           "repository": "RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance",
           "title": "Proxy Tail",
-          "line": "Why did a research line on LLM evaluation in finance close, and how could the same answer be reached at a fraction of the cost?",
+          "line": "Why did five stages of careful experiments end without a paper, and how early could each stage have been closed?",
           "cover": "proxy-tail"
         }
       ]
@@ -1933,25 +1933,25 @@
         {
           "repository": "ENGINEERING-Info-Collector-2026",
           "title": "Info Collector",
-          "line": "How do the articles you save become a library you actually read?",
+          "line": "How does a saved article become part of a library that gets read, when the browser can capture but cannot work, and a model can translate but cannot be trusted?",
           "cover": "info-collector"
         },
         {
           "repository": "ENGINEERING-BaZi-Context-Agent",
           "title": "BaZi Context Agent",
-          "line": "Which hour were you born, and what is happening in your life now? The second answer can never change the first.",
+          "line": "Which hour was a person born, and what is happening in that life now? I built a system in which the second answer can never change the first.",
           "cover": "bazi-context-agent"
         },
         {
           "repository": "ENGINEERING-Divination-and-Destiny-Studies",
           "title": "Divination and Destiny Studies",
-          "line": "Can a language model read a chart against a life without ever calculating the chart?",
+          "line": "Can a language model read a person's chart against their life without ever calculating the chart, seeing a server, or spending anyone's money but theirs?",
           "cover": "divination-and-destiny-studies"
         },
         {
           "repository": "ENGINEERING-World-Model-Series",
           "title": "World Model Series",
-          "line": "Where should prediction meet action?",
+          "line": "A world model is valuable because it predicts the future. A robot, and a business, are valuable only when they act in the present. Where should prediction meet action?",
           "cover": "world-model-series"
         }
       ]
@@ -1970,13 +1970,13 @@
         {
           "repository": "LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence",
           "title": "Small States and the Governance of Strategic Space Dependence",
-          "line": "When a small state relies on foreign space infrastructure, what exactly has it given up?",
+          "line": "When a small state relies on foreign space infrastructure, what exactly has it given up, and what does it owe its own public before it does so?",
           "cover": "small-states"
         },
         {
           "repository": "LAW-Who-May-Choose-the-Lesser-Risk",
           "title": "Who May Choose the Lesser Risk",
-          "line": "Who may choose among climate risks for people who cannot escape the resulting climate?",
+          "line": "Who may choose among climate risks for people who cannot escape the resulting climate, and how can that choice be withdrawn without catastrophe?",
           "cover": "lesser-risk"
         },
         {
@@ -1999,16 +1999,16 @@
           "cover": "ten-states-of-water"
         },
         {
-          "repository": "BLOG-As-If-Returning",
-          "title": "As If Leaving, As If Returning",
-          "line": "An essay on a new version of the Der Freischütz fantasy.",
-          "cover": "as-if-returning"
-        },
-        {
           "repository": "BLOG-Etude-Sky",
           "title": "The Étude Sky",
-          "line": "Chopin's twenty-four études, charted as stars on the circle of fifths.",
+          "line": "Chopin's twenty-four études, charted as stars on the circle of fifths. Every mark is computed from the music.",
           "cover": "etude-sky"
+        },
+        {
+          "repository": "BLOG-As-If-Returning",
+          "title": "As If Leaving, As If Returning",
+          "line": "A new arrangement of the *Der Freischütz* fantasy, beneath a Song dynasty handscroll that unrolls with the music, with an essay on beauty across time and aesthetics in the age of AI.",
+          "cover": "as-if-returning"
         }
       ]
     },
