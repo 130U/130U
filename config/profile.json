@@ -5,7 +5,7 @@
     "line": "I make high-stakes conclusions verifiable in finance and AI."
   },
   "fallback_contributions": {
-    "total": 689,
+    "total": 647,
     "days": [
       {
         "date": "2025-11-16",
@@ -1300,22 +1300,22 @@
       {
         "date": "2026-08-01",
         "level": 1,
-        "count": 8
+        "count": 1
       },
       {
         "date": "2026-08-02",
-        "level": 1,
-        "count": 8
+        "level": 0,
+        "count": 0
       },
       {
         "date": "2026-08-03",
-        "level": 3,
-        "count": 23
+        "level": 2,
+        "count": 12
       },
       {
         "date": "2026-08-04",
         "level": 1,
-        "count": 6
+        "count": 4
       },
       {
         "date": "2026-08-05",
@@ -1344,8 +1344,8 @@
       },
       {
         "date": "2026-08-10",
-        "level": 4,
-        "count": 36
+        "level": 3,
+        "count": 28
       },
       {
         "date": "2026-08-11",
@@ -1650,12 +1650,12 @@
       {
         "date": "2026-10-10",
         "level": 1,
-        "count": 7
+        "count": 6
       },
       {
         "date": "2026-10-11",
         "level": 3,
-        "count": 26
+        "count": 24
       },
       {
         "date": "2026-10-12",
@@ -1800,17 +1800,17 @@
       {
         "date": "2026-11-09",
         "level": 3,
-        "count": 29
+        "count": 27
       },
       {
         "date": "2026-11-10",
-        "level": 4,
-        "count": 32
+        "level": 3,
+        "count": 29
       },
       {
         "date": "2026-11-11",
         "level": 1,
-        "count": 10
+        "count": 9
       },
       {
         "date": "2026-11-12",
@@ -1845,18 +1845,18 @@
       {
         "date": "2026-11-18",
         "level": 4,
-        "count": 42
+        "count": 40
       },
       {
         "date": "2026-11-19",
         "level": 2,
-        "count": 15
+        "count": 20
       }
     ],
     "range_start": "2025-11-16",
     "range_end": "2026-11-19"
   },
-  "snapshot_updated_at": "2026-11-19T07:27:06.022515Z",
+  "snapshot_updated_at": "2026-11-19T08:29:29.995522Z",
   "sections": [
     {
       "id": "research",
