@@ -1,138 +1,174 @@
 <picture>
-  <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-dark-v5.svg">
-  <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-mobile-light-v5.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-dark-v5.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/hero-light-v5.svg">
-  <img src="assets/generated/hero-light-v5.svg" alt="Theodore Ouyang — AI Engineering & Finance. Models, agents, and mathematical research." width="100%">
+  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/hero-mobile.webp">
+  <img src="assets/hero.webp" alt="Theodore Ouyang. I make high-stakes conclusions verifiable in finance and AI." width="100%">
 </picture>
 
-I make high-stakes conclusions verifiable in finance and AI.
+<p align="center"><a href="#user-content-research">01 Research</a> &nbsp;·&nbsp; <a href="#user-content-engineering">02 Engineering</a> &nbsp;·&nbsp; <a href="#user-content-law">03 Law</a> &nbsp;·&nbsp; <a href="#user-content-blog">04 Blog</a> &nbsp;·&nbsp; <a href="#user-content-me">05 Me</a></p>
 
-<p>
-<a href="#user-content-ai-engineering"><img src="assets/layout/nav-ai-v2.svg" width="168" height="38" alt="01 / AI Engineering"></a>
-<a href="#user-content-finance"><img src="assets/layout/nav-finance-v2.svg" width="120" height="38" alt="02 / Finance"></a>
-</p>
+<a id="research"></a>
 
-<br>
+## 01 &nbsp; Research
 
-<a id="ai-engineering"></a>
-<table width="100%"><tr><td>
+Ten works in AI evaluation and mathematical finance. Each starts from a question and ends in a result that can be checked.
 
-<picture>
-  <source media="(prefers-color-scheme: dark) and (max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-ai-mobile-dark-v2.svg">
-  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-ai-mobile-light-v2.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-ai-dark-v2.svg">
-  <img src="assets/layout/sheet-ai-light-v2.svg" width="1200" alt="AI Engineering — models, agents, and research tools">
-</picture>
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology"><img src="assets/covers/agent-evaluation-methodology.webp" alt="Agent Evaluation Methodology" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology">Agent Evaluation Methodology</a></b><br>What must be true of a diagnosis before it is allowed to change an agent?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model"><img src="assets/covers/financial-large-language-model.webp" alt="Financial Large Language Model" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model">Financial Large Language Model</a></b><br>What should a financial language model be supervised to say, and what must stay fixed while its training scales?</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Large-Scale-Domain-Expert-Feedback-Governance-and-Adaptive-Review"><img src="assets/covers/expert-feedback-governance.webp" alt="Large-Scale Domain Expert Feedback Governance and Adaptive Review" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Large-Scale-Domain-Expert-Feedback-Governance-and-Adaptive-Review">Large-Scale Domain Expert Feedback Governance and Adaptive Review</a></b><br>How should a post-training program spend a limited pool of expert reviewers when every review does two jobs at once?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Financial-Task-Design-and-Synthetic-Data-Engineering"><img src="assets/covers/financial-task-design.webp" alt="Financial Task Design and Synthetic Data Engineering" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Financial-Task-Design-and-Synthetic-Data-Engineering">Financial Task Design and Synthetic Data Engineering</a></b><br>When a synthetic financial case changes one number, is its label still right?</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-General-Reasoning-Evaluation-and-Layered-Verification"><img src="assets/covers/reasoning-evaluation.webp" alt="General Reasoning Evaluation and Layered Verification" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-General-Reasoning-Evaluation-and-Layered-Verification">General Reasoning Evaluation and Layered Verification</a></b><br>What should entitle a model&#x27;s reasoning to be accepted?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Evidence-Verification-and-Robust-Comparison-in-Investment-Research"><img src="assets/covers/evidence-verification.webp" alt="Evidence Verification and Robust Comparison in Investment Research" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Evidence-Verification-and-Robust-Comparison-in-Investment-Research">Evidence Verification and Robust Comparison in Investment Research</a></b><br>Which investment conclusions does the evidence in hand already support, and which fact is most valuable to verify next?</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress"><img src="assets/covers/critical-dependence-stress.webp" alt="Critical Dependence Stress" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress">Critical Dependence Stress</a></b><br>How much dependence stress does it take to overturn a diversification gain?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation"><img src="assets/covers/rough-heston.webp" alt="Certified Joint Pricing Errors in Rough Heston" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation">Certified Joint Pricing Errors in Rough Heston</a></b><br>When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options"><img src="assets/covers/arithmetic-asian-options.webp" alt="Certified Valuation of Arithmetic Asian Options" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options">Certified Valuation of Arithmetic Asian Options</a></b><br>What does it cost to exercise an average-price option on the geometric average?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance"><img src="assets/covers/proxy-tail.webp" alt="Proxy Tail" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance">Proxy Tail</a></b><br>Why did a research line on LLM evaluation in finance close, and how could the same answer be reached at a fraction of the cost?</p>
+</td>
+</tr>
+</table>
 
-<h3><sub>01</sub> &nbsp; Agent Evaluation Methodology</h3>
-<p>I built <strong>ICFA</strong>, four gates between evaluation feedback and a prompt optimizer. A diagnosis is admitted when its record is complete, the behavior it criticizes lies within reach of the edit, and the evidence at the moment of action supports it. In 1,824 published runs of a widely used benchmark, every conversation opens with a sentence the framework wrote, and the gates route that critique to the component that can act on it.</p>
-<p><a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology/blob/main/manuscript/intervention-constrained-feedback-admission.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Agent Evaluation Methodology"></a>
-<a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Agent Evaluation Methodology"></a>
-<a href="https://github.com/130U/RESEARCH-Agent-Evaluation-Methodology/blob/main/reproduce/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Agent Evaluation Methodology"></a></p>
+<a id="engineering"></a>
 
-<hr>
+## 02 &nbsp; Engineering
 
-<h3><sub>02</sub> &nbsp; Financial Large Language Model</h3>
-<p><strong>Judgment relations · four permissions for every edit · one objective at any split</strong></p>
-<p>I built a financial language model around a judgment relation: who holds which view of what, on which evidence, as of when. Semantic permissions state what the output may and must do under every edit of a text, and a training contract keeps one objective however an update is executed. The public 24M-parameter Trial is trained from random initialization on one Tesla T4.</p>
-<p><a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model/blob/main/manuscript/semantic-permissions-and-objective-preserving-scaling.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Financial Large Language Model"></a>
-<a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Financial Large Language Model"></a>
-<a href="https://github.com/130U/RESEARCH-Financial-Large-Language-Model/blob/main/reproduce/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Financial Large Language Model"></a></p>
-<details>
-<summary>Method &amp; evidence</summary>
-<br>
-<p>A sentiment label compresses a change in a fact, the author's attitude and an action into one word. I supervise a judgment relation in its place and state, for every edit and every task axis, what the model's output may and must do. A consistency term on a pair that keeps its label moves both predictions off their calibrated values by up to <strong>half the gap</strong> between the two true posteriors; a one-sided response term on log-odds costs a calibrated model nothing at any margin up to 1.39 nats.</p>
-<p>Under the training contract the gradient of one update is the same from four ranks of two microbatches as from a single batch, to about <strong>10⁻⁶</strong>, and projecting only the supervised positions leaves the loss unchanged with a logits tensor <strong>2,048 times smaller</strong>. The Trial reaches a macro-F1 of <strong>0.6549</strong> against a TF-IDF baseline's 0.6087, and all 179 figures in the article are recomputed by the repository's code.</p>
-</details>
+Three products built end to end, from interface to tests, and a study series on world models.
 
-<hr>
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/ENGINEERING-Info-Collector-2026"><img src="assets/covers/info-collector.webp" alt="Info Collector" width="100%"></a>
+<p><b><a href="https://github.com/130U/ENGINEERING-Info-Collector-2026">Info Collector</a></b><br>How do the articles you save become a library you actually read?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent"><img src="assets/covers/bazi-context-agent.webp" alt="BaZi Context Agent" width="100%"></a>
+<p><b><a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent">BaZi Context Agent</a></b><br>Which hour were you born, and what is happening in your life now? The second answer can never change the first.</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/ENGINEERING-Divination-and-Destiny-Studies"><img src="assets/covers/divination-and-destiny-studies.webp" alt="Divination and Destiny Studies" width="100%"></a>
+<p><b><a href="https://github.com/130U/ENGINEERING-Divination-and-Destiny-Studies">Divination and Destiny Studies</a></b><br>Can a language model read a chart against a life without ever calculating the chart?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/ENGINEERING-World-Model-Series"><img src="assets/covers/world-model-series.webp" alt="World Model Series" width="100%"></a>
+<p><b><a href="https://github.com/130U/ENGINEERING-World-Model-Series">World Model Series</a></b><br>Where should prediction meet action?</p>
+</td>
+</tr>
+</table>
 
-<h3><sub>03</sub> &nbsp; World Model Series</h3>
-<p>Three studies of robot learning and world models: where future prediction enters a robot model, how π₀ turns semantics into continuous action, and how world models outside China are delivered and sold.</p>
-<p><a href="https://github.com/130U/ENGINEERING-World-Model-Series"><img src="assets/layout/button-analysis-v2.svg" width="96" height="32" alt="Analysis — World Model Series"></a></p>
+<a id="law"></a>
 
-<hr>
+## 03 &nbsp; Law
 
-<h3><sub>04</sub> &nbsp; BaZi Context Agent</h3>
-<p>An interactive interpretation system that compares uncertain birth-hour candidates, fixes a working selection, and introduces personal context through a separate reporting layer.</p>
-<p><a href="https://github.com/130U/ENGINEERING-BaZi-Context-Agent"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — BaZi Context Agent"></a></p>
+Four articles from Duke Law School on who may decide under risk: in orbit, in the climate and on the coast.
 
-<hr>
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/LAW-Autonomous-Authority-in-Space"><img src="assets/covers/autonomous-authority-in-space.webp" alt="Autonomous Authority in Space" width="100%"></a>
+<p><b><a href="https://github.com/130U/LAW-Autonomous-Authority-in-Space">Autonomous Authority in Space</a></b><br>When may a space system act without contemporaneous human approval, and which institution decides that it may?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence"><img src="assets/covers/small-states.webp" alt="Small States and the Governance of Strategic Space Dependence" width="100%"></a>
+<p><b><a href="https://github.com/130U/LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence">Small States and the Governance of Strategic Space Dependence</a></b><br>When a small state relies on foreign space infrastructure, what exactly has it given up?</p>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/LAW-Who-May-Choose-the-Lesser-Risk"><img src="assets/covers/lesser-risk.webp" alt="Who May Choose the Lesser Risk" width="100%"></a>
+<p><b><a href="https://github.com/130U/LAW-Who-May-Choose-the-Lesser-Risk">Who May Choose the Lesser Risk</a></b><br>Who may choose among climate risks for people who cannot escape the resulting climate?</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/LAW-Mangrove-Restoration-and-the-Limits-of-Compensatory-Mitigation"><img src="assets/covers/mangrove-restoration.webp" alt="Mangrove Restoration and the Limits of Compensatory Mitigation" width="100%"></a>
+<p><b><a href="https://github.com/130U/LAW-Mangrove-Restoration-and-the-Limits-of-Compensatory-Mitigation">Mangrove Restoration and the Limits of Compensatory Mitigation</a></b><br>What is a promise of future wetland function worth when it is used to permit a loss today?</p>
+</td>
+</tr>
+</table>
 
-<h3><sub>05</sub> &nbsp; Info Collector</h3>
-<p>A reading application that turns saved webpages into translations, summaries, and a searchable local library, with a weekly review of what was read.</p>
-<p><a href="https://github.com/130U/ENGINEERING-Info-Collector-2026"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Info Collector"></a></p>
+<a id="blog"></a>
 
-</td></tr></table>
+## 04 &nbsp; Blog
 
-<br>
-<br>
+Music and landscape, each work built as its own site.
 
-<a id="finance"></a>
-<table width="100%"><tr><td>
+<table>
+<tr>
+<td width="33%" valign="top">
+<a href="https://github.com/130U/ten-states-of-water"><img src="assets/covers/ten-states-of-water.webp" alt="Ten States of Water" width="100%"></a>
+<p><b><a href="https://github.com/130U/ten-states-of-water">Ten States of Water</a></b><br>Ten landscapes of Alaska and Yellowstone, with water in a different state in each.</p>
+</td>
+<td width="33%" valign="top">
+<a href="https://github.com/130U/as-if-returning"><img src="assets/covers/as-if-returning.webp" alt="As If Leaving, As If Returning" width="100%"></a>
+<p><b><a href="https://github.com/130U/as-if-returning">As If Leaving, As If Returning</a></b><br>An essay on a new version of the Der Freischütz fantasy.</p>
+</td>
+<td width="33%" valign="top">
+<a href="https://github.com/130U/etude-sky"><img src="assets/covers/etude-sky.webp" alt="The Étude Sky" width="100%"></a>
+<p><b><a href="https://github.com/130U/etude-sky">The Étude Sky</a></b><br>Chopin&#x27;s twenty-four études, charted as stars on the circle of fifths.</p>
+</td>
+</tr>
+</table>
 
-<picture>
-  <source media="(prefers-color-scheme: dark) and (max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-finance-mobile-dark-v2.svg">
-  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-finance-mobile-light-v2.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/layout/sheet-finance-dark-v2.svg">
-  <img src="assets/layout/sheet-finance-light-v2.svg" width="1200" alt="Finance — mathematical research in valuation and risk">
-</picture>
+<a id="me"></a>
 
-<h3><sub>01</sub> &nbsp; Arithmetic Asian Options</h3>
-<p>I bound the cost of exercising an arithmetic Asian option on its geometric average by a dispersion divided by a level risk. For a calendar-month crude oil option the bound is below a hundredth of a cent per barrel. Under Heston it gives a proved price interval 16 basis points wide for a twelve-fixing 95–110 call spread, with the 768-step Euler price within <strong>0.011025</strong> of the continuous one.</p>
-<p><a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options/blob/main/manuscript/report.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Arithmetic Asian Options"></a>
-<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Arithmetic Asian Options"></a>
-<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Arithmetic Asian Options"></a></p>
-<details>
-<summary>Method &amp; evidence</summary>
-<br>
-<p>Oil, metals and currency hedges pay on an arithmetic average, which has no closed-form law; the geometric average does. Exercising on a scaled geometric average costs the expected overshoot when the two averages fall on opposite sides of the strike. I prove that this cost is at most a dispersion divided by a level risk, for every model with a common Gaussian factor, and derive its cubic law in Black's model.</p>
-<p>For a one-month crude oil average price option, one to twelve months ahead, the closed-form value is proved to be within <strong>0.0023 to 0.0081 cents</strong> of the Black price. Under Heston, the continuous price of the twelve-fixing 95–110 call spread lies in <strong>[6.508371733, 6.518868974]</strong>, with projection, inversion tails, periodization and rounding inside the interval.</p>
-</details>
+## 05 &nbsp; Me
 
-<hr>
+The site that holds the whole record, and this page.
 
-<h3><sub>02</sub> &nbsp; Joint Pricing Errors in Rough Heston</h3>
-<p>I establish joint pricing-error bounds that retain Fourier perturbations shared across strikes, using a finite-history theorem for fractional Riccati residuals. For the paper’s quarter-year 4400–4500 call spread, the stored output has a complete error upper bound of <strong>0.233318843 index points</strong>, meeting a <strong>0.25-point budget</strong>.</p>
-<p><a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation/blob/main/ARTICLE.md"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Joint Pricing Errors in Rough Heston"></a>
-<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Joint Pricing Errors in Rough Heston"></a>
-<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation/blob/main/docs/EVIDENCE.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Joint Pricing Errors in Rough Heston"></a></p>
-<details>
-<summary>Method &amp; evidence</summary>
-<br>
-<p>I establish a deterministic framework for joint pricing-error certification in rough Heston. A finite-history theorem carries continuous fractional Riccati residuals into the pricing exponent, while a joint error set preserves the Fourier perturbations shared across strikes. Together, these results provide rigorous bounds for spreads and portfolio valuations sharing the same model and maturity.</p>
-<p>For the paper’s quarter-year <strong>4400–4500 call spread</strong>, the framework certifies the stored numerical output with a complete error upper bound of <strong>0.233318843 index points</strong>, meeting a <strong>0.25-point accuracy budget</strong>. The certificate includes quadrature, omitted frequencies, the infinite tail and arithmetic, connecting fractional dynamics to a checkable guarantee for the valuation.</p>
-</details>
-
-<hr>
-
-<h3><sub>03</sub> &nbsp; Critical Dependence Stress</h3>
-<p>For small reallocations in an exchangeable box model, I derive a <strong>common quadratic law</strong> for the dependence-stress budgets that erase or reverse diversification gains under fixed marginals. In the independent uniform benchmark with median Expected Shortfall, equal exposures, and transport weights (1, 1, 2), the critical coefficient is <strong>at least 30% above</strong> the tangent prediction.</p>
-<p><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress/blob/main/paper/paper.pdf"><img src="assets/layout/button-paper-v2.svg" width="72" height="32" alt="Paper — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress"><img src="assets/layout/button-repository-v2.svg" width="100" height="32" alt="Repository — Critical Dependence Stress"></a>
-<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress/blob/main/docs/results.md"><img src="assets/layout/button-results-v2.svg" width="80" height="32" alt="Results — Critical Dependence Stress"></a></p>
-<details>
-<summary>Method &amp; evidence</summary>
-<br>
-<p>I develop a reverse stress-testing theory for a precise portfolio decision: how much can dependence change before a diversification gain disappears, with every marginal loss distribution held fixed? For small reallocations in an exchangeable box model, I derive a <strong>common quadratic law</strong> for the stress budgets that produce a tie or a strict reversal. The analysis connects a variational limit with exact marginal restoration and identifies the extra cost that local sensitivity alone misses.</p>
-<p>In the independent uniform benchmark with median Expected Shortfall, equal exposures, and transport weights (1, 1, 2), I bound the critical coefficient between <strong>0.203125 and 0.302083...</strong>, <strong>at least 30% above</strong> the tangent prediction of 0.15625. The paper also characterizes when the restoration premium vanishes and uses continuous maximum-flow/minimum-cut duality to explain how the background portfolio absorbs stress.</p>
-</details>
-
-</td></tr></table>
-
-<br>
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://www.theodoreoy.com/"><img src="assets/covers/website.webp" alt="theodoreoy.com" width="100%"></a>
+<p><b><a href="https://www.theodoreoy.com/">theodoreoy.com</a></b><br>Research, experience and writing in one place.</p>
+</td>
+<td width="50%" valign="top">
+<a href="https://github.com/130U/130U"><img src="assets/covers/profile.webp" alt="130U" width="100%"></a>
+<p><b><a href="https://github.com/130U/130U">130U</a></b><br>This page: five lists, one configuration file, and a contribution trace refreshed every day.</p>
+</td>
+</tr>
+</table>
 
 <!-- PROFILE_ACTIVITY -->
 
----
-
 <picture>
-  <source media="(max-width: 767px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-dark-v5.svg">
-  <source media="(max-width: 767px) and (prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-light-v5.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-dark-v5.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-light-v5.svg">
-  <img src="assets/generated/telemetry-light-v5.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace. Updated from the public GitHub calendar." width="100%">
+  <source media="(max-width: 767px)" srcset="https://raw.githubusercontent.com/130U/130U/main/assets/generated/telemetry-mobile-v6.svg">
+  <img src="assets/generated/telemetry-v6.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">
 </picture>
 
 <sub>[Activity updates](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>

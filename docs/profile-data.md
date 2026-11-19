@@ -6,6 +6,8 @@ The generator first checks GitHub's displayed annual total against the sum of al
 
 The rolling window advances with each daily update. The daily workflow refreshes both the SVG and the verified data saved in config/profile.json. If the public calendar cannot be fetched or validated, the generator retains that saved data and its original collection date. The panel labels this as **Saved snapshot**.
 
-The assets provide static desktop, mobile, light, and dark variants. The generator uses Python's standard library, requires no repository token, and makes no changes to GitHub's native contribution graph.
+The panel is a static image in a desktop and a mobile layout. The generator uses Python's standard library, requires no repository token, and makes no changes to GitHub's native contribution graph.
+
+The page itself is built by scripts/build_readme.py from config/profile.json, which lists the five sections and, for every work, its repository, title, headline question and cover image. scripts/validate_profile.py checks that README.md equals that build.
 
 [GitHub contribution reference](https://docs.github.com/en/account-and-profile/reference/profile-contributions-reference)

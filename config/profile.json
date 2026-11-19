@@ -2,11 +2,7 @@
   "username": "130U",
   "identity": {
     "name": "Theodore Ouyang",
-    "areas": [
-      "AI Engineering",
-      "Finance"
-    ],
-    "descriptor": "Models, agents, and mathematical research."
+    "line": "I make high-stakes conclusions verifiable in finance and AI."
   },
   "fallback_contributions": {
     "total": 662,
@@ -1855,5 +1851,181 @@
     "range_start": "2025-11-16",
     "range_end": "2026-11-18"
   },
-  "snapshot_updated_at": "2026-11-18T18:03:25.352539Z"
+  "snapshot_updated_at": "2026-11-18T18:03:25.352539Z",
+  "sections": [
+    {
+      "id": "research",
+      "title": "Research",
+      "blurb": "Ten works in AI evaluation and mathematical finance. Each starts from a question and ends in a result that can be checked.",
+      "items": [
+        {
+          "repository": "RESEARCH-Agent-Evaluation-Methodology",
+          "title": "Agent Evaluation Methodology",
+          "line": "What must be true of a diagnosis before it is allowed to change an agent?",
+          "cover": "agent-evaluation-methodology"
+        },
+        {
+          "repository": "RESEARCH-Financial-Large-Language-Model",
+          "title": "Financial Large Language Model",
+          "line": "What should a financial language model be supervised to say, and what must stay fixed while its training scales?",
+          "cover": "financial-large-language-model"
+        },
+        {
+          "repository": "RESEARCH-Large-Scale-Domain-Expert-Feedback-Governance-and-Adaptive-Review",
+          "title": "Large-Scale Domain Expert Feedback Governance and Adaptive Review",
+          "line": "How should a post-training program spend a limited pool of expert reviewers when every review does two jobs at once?",
+          "cover": "expert-feedback-governance"
+        },
+        {
+          "repository": "RESEARCH-Financial-Task-Design-and-Synthetic-Data-Engineering",
+          "title": "Financial Task Design and Synthetic Data Engineering",
+          "line": "When a synthetic financial case changes one number, is its label still right?",
+          "cover": "financial-task-design"
+        },
+        {
+          "repository": "RESEARCH-General-Reasoning-Evaluation-and-Layered-Verification",
+          "title": "General Reasoning Evaluation and Layered Verification",
+          "line": "What should entitle a model's reasoning to be accepted?",
+          "cover": "reasoning-evaluation"
+        },
+        {
+          "repository": "RESEARCH-Evidence-Verification-and-Robust-Comparison-in-Investment-Research",
+          "title": "Evidence Verification and Robust Comparison in Investment Research",
+          "line": "Which investment conclusions does the evidence in hand already support, and which fact is most valuable to verify next?",
+          "cover": "evidence-verification"
+        },
+        {
+          "repository": "RESEARCH-Critical-Dependence-Stress",
+          "title": "Critical Dependence Stress",
+          "line": "How much dependence stress does it take to overturn a diversification gain?",
+          "cover": "critical-dependence-stress"
+        },
+        {
+          "repository": "RESEARCH-Certified-Rough-Heston-Valuation",
+          "title": "Certified Joint Pricing Errors in Rough Heston",
+          "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
+          "cover": "rough-heston"
+        },
+        {
+          "repository": "RESEARCH-Certified-Valuation-Arithmetic-Asian-Options",
+          "title": "Certified Valuation of Arithmetic Asian Options",
+          "line": "What does it cost to exercise an average-price option on the geometric average?",
+          "cover": "arithmetic-asian-options"
+        },
+        {
+          "repository": "RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance",
+          "title": "Proxy Tail",
+          "line": "Why did a research line on LLM evaluation in finance close, and how could the same answer be reached at a fraction of the cost?",
+          "cover": "proxy-tail"
+        }
+      ]
+    },
+    {
+      "id": "engineering",
+      "title": "Engineering",
+      "blurb": "Three products built end to end, from interface to tests, and a study series on world models.",
+      "items": [
+        {
+          "repository": "ENGINEERING-Info-Collector-2026",
+          "title": "Info Collector",
+          "line": "How do the articles you save become a library you actually read?",
+          "cover": "info-collector"
+        },
+        {
+          "repository": "ENGINEERING-BaZi-Context-Agent",
+          "title": "BaZi Context Agent",
+          "line": "Which hour were you born, and what is happening in your life now? The second answer can never change the first.",
+          "cover": "bazi-context-agent"
+        },
+        {
+          "repository": "ENGINEERING-Divination-and-Destiny-Studies",
+          "title": "Divination and Destiny Studies",
+          "line": "Can a language model read a chart against a life without ever calculating the chart?",
+          "cover": "divination-and-destiny-studies"
+        },
+        {
+          "repository": "ENGINEERING-World-Model-Series",
+          "title": "World Model Series",
+          "line": "Where should prediction meet action?",
+          "cover": "world-model-series"
+        }
+      ]
+    },
+    {
+      "id": "law",
+      "title": "Law",
+      "blurb": "Four articles from Duke Law School on who may decide under risk: in orbit, in the climate and on the coast.",
+      "items": [
+        {
+          "repository": "LAW-Autonomous-Authority-in-Space",
+          "title": "Autonomous Authority in Space",
+          "line": "When may a space system act without contemporaneous human approval, and which institution decides that it may?",
+          "cover": "autonomous-authority-in-space"
+        },
+        {
+          "repository": "LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence",
+          "title": "Small States and the Governance of Strategic Space Dependence",
+          "line": "When a small state relies on foreign space infrastructure, what exactly has it given up?",
+          "cover": "small-states"
+        },
+        {
+          "repository": "LAW-Who-May-Choose-the-Lesser-Risk",
+          "title": "Who May Choose the Lesser Risk",
+          "line": "Who may choose among climate risks for people who cannot escape the resulting climate?",
+          "cover": "lesser-risk"
+        },
+        {
+          "repository": "LAW-Mangrove-Restoration-and-the-Limits-of-Compensatory-Mitigation",
+          "title": "Mangrove Restoration and the Limits of Compensatory Mitigation",
+          "line": "What is a promise of future wetland function worth when it is used to permit a loss today?",
+          "cover": "mangrove-restoration"
+        }
+      ]
+    },
+    {
+      "id": "blog",
+      "title": "Blog",
+      "blurb": "Music and landscape, each work built as its own site.",
+      "items": [
+        {
+          "repository": "ten-states-of-water",
+          "title": "Ten States of Water",
+          "line": "Ten landscapes of Alaska and Yellowstone, with water in a different state in each.",
+          "cover": "ten-states-of-water"
+        },
+        {
+          "repository": "as-if-returning",
+          "title": "As If Leaving, As If Returning",
+          "line": "An essay on a new version of the Der Freischütz fantasy.",
+          "cover": "as-if-returning"
+        },
+        {
+          "repository": "etude-sky",
+          "title": "The Étude Sky",
+          "line": "Chopin's twenty-four études, charted as stars on the circle of fifths.",
+          "cover": "etude-sky"
+        }
+      ]
+    },
+    {
+      "id": "me",
+      "title": "Me",
+      "blurb": "The site that holds the whole record, and this page.",
+      "items": [
+        {
+          "repository": "130U.github.io",
+          "title": "theodoreoy.com",
+          "line": "Research, experience and writing in one place.",
+          "cover": "website",
+          "url": "https://www.theodoreoy.com/"
+        },
+        {
+          "repository": "130U",
+          "title": "130U",
+          "line": "This page: five lists, one configuration file, and a contribution trace refreshed every day.",
+          "cover": "profile"
+        }
+      ]
+    }
+  ]
 }

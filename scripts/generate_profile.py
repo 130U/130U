@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate static profile assets from GitHub's public contribution calendar."""
+"""Generate the profile's contribution panel from GitHub's public contribution calendar."""
 
 from __future__ import annotations
 
@@ -21,23 +21,9 @@ CONFIG_PATH = ROOT / "config" / "profile.json"
 OUTPUT_DIR = ROOT / "assets" / "generated"
 LIVE_SOURCE = "GitHub public contribution calendar"
 
-PALETTES = {
-    "light": {
-        "bg_a": "#F7F6F5", "bg_b": "#F7F6F5", "surface": "#F7F6F5", "surface_2": "#F7F6F5",
-        "ink": "#191919", "muted": "#55534F", "faint": "#64605B", "line": "#DFDDD9", "blue": "#2200FF",
-    },
-    "dark": {
-        "bg_a": "#151616", "bg_b": "#151616", "surface": "#151616", "surface_2": "#151616",
-        "ink": "#F2F0EB", "muted": "#C5C2BC", "faint": "#ACA9A3", "line": "#343737", "blue": "#AEA2FF",
-    },
-}
-
-TELEMETRY_PALETTES = {
-    theme: {
-        "background": palette["bg_a"], "number": palette["ink"], "title": palette["ink"],
-        "description": palette["muted"], "timestamp": palette["faint"],
-    }
-    for theme, palette in PALETTES.items()
+PALETTE = {
+    "background": "#0A0A09", "ink": "#F3EEE3", "muted": "#B9B2A3", "faint": "#8B8578",
+    "line": "#3A3324", "gold": "#C4A45C",
 }
 
 
@@ -195,63 +181,6 @@ def text(x: float, y: float, value: str, size: int, color: str, *, weight: int =
             f'{escape(value)}</text>')
 
 
-def rails(width: int, height: int, color: str, *, mobile: bool) -> str:
-    positions = (28, 80, width - 28) if mobile else (44, 232, 276, width - 44)
-    return "\n".join(
-        f'<path d="M{x} 0 V{height}" fill="none" stroke="{color}" stroke-width="1"/>'
-        f'<path d="M{x} 0 V8 M{x} {height - 8} V{height}" fill="none" stroke="{color}" stroke-width="2"/>'
-        for x in positions
-    )
-
-
-def hatch(x: int, y: int, width: int, height: int, color: str) -> str:
-    """A quiet engraved patch, independent of the contribution data."""
-    lines = []
-    for offset in range(0, width + height, 12):
-        start_x, start_y = max(0, offset - height), min(height, offset)
-        end_x, end_y = min(width, offset), max(0, offset - width)
-        lines.append(f'M{x + start_x} {y + start_y} L{x + end_x} {y + end_y}')
-    return f'<path d="{" ".join(lines)}" fill="none" stroke="{color}" stroke-width="0.7"/>'
-
-
-def hero_svg(config: dict, theme: str, *, mobile: bool = False) -> str:
-    p = PALETTES[theme]
-    identity = config["identity"]
-    width, height = (640, 360) if mobile else (1200, 320)
-    parts = [svg_start(width, height, "Theodore Ouyang — AI Engineering & Finance",
-                       "Models, agents, and mathematical research. Two areas: AI Engineering and Finance."),
-             f'<rect width="{width}" height="{height}" fill="{p["bg_a"]}"/>',
-             rails(width, height, p["line"], mobile=mobile)]
-    if mobile:
-        parts.extend([
-            text(100, 53, "130U / RESEARCH & ENGINEERING", 17, p["faint"], family="mono"),
-            text(100, 125, identity["name"], 46, p["ink"], tracking=-1.5),
-            text(100, 185, "AI Engineering", 35, p["ink"], family="serif"),
-            text(100, 226, "& Finance", 35, p["ink"], family="serif"),
-            text(100, 293, "Models, agents, and", 22, p["muted"], family="serif"),
-            text(100, 321, "mathematical research.", 22, p["muted"], family="serif"),
-            f'<path d="M43 92 H63 M53 82 V102" stroke="{p["blue"]}" stroke-width="1.5"/>',
-            hatch(472, 177, 112, 62, p["line"]),
-        ])
-    else:
-        parts.extend([
-            text(64, 68, "130U", 23, p["ink"], family="mono"),
-            text(64, 236, "RESEARCH", 14, p["faint"], family="mono", tracking=1),
-            text(64, 258, "& ENGINEERING", 14, p["faint"], family="mono", tracking=1),
-            text(245, 81, "00", 14, p["faint"], family="mono"),
-            text(310, 110, identity["name"], 56, p["ink"], tracking=-1.8),
-            text(312, 168, "AI Engineering & Finance", 34, p["ink"], family="serif"),
-            text(312, 214, "Models, agents, and mathematical research.", 24, p["muted"], family="serif"),
-            f'<path d="M312 255 H1108" stroke="{p["line"]}"/>',
-            f'<path d="M312 255 H340" stroke="{p["blue"]}" stroke-width="2"/>',
-            text(312, 286, "01 / AI ENGINEERING", 15, p["faint"], family="mono"),
-            text(660, 286, "02 / FINANCE", 15, p["faint"], family="mono"),
-            hatch(975, 67, 130, 126, p["line"]),
-        ])
-    parts.append("</svg>\n")
-    return "\n".join(parts)
-
-
 def contribution_sparkline_points(data: dict, *, x: float, y: float,
                                  width: float, height: float) -> list[tuple[float, float]]:
     """Plot the same 30 dates as the total; zero lies on a common baseline."""
@@ -270,10 +199,8 @@ def contribution_sparkline_points(data: dict, *, x: float, y: float,
             for index, count in enumerate(counts)]
 
 
-def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime,
-                  *, mobile: bool = False) -> str:
-    p = TELEMETRY_PALETTES[theme]
-    palette = PALETTES[theme]
+def telemetry_svg(data: dict, generated_at: datetime, *, mobile: bool = False) -> str:
+    p = PALETTE
     width, height = (640, 292) if mobile else (1200, 170)
     saved = data["source"] != LIVE_SOURCE
     timestamp = data["snapshot_at"] if saved else generated_at.isoformat()
@@ -284,53 +211,49 @@ def telemetry_svg(config: dict, data: dict, theme: str, generated_at: datetime,
                        f'{recent["total"]:,} GitHub contributions in the last 30 days '
                        f'({recent["range_start"]} through {recent["range_end"]}, inclusive). '
                        f'The line plots daily counts on a zero baseline. {snapshot}.'),
-             f'<rect width="{width}" height="{height}" fill="{p["background"]}"/>',
-             rails(width, height, palette["line"], mobile=mobile)]
+             f'<rect width="{width}" height="{height}" fill="{p["background"]}"/>']
     if mobile:
         parts.extend([
-            text(100, 46, "GITHUB / ACTIVITY", 17, p["timestamp"], family="mono"),
-            text(100, 117, f'{recent["total"]:,}', 60, p["number"], tracking=-2),
-            text(270, 88, "contributions", 26, p["title"]),
-            text(270, 119, "Last 30 days", 20, p["description"], family="mono"),
-            text(100, 260, snapshot, 18, p["timestamp"], family="mono"),
+            text(48, 46, "GITHUB / ACTIVITY", 17, p["gold"], family="mono", tracking=1),
+            text(48, 117, f'{recent["total"]:,}', 60, p["ink"], family="serif", tracking=-1),
+            text(222, 88, "contributions", 26, p["ink"]),
+            text(222, 119, "Last 30 days", 20, p["muted"], family="mono"),
+            text(48, 260, snapshot, 18, p["faint"], family="mono"),
         ])
-        x, y, w, h = 100, 156, 478, 57
+        x, y, w, h = 48, 156, 544, 57
     else:
         parts.extend([
-            text(64, 55, "GITHUB", 15, p["timestamp"], family="mono", tracking=1),
-            text(64, 79, "/ ACTIVITY", 15, p["timestamp"], family="mono", tracking=1),
-            text(310, 89, f'{recent["total"]:,}', 62, p["number"], tracking=-2),
-            text(476, 62, "contributions", 25, p["title"]),
-            text(476, 94, "Last 30 days", 18, p["description"], family="mono"),
-            text(312, 138, snapshot, 16, p["timestamp"], family="mono"),
-            text(1108, 138, "DAILY CONTRIBUTIONS", 13, p["timestamp"], family="mono", anchor="end"),
+            text(48, 55, "GITHUB", 15, p["gold"], family="mono", tracking=1),
+            text(48, 79, "/ ACTIVITY", 15, p["gold"], family="mono", tracking=1),
+            text(294, 91, f'{recent["total"]:,}', 62, p["ink"], family="serif", tracking=-1),
+            text(470, 62, "contributions", 25, p["ink"]),
+            text(470, 94, "Last 30 days", 18, p["muted"], family="mono"),
+            text(296, 138, snapshot, 16, p["faint"], family="mono"),
+            text(1152, 138, "DAILY CONTRIBUTIONS", 13, p["faint"], family="mono", anchor="end"),
         ])
-        x, y, w, h = 800, 42, 308, 56
+        x, y, w, h = 844, 42, 308, 56
     points = contribution_sparkline_points(data, x=x, y=y, width=w, height=h)
     path = "M" + " L".join(f"{px:.2f} {py:.2f}" for px, py in points)
     parts.extend([
-        f'<path d="M{x} {y + h} H{x + w}" stroke="{palette["line"]}" fill="none"/>',
-        f'<path id="contribution-sparkline" d="{path}" stroke="{palette["blue"]}" '
+        f'<path d="M{x} {y + h} H{x + w}" stroke="{p["line"]}" fill="none"/>',
+        f'<path id="contribution-sparkline" d="{path}" stroke="{p["gold"]}" '
         'stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" fill="none"/>',
         "</svg>\n",
     ])
     return "\n".join(parts)
 
 
-def build_assets(config: dict, data: dict, generated_at: datetime) -> dict[str, str]:
-    assets = {}
-    for theme in ("light", "dark"):
-        for mobile in (False, True):
-            variant = f"mobile-{theme}" if mobile else theme
-            assets[f"hero-{variant}-v5.svg"] = hero_svg(config, theme, mobile=mobile)
-            assets[f"telemetry-{variant}-v5.svg"] = telemetry_svg(config, data, theme, generated_at, mobile=mobile)
-    return assets
+def build_assets(data: dict, generated_at: datetime) -> dict[str, str]:
+    return {
+        "telemetry-v6.svg": telemetry_svg(data, generated_at),
+        "telemetry-mobile-v6.svg": telemetry_svg(data, generated_at, mobile=True),
+    }
 
 
-def write_assets(config: dict, data: dict, generated_at: datetime | None = None) -> None:
+def write_assets(data: dict, generated_at: datetime | None = None) -> None:
     generated_at = generated_at or datetime.now(timezone.utc)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    for filename, content in build_assets(config, data, generated_at).items():
+    for filename, content in build_assets(data, generated_at).items():
         (OUTPUT_DIR / filename).write_text(content, encoding="utf-8", newline="\n")
 
 
@@ -338,7 +261,7 @@ def save_live_snapshot(config: dict, data: dict, collected_at: datetime) -> None
     if data["source"] == LIVE_SOURCE:
         config["fallback_contributions"] = {key: data[key] for key in ("total", "days", "range_start", "range_end")}
         config["snapshot_updated_at"] = collected_at.isoformat().replace("+00:00", "Z")
-        CONFIG_PATH.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8", newline="\n")
+        CONFIG_PATH.write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def main() -> None:
@@ -349,9 +272,9 @@ def main() -> None:
     data = resolve_profile_data(config, args.live)
     generated_at = datetime.now(timezone.utc)
     save_live_snapshot(config, data, generated_at)
-    write_assets(config, data, generated_at)
+    write_assets(data, generated_at)
     recent = contributions_last_30_days(data)
-    print(f'Generated eight static SVG assets from {data["source"]}: '
+    print(f'Generated two static SVG assets from {data["source"]}: '
           f'{recent["total"]:,} contributions in the last 30 days '
           f'({recent["range_start"]} through {recent["range_end"]}).')
 

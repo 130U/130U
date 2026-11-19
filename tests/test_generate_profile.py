@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TEST_TMP = ROOT / "previews" / "test-tmp"
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import build_readme  # noqa: E402
 import generate_profile  # noqa: E402
 import validate_profile  # noqa: E402
 
@@ -205,22 +206,21 @@ class ContributionWindowTests(unittest.TestCase):
         self.assertEqual(generate_profile.contributions_last_30_days(data), {
             "total": 5, "range_start": "2026-09-04", "range_end": "2026-10-03",
         })
-        for theme in ("light", "dark"):
-            for mobile in (False, True):
-                with self.subTest(theme=theme, mobile=mobile):
-                    svg = generate_profile.telemetry_svg(config, data, theme, GENERATED_AT, mobile=mobile)
-                    root = ET.fromstring(svg)
-                    ns = {"svg": "http://www.w3.org/2000/svg"}
-                    numeric_text = [
-                        element.text for element in root.findall("svg:text", ns)
-                        if re.fullmatch(r"\d+(?:,\d{3})*", element.text or "")
-                    ]
-                    self.assertEqual(numeric_text, ["5"])
-                    description = root.find("svg:desc", ns).text
-                    self.assertIn("2026-09-04 through 2026-10-03", description)
-                    self.assertIn("Saved snapshot", description)
-                    self.assertIn("03 Oct 2026 UTC", description)
-                    self.assertNotIn("08 Oct 2026 UTC", description)
+        for mobile in (False, True):
+            with self.subTest(mobile=mobile):
+                svg = generate_profile.telemetry_svg(data, GENERATED_AT, mobile=mobile)
+                root = ET.fromstring(svg)
+                ns = {"svg": "http://www.w3.org/2000/svg"}
+                numeric_text = [
+                    element.text for element in root.findall("svg:text", ns)
+                    if re.fullmatch(r"\d+(?:,\d{3})*", element.text or "")
+                ]
+                self.assertEqual(numeric_text, ["5"])
+                description = root.find("svg:desc", ns).text
+                self.assertIn("2026-09-04 through 2026-10-03", description)
+                self.assertIn("Saved snapshot", description)
+                self.assertIn("03 Oct 2026 UTC", description)
+                self.assertNotIn("08 Oct 2026 UTC", description)
 
 
 class ContributionSparklineTests(unittest.TestCase):
@@ -269,22 +269,19 @@ class ContributionSparklineTests(unittest.TestCase):
     def test_rendered_trace_places_the_observed_spike_on_its_calendar_day(self) -> None:
         data = {**dated_contributions("2026-10-02", "2026-10-31", {"2026-10-16": 8}),
                 "source": generate_profile.LIVE_SOURCE}
-        for theme in ("light", "dark"):
-            for mobile in (False, True):
-                with self.subTest(theme=theme, mobile=mobile):
-                    root = ET.fromstring(generate_profile.telemetry_svg(
-                        snapshot_config(), data, theme, GENERATED_AT, mobile=mobile,
-                    ))
-                    path = next(element for element in root.iter()
-                                if element.attrib.get("id") == "contribution-sparkline")
-                    values = [float(number) for number in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", path.attrib["d"])]
-                    self.assertEqual(len(values), 60)
-                    xs, ys = values[::2], values[1::2]
-                    self.assertEqual(xs, sorted(xs))
-                    self.assertEqual(len(set(xs)), 30)
-                    self.assertEqual(ys.index(min(ys)), 14)
-                    self.assertLess(ys[14], ys[0])
-                    self.assertTrue(all(y == ys[0] for index, y in enumerate(ys) if index != 14))
+        for mobile in (False, True):
+            with self.subTest(mobile=mobile):
+                root = ET.fromstring(generate_profile.telemetry_svg(data, GENERATED_AT, mobile=mobile))
+                path = next(element for element in root.iter()
+                            if element.attrib.get("id") == "contribution-sparkline")
+                values = [float(number) for number in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", path.attrib["d"])]
+                self.assertEqual(len(values), 60)
+                xs, ys = values[::2], values[1::2]
+                self.assertEqual(xs, sorted(xs))
+                self.assertEqual(len(set(xs)), 30)
+                self.assertEqual(ys.index(min(ys)), 14)
+                self.assertLess(ys[14], ys[0])
+                self.assertTrue(all(y == ys[0] for index, y in enumerate(ys) if index != 14))
 
 
 class GenerateProfileTests(unittest.TestCase):
@@ -362,7 +359,7 @@ class GenerateProfileTests(unittest.TestCase):
         self.assertEqual(saved["fallback_contributions"], FULL_CONTRIBUTIONS)
         self.assertEqual(saved["snapshot_updated_at"], "2026-10-08T12:00:00Z")
         write_assets.assert_called_once()
-        self.assertEqual(write_assets.call_args.args[1], live)
+        self.assertEqual(write_assets.call_args.args[0], live)
 
     def test_main_does_not_overwrite_snapshot_after_public_calendar_failure(self) -> None:
         config = snapshot_config()
@@ -381,20 +378,20 @@ class GenerateProfileTests(unittest.TestCase):
                 clock.now.return_value = GENERATED_AT
                 generate_profile.main()
             self.assertEqual(path.read_bytes(), original_bytes)
-        data = write_assets.call_args.args[1]
+        data = write_assets.call_args.args[0]
         self.assertEqual(data["source"], "verified local snapshot")
         self.assertEqual(data["snapshot_at"], config["snapshot_updated_at"])
 
-    def test_snapshot_generation_writes_eight_deterministic_static_safe_assets(self) -> None:
+    def test_snapshot_generation_writes_two_deterministic_static_safe_panels(self) -> None:
         config = generate_profile.load_config()
         data = generate_profile.collect_snapshot_data(config)
-        first = generate_profile.build_assets(config, data, GENERATED_AT)
-        self.assertEqual(first, generate_profile.build_assets(config, data, GENERATED_AT))
+        first = generate_profile.build_assets(data, GENERATED_AT)
+        self.assertEqual(first, generate_profile.build_assets(data, GENERATED_AT))
         self.assertEqual(set(first), validate_profile.EXPECTED_ASSETS)
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory, patch.object(
             generate_profile, "OUTPUT_DIR", Path(directory)
         ):
-            generate_profile.write_assets(config, data, GENERATED_AT)
+            generate_profile.write_assets(data, GENERATED_AT)
             assets = sorted(Path(directory).glob("*.svg"))
             self.assertEqual({asset.name for asset in assets}, validate_profile.EXPECTED_ASSETS)
             for asset in assets:
@@ -402,67 +399,73 @@ class GenerateProfileTests(unittest.TestCase):
                 svg = asset.read_text(encoding="utf-8")
                 self.assertNotIn("@keyframes", svg)
                 self.assertNotIn("animation:", svg)
-                self.assertNotIn("ACCOUNT AGE", svg)
-                self.assertFalse(asset.name.startswith("signals-"))
 
     def test_fallback_date_is_not_replaced_by_asset_regeneration_date(self) -> None:
         config = generate_profile.load_config()
         config["snapshot_updated_at"] = "2026-10-01T12:00:00Z"
         data = generate_profile.collect_snapshot_data(config)
-        assets = generate_profile.build_assets(config, data, GENERATED_AT)
-        for name, svg in assets.items():
-            if name.startswith("telemetry-"):
-                visible = " ".join(ET.fromstring(svg).itertext()).upper()
-                self.assertIn("SAVED SNAPSHOT", visible)
-                self.assertIn("01 OCT 2026 UTC", visible)
-                self.assertNotIn("08 OCT 2026 UTC", visible)
+        for svg in generate_profile.build_assets(data, GENERATED_AT).values():
+            visible = " ".join(ET.fromstring(svg).itertext()).upper()
+            self.assertIn("SAVED SNAPSHOT", visible)
+            self.assertIn("01 OCT 2026 UTC", visible)
+            self.assertNotIn("08 OCT 2026 UTC", visible)
 
-    def test_profile_leads_with_ai_and_retains_three_finance_projects(self) -> None:
+
+class ReadmeTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.config = json.loads((ROOT / "config" / "profile.json").read_text(encoding="utf-8"))
+
+    def test_readme_is_the_build_of_the_configuration(self) -> None:
         validate_profile.validate_readme()
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        anchors = ("ai-engineering", "finance")
-        positions = [readme.index(f'<a id="{anchor}"></a>') for anchor in anchors]
-        self.assertEqual(positions, sorted(positions))
-        self.assertEqual(len(re.findall(r"<table\b", readme)), 2)
-        self.assertEqual(len(re.findall(r"<h3\b", readme)), 8)
-        first, second, third = validate_profile.EXPECTED_ACADEMIC_REPOSITORIES
-        self.assertIn(f"https://github.com/130U/{third}", readme[positions[1]:])
-        swapped = readme.replace(first, "TEMP_ACADEMIC_REPOSITORY").replace(second, first).replace(
-            "TEMP_ACADEMIC_REPOSITORY", second
-        )
-        with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
-            path = Path(directory) / "README.md"
-            path.write_text(swapped, encoding="utf-8")
-            with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "project ordering"):
-                validate_profile.validate_readme()
+        self.assertEqual(readme, build_readme.build(self.config))
+        anchors = [readme.index(f'<a id="{name}"></a>') for name in validate_profile.EXPECTED_SECTIONS]
+        self.assertEqual(anchors, sorted(anchors))
+        self.assertEqual(len(re.findall(r"<table\b", readme)), len(validate_profile.EXPECTED_SECTIONS))
 
-    def test_readme_rejects_extra_sections_and_absorbed_activity_footer(self) -> None:
+    def test_every_work_links_its_repository_and_shows_its_cover(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        without_marker = readme.replace("<!-- PROFILE_ACTIVITY -->", "")
-        sheet_end = without_marker.rindex("</td></tr></table>")
-        absorbed_footer = without_marker[:sheet_end] + "<!-- PROFILE_ACTIVITY -->\n" + without_marker[sheet_end:]
+        for data in self.config["sections"]:
+            for item in data["items"]:
+                with self.subTest(work=item["repository"]):
+                    self.assertEqual(readme.count(f'href="{build_readme.target(item)}"'), 2)
+                    self.assertEqual(readme.count(f'src="assets/covers/{item["cover"]}.webp"'), 1)
+                    self.assertTrue((ROOT / "assets" / "covers" / f'{item["cover"]}.webp').is_file())
+
+    def test_three_works_share_one_row_and_other_sections_use_two_columns(self) -> None:
+        for data in self.config["sections"]:
+            with self.subTest(section=data["id"]):
+                block = build_readme.section(1, data)
+                rows = block.count("<tr>")
+                expected = 1 if len(data["items"]) == 3 else (len(data["items"]) + 1) // 2
+                self.assertEqual(rows, expected)
+
+    def test_readme_rejects_hand_edits_reordering_and_a_missing_footer(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        first, second = (item["repository"] for item in self.config["sections"][0]["items"][:2])
+        swapped = readme.replace(first, "TEMPORARY-NAME").replace(second, first).replace("TEMPORARY-NAME", second)
         cases = (
-            (readme + "\n<table><tr><td>Another sheet</td></tr></table>\n", "exactly two nonnested"),
-            (without_marker, "activity footer"),
-            (absorbed_footer, "activity footer"),
+            (readme + "\nA line added by hand.\n", "differs from its build"),
+            (swapped, "differs from its build"),
+            (readme.replace(build_readme.ACTIVITY_MARKER, ""), "differs from its build"),
         )
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
             path = Path(directory) / "README.md"
             for changed, message in cases:
                 with self.subTest(message=message):
-                    path.write_text(changed, encoding="utf-8")
+                    path.write_text(changed, encoding="utf-8", newline="\n")
                     with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, message):
                         validate_profile.validate_readme()
 
-    def test_every_project_requires_an_individual_heading(self) -> None:
-        readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        changed = re.sub(r"<h3>(.*?)</h3>", r"<p><strong>\1</strong></p>", readme, count=1, flags=re.S)
-        self.assertNotEqual(changed, readme)
-        with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory:
-            path = Path(directory) / "README.md"
-            path.write_text(changed, encoding="utf-8")
-            with patch.object(validate_profile, "README", path), self.assertRaisesRegex(AssertionError, "project headings"):
-                validate_profile.validate_readme()
+    def test_sections_must_be_the_five_lists_in_order(self) -> None:
+        validate_profile.validate_sections(self.config)
+        reordered = {**self.config, "sections": list(reversed(self.config["sections"]))}
+        with self.assertRaisesRegex(AssertionError, "five sections in order"):
+            validate_profile.validate_sections(reordered)
+        missing_cover = json.loads(json.dumps(self.config))
+        missing_cover["sections"][0]["items"][0]["cover"] = "no-such-cover"
+        with self.assertRaisesRegex(AssertionError, "no cover image"):
+            validate_profile.validate_sections(missing_cover)
 
 
 if __name__ == "__main__":
