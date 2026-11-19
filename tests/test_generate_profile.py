@@ -82,6 +82,14 @@ def snapshot_config() -> dict:
     }
 
 
+VARIANTS = [(layout, theme) for layout in generate_profile.LAYOUTS for theme in generate_profile.THEMES]
+
+
+def drawn_text(svg: str) -> list[str]:
+    """The strings a contribution line sets in type, in drawing order."""
+    return [element.attrib["data-text"] for element in ET.fromstring(svg).iter() if "data-text" in element.attrib]
+
+
 def setUpModule() -> None:
     TEST_TMP.mkdir(parents=True, exist_ok=True)
 
@@ -206,20 +214,15 @@ class ContributionWindowTests(unittest.TestCase):
         self.assertEqual(generate_profile.contributions_last_30_days(data), {
             "total": 5, "range_start": "2026-09-04", "range_end": "2026-10-03",
         })
-        for mobile in (False, True):
-            with self.subTest(mobile=mobile):
-                svg = generate_profile.contributions_svg(data, GENERATED_AT, mobile=mobile)
-                root = ET.fromstring(svg)
-                ns = {"svg": "http://www.w3.org/2000/svg"}
-                numeric_text = [
-                    element.text for element in root.findall("svg:text", ns)
-                    if re.fullmatch(r"\d+(?:,\d{3})*", element.text or "")
-                ]
-                self.assertEqual(numeric_text, ["5"])
-                description = root.find("svg:desc", ns).text
+        for layout, theme in VARIANTS:
+            with self.subTest(layout=layout, theme=theme):
+                svg = generate_profile.contributions_svg(data, GENERATED_AT, layout=layout, theme=theme)
+                self.assertEqual(drawn_text(svg), [
+                    "5", "Contributions in the last 30 days", "Saved snapshot 03 Oct 2026 UTC",
+                ])
+                description = ET.fromstring(svg).find("{http://www.w3.org/2000/svg}desc").text
                 self.assertIn("2026-09-04 through 2026-10-03", description)
-                self.assertIn("Saved snapshot", description)
-                self.assertIn("03 Oct 2026 UTC", description)
+                self.assertIn("Saved snapshot 03 Oct 2026 UTC", description)
                 self.assertNotIn("08 Oct 2026 UTC", description)
 
 
@@ -269,9 +272,9 @@ class ContributionSparklineTests(unittest.TestCase):
     def test_rendered_trace_places_the_observed_spike_on_its_calendar_day(self) -> None:
         data = {**dated_contributions("2026-10-02", "2026-10-31", {"2026-10-16": 8}),
                 "source": generate_profile.LIVE_SOURCE}
-        for mobile in (False, True):
-            with self.subTest(mobile=mobile):
-                root = ET.fromstring(generate_profile.contributions_svg(data, GENERATED_AT, mobile=mobile))
+        for layout, theme in VARIANTS:
+            with self.subTest(layout=layout, theme=theme):
+                root = ET.fromstring(generate_profile.contributions_svg(data, GENERATED_AT, layout=layout, theme=theme))
                 path = next(element for element in root.iter()
                             if element.attrib.get("id") == "contribution-sparkline")
                 values = [float(number) for number in re.findall(r"-?(?:\d+(?:\.\d*)?|\.\d+)", path.attrib["d"])]
@@ -382,33 +385,69 @@ class GenerateProfileTests(unittest.TestCase):
         self.assertEqual(data["source"], "verified local snapshot")
         self.assertEqual(data["snapshot_at"], config["snapshot_updated_at"])
 
-    def test_snapshot_generation_writes_two_deterministic_static_safe_panels(self) -> None:
+    def test_snapshot_generation_writes_the_line_at_every_width_and_theme(self) -> None:
         config = generate_profile.load_config()
         data = generate_profile.collect_snapshot_data(config)
         first = generate_profile.build_assets(data, GENERATED_AT)
         self.assertEqual(first, generate_profile.build_assets(data, GENERATED_AT))
-        self.assertEqual(set(first), validate_profile.EXPECTED_ASSETS)
+        self.assertEqual(set(first), set(validate_profile.FOLDERS))
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as directory, patch.object(
             generate_profile, "OUTPUT_DIR", Path(directory)
-        ):
+        ), patch.object(validate_profile, "GENERATED", Path(directory)):
             generate_profile.write_assets(data, GENERATED_AT)
-            assets = sorted(Path(directory).glob("*.svg"))
-            self.assertEqual({asset.name for asset in assets}, validate_profile.EXPECTED_ASSETS)
-            for asset in assets:
-                validate_profile.validate_svg(asset)
+            validate_profile.validate_generated()
+            for asset in Path(directory).rglob("*.svg"):
                 svg = asset.read_text(encoding="utf-8")
                 self.assertNotIn("@keyframes", svg)
                 self.assertNotIn("animation:", svg)
+                self.assertNotIn("<text", svg)
 
     def test_fallback_date_is_not_replaced_by_asset_regeneration_date(self) -> None:
         config = generate_profile.load_config()
         config["snapshot_updated_at"] = "2026-10-01T12:00:00Z"
         data = generate_profile.collect_snapshot_data(config)
         for svg in generate_profile.build_assets(data, GENERATED_AT).values():
-            visible = " ".join(ET.fromstring(svg).itertext()).upper()
-            self.assertIn("SAVED SNAPSHOT", visible)
-            self.assertIn("01 OCT 2026 UTC", visible)
-            self.assertNotIn("08 OCT 2026 UTC", visible)
+            self.assertIn("Saved snapshot 01 Oct 2026 UTC", drawn_text(svg))
+            self.assertNotIn("08 Oct 2026 UTC", " ".join(drawn_text(svg)))
+
+    def test_live_data_is_dated_by_its_collection(self) -> None:
+        data = {**FULL_CONTRIBUTIONS, "source": generate_profile.LIVE_SOURCE}
+        for svg in generate_profile.build_assets(data, GENERATED_AT).values():
+            self.assertEqual(drawn_text(svg)[-1], "Updated 08 Oct 2026 UTC")
+
+
+class ContributionTypeTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.face = generate_profile.load_type()
+
+    def place(self, value: str) -> list[int]:
+        sheet = generate_profile.Sheet(100, 100, 1, "light", self.face)
+        sheet.text(value, 0, 0, 24, "ink")
+        return [int(x) for x in re.findall(r' x="(-?\d+)"', sheet.body[0])]
+
+    def test_letter_table_covers_every_string_the_line_can_set(self) -> None:
+        validate_profile.validate_type()
+        for month in range(1, 13):
+            stamp = datetime(2027, month, 9, tzinfo=timezone.utc).strftime("Updated %d %b %Y UTC")
+            self.assertEqual(len(self.place(stamp)), len(stamp.replace(" ", "")))
+
+    def test_letters_advance_by_their_widths_and_kerned_pairs(self) -> None:
+        glyphs, kerning = self.face["glyphs"], self.face["kerning"]
+        second = glyphs["4"][0] + kerning.get("44", 0)
+        self.assertEqual(self.place("445"), [0, second, second + glyphs["4"][0] + kerning.get("45", 0)])
+        self.assertLess(kerning[",1"], 0)
+        positions = self.place("2,134")
+        self.assertEqual(positions, sorted(positions))
+        self.assertEqual(positions[2] - positions[1], glyphs[","][0] + kerning[",1"])
+
+    def test_thousands_are_grouped_in_the_drawn_total(self) -> None:
+        counts = {(date(2026, 10, 2) + timedelta(days=index)).isoformat(): 41 for index in range(30)}
+        data = {**dated_contributions("2026-10-02", "2026-10-31", counts), "source": generate_profile.LIVE_SOURCE}
+        svg = generate_profile.contributions_svg(data, GENERATED_AT)
+        self.assertEqual(drawn_text(svg)[0], "1,230")
+
+    def test_both_themes_reach_reading_contrast(self) -> None:
+        validate_profile.validate_palette_contrast()
 
 
 class ReadmeTests(unittest.TestCase):
@@ -419,30 +458,50 @@ class ReadmeTests(unittest.TestCase):
         validate_profile.validate_readme()
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertEqual(readme, build_readme.build(self.config))
-        anchors = [readme.index(f'<a id="{name}"></a>') for name in validate_profile.EXPECTED_SECTIONS]
-        self.assertEqual(anchors, sorted(anchors))
-        self.assertEqual(len(re.findall(r"<table\b", readme)), len(validate_profile.EXPECTED_SECTIONS))
+        heads = [readme.index(f'href="{build_readme.LISTS}/{name}"') for name in validate_profile.EXPECTED_SECTIONS]
+        self.assertEqual(heads, sorted(heads))
+        self.assertNotIn("<table", readme)
 
-    def test_every_work_links_its_repository_and_shows_its_cover(self) -> None:
+    def test_every_work_links_its_repository_once_and_is_drawn_at_every_width(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         for data in self.config["sections"]:
             for item in data["items"]:
                 with self.subTest(work=item["repository"]):
-                    self.assertEqual(readme.count(f'href="{build_readme.target(item)}"'), 2)
-                    self.assertEqual(readme.count(f'src="assets/covers/{item["cover"]}.webp"'), 1)
-                    self.assertTrue((ROOT / "assets" / "covers" / f'{item["cover"]}.webp').is_file())
+                    self.assertEqual(readme.count(f'href="{build_readme.target(item)}"'), 1)
+                    for folder in validate_profile.FOLDERS:
+                        self.assertTrue((ROOT / "assets" / "ledger" / folder / f'{item["id"]}.svg').is_file())
+                    for layout, _ in build_readme.LAYOUTS:
+                        self.assertEqual(readme.count(f'src="assets/ledger/{layout}/{item["id"]}.svg"'), 1)
+                        self.assertEqual(readme.count(f'/ledger/{layout}-dark/{item["id"]}.svg"'), 1)
 
-    def test_every_section_shows_two_cards_a_row_at_one_size(self) -> None:
-        for data in self.config["sections"]:
-            with self.subTest(section=data["id"]):
-                block = build_readme.section(1, data)
-                self.assertEqual(block.count("<tr>"), (len(data["items"]) + 1) // 2)
-                widths = set(re.findall(r'<td width="(\d+)%"', block))
-                self.assertEqual(widths, {"50"})
+    def test_one_layout_shows_at_every_viewport_width(self) -> None:
+        def matches(media: str, width: int) -> bool:
+            """Whether a viewport of this width satisfies a media list of width ranges."""
+            for query in media.split(","):
+                bounds = dict(re.findall(r"\((min|max)-width: (\d+)px\)", query))
+                if int(bounds.get("min", 0)) <= width <= int(bounds.get("max", 10**6)):
+                    return True
+            return False
 
-    def test_card_line_sets_a_work_title_in_italics(self) -> None:
-        line = build_readme.line_html("A new arrangement of the *Der Freischütz* fantasy & more.")
-        self.assertEqual(line, "A new arrangement of the <i>Der Freischütz</i> fantasy &amp; more.")
+        for width in range(240, 2600):
+            visible = [layout for layout, elsewhere in build_readme.LAYOUTS if not matches(elsewhere, width)]
+            self.assertEqual(len(visible), 1, f"{width}px shows {visible}")
+            if visible != ["medium"]:
+                self.assertEqual(matches(build_readme.HERO_TALL, width), visible == ["narrow"])
+
+    def test_an_entry_names_itself_once_and_follows_the_page_theme(self) -> None:
+        entry = build_readme.entry("https://github.com/130U/A&B", "ledger", "work", 'A "quoted" work')
+        self.assertTrue(entry.startswith('<a href="https://github.com/130U/A&amp;B">'))
+        self.assertEqual(entry.count("<picture>"), len(build_readme.LAYOUTS))
+        self.assertEqual(entry.count('alt="A &quot;quoted&quot; work"'), 1)
+        self.assertEqual(entry.count('alt=""'), len(build_readme.LAYOUTS) - 1)
+        self.assertEqual(entry.count(f'media="{build_readme.DARK}"'), len(build_readme.LAYOUTS))
+        self.assertEqual(entry.count("/ledger/blank.svg"), len(build_readme.LAYOUTS))
+        self.assertEqual(entry.count('align="top"'), len(build_readme.LAYOUTS))
+
+    def test_alternative_text_reads_a_lead_without_its_emphasis_marks(self) -> None:
+        self.assertEqual(build_readme.plain("A new arrangement of the *Der Freischütz* fantasy."),
+                         "A new arrangement of the Der Freischütz fantasy.")
 
     def test_readme_rejects_hand_edits_reordering_and_a_missing_footer(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -466,10 +525,17 @@ class ReadmeTests(unittest.TestCase):
         reordered = {**self.config, "sections": list(reversed(self.config["sections"]))}
         with self.assertRaisesRegex(AssertionError, "five sections in order"):
             validate_profile.validate_sections(reordered)
-        missing_cover = json.loads(json.dumps(self.config))
-        missing_cover["sections"][0]["items"][0]["cover"] = "no-such-cover"
-        with self.assertRaisesRegex(AssertionError, "no cover image"):
-            validate_profile.validate_sections(missing_cover)
+
+    def test_ledger_drawings_carry_the_text_of_the_configuration(self) -> None:
+        validate_profile.validate_ledger(self.config)
+        reworded = json.loads(json.dumps(self.config))
+        reworded["sections"][0]["items"][0]["line"] += " And then?"
+        with self.assertRaisesRegex(AssertionError, "drawn from other text"):
+            validate_profile.validate_ledger(reworded)
+        renamed = json.loads(json.dumps(self.config))
+        renamed["sections"][0]["items"][0]["id"] = "no-such-drawing"
+        with self.assertRaisesRegex(AssertionError, "listed works differ"):
+            validate_profile.validate_ledger(renamed)
 
 
 if __name__ == "__main__":

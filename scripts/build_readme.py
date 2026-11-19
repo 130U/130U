@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build README.md from config/profile.json: a hero, five sections of work, and the contribution panel."""
+"""Build README.md from config/profile.json: a hero, five sections of work as a ledger, and the contribution line."""
 
 from __future__ import annotations
 
@@ -12,78 +12,70 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "config" / "profile.json"
 README = ROOT / "README.md"
 RAW = "https://raw.githubusercontent.com/130U/130U/main/assets"
+LISTS = "https://github.com/stars/130U/lists"
+DATA_NOTE = "docs/profile-data.md"
 ACTIVITY_MARKER = "<!-- PROFILE_ACTIVITY -->"
-COLUMNS = 2
+ACTIVITY_ALT = "GitHub contributions in the last 30 days, with a daily contribution trace."
+DARK = "(prefers-color-scheme: dark)"
+
+# The page is drawn at three widths, chosen by the width GitHub gives the README at each viewport. Each
+# layout lists the viewports that show another layout; there its picture resolves to an empty image, so a
+# reader sees one drawing of every line. The hero changes to its tall form where the README is narrowest.
+LAYOUTS = (
+    ("wide", "(max-width: 1099px)"),
+    ("medium", "(max-width: 511px), (min-width: 768px) and (max-width: 789px), (min-width: 1100px)"),
+    ("narrow", "(min-width: 512px) and (max-width: 767px), (min-width: 790px)"),
+)
+HERO_TALL = "(max-width: 601px), (min-width: 768px) and (max-width: 889px)"
 
 
 def target(item: dict) -> str:
     return item.get("url") or f'https://github.com/130U/{item["repository"]}'
 
 
-def line_html(line: str) -> str:
-    """The card line as HTML: the README lead's *emphasis* (a work title) in italics."""
-    return re.sub(r"\*([^*]+)\*", r"<i>\1</i>", escape(line))
+def plain(line: str) -> str:
+    """A README lead without its *emphasis* marks."""
+    return re.sub(r"\*([^*]+)\*", r"\1", line)
 
 
-def card(item: dict, width: int) -> str:
-    link, title = escape(target(item), quote=True), escape(item["title"])
-    return "\n".join([
-        f'<td width="{width}%" valign="top">',
-        f'<a href="{link}"><img src="assets/covers/{item["cover"]}.webp" alt="{escape(item["title"], quote=True)}" width="100%"></a>',
-        f'<p><b><a href="{link}">{title}</a></b><br>{line_html(item["line"])}</p>',
-        "</td>",
-    ])
+def entry(link: str, folder: str, name: str, alt: str) -> str:
+    """One line of the page: a link holding its drawing at each width, light and dark."""
+    pictures = []
+    for index, (layout, elsewhere) in enumerate(LAYOUTS):
+        label = escape(alt, quote=True) if index == 0 else ""
+        pictures.append(
+            f'<picture><source media="{elsewhere}" srcset="{RAW}/ledger/blank.svg">'
+            f'<source media="{DARK}" srcset="{RAW}/{folder}/{layout}-dark/{name}.svg">'
+            f'<img src="assets/{folder}/{layout}/{name}.svg" alt="{label}" align="top"></picture>')
+    return f'<a href="{escape(link, quote=True)}">' + "".join(pictures) + "</a>"
 
 
 def section(number: int, data: dict) -> str:
-    items = data["items"]
-    width = 100 // COLUMNS
-    rows = []
-    for index in range(0, len(items), COLUMNS):
-        cells = [card(item, width) for item in items[index:index + COLUMNS]]
-        cells.extend([f'<td width="{width}%"></td>'] * (COLUMNS - len(cells)))
-        rows.append("<tr>\n" + "\n".join(cells) + "\n</tr>")
-    return "\n".join([
-        f'<a id="{data["id"]}"></a>',
-        "",
-        f'## {number:02d} &nbsp; {data["title"]}',
-        "",
-        data["blurb"],
-        "",
-        "<table>",
-        *rows,
-        "</table>",
-    ])
+    """A section: its head, linked to the list of the same name, then one line for each work."""
+    lines = [entry(f'{LISTS}/{data["id"]}', "ledger", data["id"], f'{number:02d} {data["title"]}. {data["blurb"]}')]
+    lines.extend(entry(target(item), "ledger", item["id"], f'{item["title"]}. {plain(item["line"])}')
+                 for item in data["items"])
+    return "\n".join(["<p>", *lines, "</p>"])
 
 
 def build(config: dict) -> str:
     identity = config["identity"]
-    sections = config["sections"]
     alt = f'{identity["name"]}. {identity["line"]}'
-    navigation = " &nbsp;·&nbsp; ".join(
-        f'<a href="#user-content-{data["id"]}">{number:02d} {data["title"]}</a>'
-        for number, data in enumerate(sections, start=1)
-    )
     parts = [
         "<picture>",
-        f'  <source media="(max-width: 767px)" srcset="{RAW}/hero-mobile.webp">',
+        f'  <source media="{HERO_TALL}" srcset="{RAW}/hero-mobile.webp">',
         f'  <img src="assets/hero.webp" alt="{escape(alt, quote=True)}" width="100%">',
         "</picture>",
         "",
-        f'<p align="center">{navigation}</p>',
-        "",
     ]
-    for number, data in enumerate(sections, start=1):
+    for number, data in enumerate(config["sections"], start=1):
         parts.extend([section(number, data), ""])
     parts.extend([
         ACTIVITY_MARKER,
         "",
-        "<picture>",
-        f'  <source media="(max-width: 767px)" srcset="{RAW}/generated/contributions-mobile.svg">',
-        '  <img src="assets/generated/contributions.svg" alt="GitHub contributions in the last 30 days, with a daily contribution trace." width="100%">',
-        "</picture>",
-        "",
-        "<sub>[Activity updates](https://github.com/130U/130U/actions/workflows/update-profile.yml) · [Data sources](docs/profile-data.md)</sub>",
+        "<p>",
+        entry(DATA_NOTE, "generated", "contributions", ACTIVITY_ALT),
+        "</p>",
         "",
     ])
     return "\n".join(parts)

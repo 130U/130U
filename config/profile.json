@@ -1867,61 +1867,61 @@
           "repository": "RESEARCH-Agent-Evaluation-Methodology",
           "title": "Agent Evaluation Methodology",
           "line": "What must be true of a diagnosis before it is allowed to change an agent?",
-          "cover": "agent-evaluation-methodology"
+          "id": "agent-evaluation-methodology"
         },
         {
           "repository": "RESEARCH-Financial-Large-Language-Model",
           "title": "Financial Large Language Model",
           "line": "What should a financial language model be supervised to say, and what must stay fixed while its training scales?",
-          "cover": "financial-large-language-model"
+          "id": "financial-large-language-model"
         },
         {
           "repository": "RESEARCH-Large-Scale-Domain-Expert-Feedback-Governance-and-Adaptive-Review",
           "title": "Large-Scale Domain Expert Feedback Governance and Adaptive Review",
           "line": "How should a post-training program spend a limited pool of expert reviewers when every review does two jobs at once?",
-          "cover": "expert-feedback-governance"
+          "id": "expert-feedback-governance"
         },
         {
           "repository": "RESEARCH-Financial-Task-Design-and-Synthetic-Data-Engineering",
           "title": "Financial Task Design and Synthetic Data Engineering",
           "line": "When a synthetic financial case changes one number, is its label still right?",
-          "cover": "financial-task-design"
+          "id": "financial-task-design"
         },
         {
           "repository": "RESEARCH-General-Reasoning-Evaluation-and-Layered-Verification",
           "title": "General Reasoning Evaluation and Layered Verification",
           "line": "What should entitle a model's reasoning to be accepted?",
-          "cover": "reasoning-evaluation"
+          "id": "reasoning-evaluation"
         },
         {
           "repository": "RESEARCH-Evidence-Verification-and-Robust-Comparison-in-Investment-Research",
           "title": "Evidence Verification and Robust Comparison in Investment Research",
           "line": "Which investment conclusions does the evidence in hand already support, and which fact is most valuable to verify next?",
-          "cover": "evidence-verification"
+          "id": "evidence-verification"
         },
         {
           "repository": "RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals",
           "title": "Critical Dependence Stress for Diversification Gains under Fixed Marginals",
           "line": "How much dependence stress does it take to overturn a diversification gain?",
-          "cover": "critical-dependence-stress"
+          "id": "critical-dependence-stress"
         },
         {
           "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
           "title": "Certified Valuation of Arithmetic Asian Options",
           "line": "What does it cost to exercise an average-price option on the geometric average, and how far is a simulated price from the model that was calibrated?",
-          "cover": "arithmetic-asian-options"
+          "id": "arithmetic-asian-options"
         },
         {
           "repository": "RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston",
           "title": "Certified Joint Pricing Errors in Rough Heston",
           "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
-          "cover": "rough-heston"
+          "id": "rough-heston"
         },
         {
           "repository": "RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance",
           "title": "Proxy Tail",
           "line": "Why did five stages of careful experiments end without a paper, and how early could each stage have been closed?",
-          "cover": "proxy-tail"
+          "id": "proxy-tail"
         }
       ]
     },
@@ -1934,25 +1934,25 @@
           "repository": "ENGINEERING-Info-Collector-2026",
           "title": "Info Collector",
           "line": "How does a saved article become part of a library that gets read, when the browser can capture but cannot work, and a model can translate but cannot be trusted?",
-          "cover": "info-collector"
+          "id": "info-collector"
         },
         {
           "repository": "ENGINEERING-BaZi-Context-Agent",
           "title": "BaZi Context Agent",
           "line": "Which hour was a person born, and what is happening in that life now? I built a system in which the second answer can never change the first.",
-          "cover": "bazi-context-agent"
+          "id": "bazi-context-agent"
         },
         {
           "repository": "ENGINEERING-Divination-and-Destiny-Studies",
           "title": "Divination and Destiny Studies",
           "line": "Can a language model read a person's chart against their life without ever calculating the chart, seeing a server, or spending anyone's money but theirs?",
-          "cover": "divination-and-destiny-studies"
+          "id": "divination-and-destiny-studies"
         },
         {
           "repository": "ENGINEERING-World-Model-Series",
           "title": "World Model Series",
           "line": "A world model is valuable because it predicts the future. A robot, and a business, are valuable only when they act in the present. Where should prediction meet action?",
-          "cover": "world-model-series"
+          "id": "world-model-series"
         }
       ]
     },
@@ -1965,25 +1965,25 @@
           "repository": "LAW-Autonomous-Authority-in-Space",
           "title": "Autonomous Authority in Space",
           "line": "When may a space system act without contemporaneous human approval, and which institution decides that it may?",
-          "cover": "autonomous-authority-in-space"
+          "id": "autonomous-authority-in-space"
         },
         {
           "repository": "LAW-Small-States-and-the-Governance-of-Strategic-Space-Dependence",
           "title": "Small States and the Governance of Strategic Space Dependence",
           "line": "When a small state relies on foreign space infrastructure, what exactly has it given up, and what does it owe its own public before it does so?",
-          "cover": "small-states"
+          "id": "small-states"
         },
         {
           "repository": "LAW-Who-May-Choose-the-Lesser-Risk",
           "title": "Who May Choose the Lesser Risk",
           "line": "Who may choose among climate risks for people who cannot escape the resulting climate, and how can that choice be withdrawn without catastrophe?",
-          "cover": "lesser-risk"
+          "id": "lesser-risk"
         },
         {
           "repository": "LAW-Mangrove-Restoration-and-the-Limits-of-Compensatory-Mitigation",
           "title": "Mangrove Restoration and the Limits of Compensatory Mitigation",
           "line": "What is a promise of future wetland function worth when it is used to permit a loss today?",
-          "cover": "mangrove-restoration"
+          "id": "mangrove-restoration"
         }
       ]
     },
@@ -1996,19 +1996,19 @@
           "repository": "BLOG-Ten-States-of-Water",
           "title": "Ten States of Water",
           "line": "Ten landscapes of Alaska and Yellowstone, with water in a different state in each.",
-          "cover": "ten-states-of-water"
+          "id": "ten-states-of-water"
         },
         {
           "repository": "BLOG-Etude-Sky",
           "title": "The Étude Sky",
           "line": "Chopin's twenty-four études, charted as stars on the circle of fifths. Every mark is computed from the music.",
-          "cover": "etude-sky"
+          "id": "etude-sky"
         },
         {
           "repository": "BLOG-As-If-Returning",
           "title": "As If Leaving, As If Returning",
           "line": "A new arrangement of the *Der Freischütz* fantasy, beneath a Song dynasty handscroll that unrolls with the music, with an essay on beauty across time and aesthetics in the age of AI.",
-          "cover": "as-if-returning"
+          "id": "as-if-returning"
         }
       ]
     },
@@ -2021,14 +2021,14 @@
           "repository": "130U.github.io",
           "title": "theodoreoy.com",
           "line": "Research, experience and writing in one place.",
-          "cover": "website",
+          "id": "website",
           "url": "https://www.theodoreoy.com/"
         },
         {
           "repository": "130U",
           "title": "130U",
           "line": "This page: five lists, one configuration file, and a contribution trace refreshed every day.",
-          "cover": "profile"
+          "id": "profile"
         }
       ]
     }
