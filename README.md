@@ -44,18 +44,18 @@ Ten works in AI evaluation and mathematical finance. Each starts from a question
 </tr>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress"><img src="assets/covers/critical-dependence-stress.webp" alt="Critical Dependence Stress" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress">Critical Dependence Stress</a></b><br>How much dependence stress does it take to overturn a diversification gain?</p>
+<a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals"><img src="assets/covers/critical-dependence-stress.webp" alt="Critical Dependence Stress for Diversification Gains under Fixed Marginals" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals">Critical Dependence Stress for Diversification Gains under Fixed Marginals</a></b><br>How much dependence stress does it take to overturn a diversification gain?</p>
 </td>
 <td width="50%" valign="top">
-<a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation"><img src="assets/covers/rough-heston.webp" alt="Certified Joint Pricing Errors in Rough Heston" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Certified-Rough-Heston-Valuation">Certified Joint Pricing Errors in Rough Heston</a></b><br>When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?</p>
+<a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston"><img src="assets/covers/rough-heston.webp" alt="Certified Joint Pricing Errors in Rough Heston" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston">Certified Joint Pricing Errors in Rough Heston</a></b><br>When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?</p>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
-<a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options"><img src="assets/covers/arithmetic-asian-options.webp" alt="Certified Valuation of Arithmetic Asian Options" width="100%"></a>
-<p><b><a href="https://github.com/130U/RESEARCH-Certified-Valuation-Arithmetic-Asian-Options">Certified Valuation of Arithmetic Asian Options</a></b><br>What does it cost to exercise an average-price option on the geometric average?</p>
+<a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options"><img src="assets/covers/arithmetic-asian-options.webp" alt="Certified Valuation of Arithmetic Asian Options" width="100%"></a>
+<p><b><a href="https://github.com/130U/RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options">Certified Valuation of Arithmetic Asian Options</a></b><br>What does it cost to exercise an average-price option on the geometric average?</p>
 </td>
 <td width="50%" valign="top">
 <a href="https://github.com/130U/RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance"><img src="assets/covers/proxy-tail.webp" alt="Proxy Tail" width="100%"></a>
@@ -131,16 +131,16 @@ Music and landscape, each work built as its own site.
 <table>
 <tr>
 <td width="33%" valign="top">
-<a href="https://github.com/130U/ten-states-of-water"><img src="assets/covers/ten-states-of-water.webp" alt="Ten States of Water" width="100%"></a>
-<p><b><a href="https://github.com/130U/ten-states-of-water">Ten States of Water</a></b><br>Ten landscapes of Alaska and Yellowstone, with water in a different state in each.</p>
+<a href="https://github.com/130U/BLOG-Ten-States-of-Water"><img src="assets/covers/ten-states-of-water.webp" alt="Ten States of Water" width="100%"></a>
+<p><b><a href="https://github.com/130U/BLOG-Ten-States-of-Water">Ten States of Water</a></b><br>Ten landscapes of Alaska and Yellowstone, with water in a different state in each.</p>
 </td>
 <td width="33%" valign="top">
-<a href="https://github.com/130U/as-if-returning"><img src="assets/covers/as-if-returning.webp" alt="As If Leaving, As If Returning" width="100%"></a>
-<p><b><a href="https://github.com/130U/as-if-returning">As If Leaving, As If Returning</a></b><br>An essay on a new version of the Der Freischütz fantasy.</p>
+<a href="https://github.com/130U/BLOG-As-If-Returning"><img src="assets/covers/as-if-returning.webp" alt="As If Leaving, As If Returning" width="100%"></a>
+<p><b><a href="https://github.com/130U/BLOG-As-If-Returning">As If Leaving, As If Returning</a></b><br>An essay on a new version of the Der Freischütz fantasy.</p>
 </td>
 <td width="33%" valign="top">
-<a href="https://github.com/130U/etude-sky"><img src="assets/covers/etude-sky.webp" alt="The Étude Sky" width="100%"></a>
-<p><b><a href="https://github.com/130U/etude-sky">The Étude Sky</a></b><br>Chopin&#x27;s twenty-four études, charted as stars on the circle of fifths.</p>
+<a href="https://github.com/130U/BLOG-Etude-Sky"><img src="assets/covers/etude-sky.webp" alt="The Étude Sky" width="100%"></a>
+<p><b><a href="https://github.com/130U/BLOG-Etude-Sky">The Étude Sky</a></b><br>Chopin&#x27;s twenty-four études, charted as stars on the circle of fifths.</p>
 </td>
 </tr>
 </table>

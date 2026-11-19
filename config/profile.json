@@ -1900,19 +1900,19 @@
           "cover": "evidence-verification"
         },
         {
-          "repository": "RESEARCH-Critical-Dependence-Stress",
-          "title": "Critical Dependence Stress",
+          "repository": "RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals",
+          "title": "Critical Dependence Stress for Diversification Gains under Fixed Marginals",
           "line": "How much dependence stress does it take to overturn a diversification gain?",
           "cover": "critical-dependence-stress"
         },
         {
-          "repository": "RESEARCH-Certified-Rough-Heston-Valuation",
+          "repository": "RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston",
           "title": "Certified Joint Pricing Errors in Rough Heston",
           "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
           "cover": "rough-heston"
         },
         {
-          "repository": "RESEARCH-Certified-Valuation-Arithmetic-Asian-Options",
+          "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
           "title": "Certified Valuation of Arithmetic Asian Options",
           "line": "What does it cost to exercise an average-price option on the geometric average?",
           "cover": "arithmetic-asian-options"
@@ -1993,19 +1993,19 @@
       "blurb": "Music and landscape, each work built as its own site.",
       "items": [
         {
-          "repository": "ten-states-of-water",
+          "repository": "BLOG-Ten-States-of-Water",
           "title": "Ten States of Water",
           "line": "Ten landscapes of Alaska and Yellowstone, with water in a different state in each.",
           "cover": "ten-states-of-water"
         },
         {
-          "repository": "as-if-returning",
+          "repository": "BLOG-As-If-Returning",
           "title": "As If Leaving, As If Returning",
           "line": "An essay on a new version of the Der Freischütz fantasy.",
           "cover": "as-if-returning"
         },
         {
-          "repository": "etude-sky",
+          "repository": "BLOG-Etude-Sky",
           "title": "The Étude Sky",
           "line": "Chopin's twenty-four études, charted as stars on the circle of fifths.",
           "cover": "etude-sky"
