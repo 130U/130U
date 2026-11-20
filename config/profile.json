@@ -5,7 +5,7 @@
     "line": "I make high-stakes conclusions verifiable in finance and AI."
   },
   "fallback_contributions": {
-    "total": 681,
+    "total": 683,
     "days": [
       {
         "date": "2025-11-16",
@@ -1784,7 +1784,7 @@
       },
       {
         "date": "2026-11-06",
-        "level": 2,
+        "level": 1,
         "count": 18
       },
       {
@@ -1850,13 +1850,18 @@
       {
         "date": "2026-11-19",
         "level": 4,
-        "count": 70
+        "count": 72
+      },
+      {
+        "date": "2026-11-20",
+        "level": 0,
+        "count": 0
       }
     ],
     "range_start": "2025-11-16",
-    "range_end": "2026-11-19"
+    "range_end": "2026-11-20"
   },
-  "snapshot_updated_at": "2026-11-19T18:33:07.477027Z",
+  "snapshot_updated_at": "2026-11-20T07:16:56.497958Z",
   "sections": [
     {
       "id": "research",
