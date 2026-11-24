@@ -2,7 +2,7 @@
   "username": "130U",
   "identity": {
     "name": "Theodore Ouyang",
-    "line": "I make high-stakes conclusions verifiable in finance and AI."
+    "line": "I think mathematically and work in artificial intelligence, building personal agents at a foundation model company."
   },
   "fallback_contributions": {
     "total": 703,
@@ -1851,19 +1851,37 @@
     {
       "id": "research",
       "title": "Research",
-      "blurb": "Ten works in AI evaluation and mathematical finance. Each starts from a question and ends in a result that can be checked.",
+      "blurb": "Three papers in quantitative finance whose central results are proved theorems and certified bounds, and seven works in artificial intelligence.",
       "items": [
         {
-          "repository": "RESEARCH-Agent-Evaluation-Methodology",
-          "title": "Agent Evaluation Methodology",
-          "line": "What must be true of a diagnosis before it is allowed to change an agent?",
-          "id": "agent-evaluation-methodology"
+          "repository": "RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals",
+          "title": "Critical Dependence Stress for Diversification Gains under Fixed Marginals",
+          "line": "How much dependence stress does it take to overturn a diversification gain?",
+          "id": "critical-dependence-stress"
+        },
+        {
+          "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
+          "title": "Certified Valuation of Arithmetic Asian Options",
+          "line": "What does it cost to exercise an average-price option on the geometric average, and how far is a simulated price from the model that was calibrated?",
+          "id": "arithmetic-asian-options"
+        },
+        {
+          "repository": "RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston",
+          "title": "Certified Joint Pricing Errors in Rough Heston",
+          "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
+          "id": "rough-heston"
         },
         {
           "repository": "RESEARCH-Financial-Large-Language-Model",
           "title": "Financial Large Language Model",
           "line": "What should a financial language model be supervised to say, and what must stay fixed while its training scales?",
           "id": "financial-large-language-model"
+        },
+        {
+          "repository": "RESEARCH-Agent-Evaluation-Methodology",
+          "title": "Agent Evaluation Methodology",
+          "line": "What must be true of a diagnosis before it is allowed to change an agent?",
+          "id": "agent-evaluation-methodology"
         },
         {
           "repository": "RESEARCH-Large-Scale-Domain-Expert-Feedback-Governance-and-Adaptive-Review",
@@ -1888,24 +1906,6 @@
           "title": "Evidence Verification and Robust Comparison in Investment Research",
           "line": "Which investment conclusions does the evidence in hand already support, and which fact is most valuable to verify next?",
           "id": "evidence-verification"
-        },
-        {
-          "repository": "RESEARCH-Critical-Dependence-Stress-for-Diversification-Gains-under-Fixed-Marginals",
-          "title": "Critical Dependence Stress for Diversification Gains under Fixed Marginals",
-          "line": "How much dependence stress does it take to overturn a diversification gain?",
-          "id": "critical-dependence-stress"
-        },
-        {
-          "repository": "RESEARCH-Certified-Valuation-of-Arithmetic-Asian-Options",
-          "title": "Certified Valuation of Arithmetic Asian Options",
-          "line": "What does it cost to exercise an average-price option on the geometric average, and how far is a simulated price from the model that was calibrated?",
-          "id": "arithmetic-asian-options"
-        },
-        {
-          "repository": "RESEARCH-Certified-Joint-Pricing-Errors-in-Rough-Heston",
-          "title": "Certified Joint Pricing Errors in Rough Heston",
-          "line": "When every strike is priced from one approximate transform, how much numerical error is left in the portfolio?",
-          "id": "rough-heston"
         },
         {
           "repository": "RESEARCH-Proxy-Tail-Anatomy-of-a-Failed-Research-Line-on-LLM-Evaluation-in-Finance",
@@ -1949,7 +1949,7 @@
     {
       "id": "law",
       "title": "Law",
-      "blurb": "Four articles from Duke Law School on who may decide under risk: in orbit, in the climate and on the coast.",
+      "blurb": "Four articles from Duke Law School on who may decide under risk: in orbit, in the climate, and on the coast.",
       "items": [
         {
           "repository": "LAW-Autonomous-Authority-in-Space",
@@ -2010,7 +2010,7 @@
         {
           "repository": "130U.github.io",
           "title": "My website",
-          "line": "Research, experience and writing in one place.",
+          "line": "Research, experience, and writing in one place.",
           "id": "website",
           "url": "https://www.theodoreoy.com/"
         },
