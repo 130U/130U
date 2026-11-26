@@ -1846,12 +1846,17 @@
         "date": "2026-11-25",
         "level": 0,
         "count": 0
+      },
+      {
+        "date": "2026-11-26",
+        "level": 0,
+        "count": 0
       }
     ],
     "range_start": "2025-11-23",
-    "range_end": "2026-11-25"
+    "range_end": "2026-11-26"
   },
-  "snapshot_updated_at": "2026-11-25T08:35:31.407749Z",
+  "snapshot_updated_at": "2026-11-26T08:18:06.683647Z",
   "sections": [
     {
       "id": "research",
